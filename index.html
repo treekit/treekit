@@ -52,8 +52,6 @@
           var $fromPage = $(this),
               $toPage = $fromPage.prev();
 
-          // debugger;
-
           if ($toPage.length) {
             $fromPage.bind('webkitAnimationEnd', function() {
               $fromPage.unbind('webkitAnimationEnd');
@@ -255,7 +253,7 @@
             <a href="#endlocation" class="btn btn-primary">No More Trees</a>
           </p>
           <p class="text-center">
-            <a href="#endlocation">Oh no! We had to stop mapping this block...</a>
+            <a href="#cancel" class="flipleft">Oh no! We had to stop mapping this block...</a>
           </p>
         </div>
       </div>
@@ -281,7 +279,7 @@
 
       <div id="end" class="swipe-page">
         <div class="container">
-          <h3>Almost done!</h3>
+          <h4>Almost done!</h4>
 
           <div class="well">
           <p>Distance to the end of the block</p>
@@ -291,6 +289,32 @@
           <a href="#start" class="slidedown btn btn-large btn-primary btn-block">Finish</a>
         </div>
       </div>
+
+      <div id="cancel" class="swipe-page">
+        <div class="container">
+          <h4>Why did you have to stop?</h4>
+
+          <div class="well">
+            <label class="checkbox">
+              <input type="checkbox" value="">Offset tree bed
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" value="">Bad sidewalks
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" value="">Other
+            </label>
+            <input type="text" value="">
+          </div>
+
+          <p class="text-center">
+            <a href="#treedetails" class="flipright">Go back</a>
+            <a href="#start" class="slidedown btn btn-primary">Stop</a>
+          </p>
+        </div>
+      </div>
+
+
     </div>
   </body>
 </html>
