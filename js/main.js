@@ -8,6 +8,7 @@
       fixedViewport: false, // turn off
       fullScreen: false, // turn off
       fullScreenClass: 'fullscreen',
+      useFastTouch: false,
       icon: null,
       icon4: null, // available in iOS 4.2 and later.
       preloadImages: false,
