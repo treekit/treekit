@@ -10,325 +10,226 @@
     <link rel="stylesheet" href="css/jqt.css">
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+    <![endif]-->
+    <link rel="stylesheet" href="css/feature-select.css">
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"></script>
     <script src="lib/zepto/touch.js"></script>
     <script src="lib/jqtouch.js" type="text/javascript" charset="utf-8"></script>
-
-
-    <script type="text/javascript" charset="utf-8">
-      var jQT = new $.jQTouch({
-        addGlossToIcon: false, // turn off
-        fixedViewport: false, // turn off
-        fullScreen: false, // turn off
-        fullScreenClass: 'fullscreen',
-        icon: null,
-        icon4: null, // available in iOS 4.2 and later.
-        preloadImages: false,
-        startupScreen: null,
-        statusBar: 'default' // other options: black-translucent, black
-      });
-
-      // Some sample Javascript functions:
-      $(function(){
-        $('.subpage').swipeLeft(function(evt, data) {
-          var $fromPage = $(this),
-              $toPage = $fromPage.next();
-
-          if ($toPage.length) {
-            $fromPage.bind('webkitAnimationEnd', function() {
-              $fromPage.unbind('webkitAnimationEnd');
-              $fromPage.removeClass('slideleft out current');
-              $toPage.removeClass('slideleft in');
-
-            });
-
-            $fromPage.addClass('slideleft out');
-            $toPage.addClass('slideleft in current');
-          }
-        });
-
-        $('.subpage').swipeRight(function(evt, data) {
-          var $fromPage = $(this),
-              $toPage = $fromPage.prev();
-
-          if ($toPage.length) {
-            $fromPage.bind('webkitAnimationEnd', function() {
-              $fromPage.unbind('webkitAnimationEnd');
-              $fromPage.removeClass('slideright out current');
-              $toPage.removeClass('slideright in');
-            });
-
-            $fromPage.addClass('slideright out');
-            $toPage.addClass('slideright in current');
-          }
-        });
-
-        // TODO
-        // $('#anothertree').click(function(){
-        //   $('#treedetailform').clone().appendTo($('#treeforms'));
-        // });
-      });
-    </script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+    <script src="lib/feature-select.js"></script>
+    <script src="js/main.js"></script>
 
     <style type="text/css" media="screen">
-      .container { padding: 20px;}
-
-      .closest-location { font-size: 1.5em;}
-      .closest-location a { padding: 16px 8px !important;}
-
-      .subpages {
-        -webkit-text-size-adjust: none;
-        -webkit-user-select: none;
-        user-select: none;
-        position: relative;
-        width: 100%;
-        height: 250px;
-
-        margin-bottom: 15px;
-        overflow-x: hidden;
-      }
-      /* line 35, ../scss/include/_base.scss */
-      .subpage {
-        display: block;
-        left: 0;
-        top: 0;
-        min-height: 100%;
-        width: 100%;
-        overflow-x: hidden;
+      #map {
         position: absolute;
-        z-index: 0;
-        display: -webkit-box;
-        display: box;
-        -webkit-box-orient: vertical;
-        box-orient: vertical;
-        -webkit-box-flex: 1;
-        box-flex: 1;
+        top: 43px;
+        left: 0;
+        right: 0;
+        bottom: 0;
       }
-      /* line 49, ../scss/include/_base.scss */
-      .subpages > .current {
-        z-index: 10;
+
+      .map-btn {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
       }
-      /* line 53, ../scss/include/_base.scss */
-      .subpages > :not(.current) {
+
+      #map-next-btn {
         display: none;
       }
 
+      #map-alert {
+        position: relative;
+        margin: 0 12%;
+        display: none;
+      }
 
+      .container {
+        margin: 0 20px;
+      }
+
+      label.checkbox {
+        margin: 5px 0 12px 0;
+      }
 
     </style>
   </head>
-  <body>
-    <div id="jqt">
+  <body id="jqt">
+    <div id="login" class="current">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#">TreeKIT</a>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="well">
+          <h3 class="form-signin-heading">Please sign in</h3>
+          <input type="text" class="input-block-level" placeholder="Your name">
+          <a href="#start" class="btn btn-large btn-primary btn-block">Sign in</a>
+        </div>
+      </div>
+    </div>
 
-      <div id="login" class="current swipe-page">
-        <div class="container">
-          <h1 class="text-center">TreeKIT</h1>
-          <div class="well">
-            <h3 class="form-signin-heading">Please sign in</h3>
-            <input type="text" class="input-block-level" placeholder="Your name">
-            <a href="#start" class="btn btn-large btn-primary btn-block">Sign in</a>
+    <div id="start">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#">TreeKIT</a>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="well text-center">
+          <h3>Welcome Aaron!</h3>
+          <p><a href="#login" class="slideright">not you?</a></p>
+          <a href="#startlocation" class="btn btn-large btn-primary btn-block">Start!</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="startlocation">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#">TreeKIT</a>
+          </div>
+        </div>
+      </div>
+      <div id="map"></div>
+      <div id="map-alert" class="alert alert-info"></div>
+      <a href="#treedetails" id="map-next-btn" class="map-btn btn btn-large btn-primary">Next</a>
+    </div>
+
+
+    <div id="treedetails">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#">TreeKIT</a>
           </div>
         </div>
       </div>
 
-      <div id="start" class="swipe-page">
-        <div class="container">
-          <h1 class="text-center">TreeKIT</h1>
+      <div class="container">
+        <h4>Add a Tree</h4>
+
+        <div id="treeforms">
           <div class="well">
-            <h3>Welcome Aaron!</h3>
-            <p class="text-center"><a href="#login" class="slideright">not you?</a></p>
-            <a href="#startlocation" class="btn btn-large btn-primary btn-block">Start!</a>
+            <fieldset>
+              <legend>Where is it?</legend>
+              <label>Distance to tree bed</label>
+              <input type="text" placeholder="">
+              <label>Address</label>
+              <input type="text" placeholder="">
+            </fieldset>
           </div>
-        </div>
-      </div>
-
-      <div id="startlocation" class="swipe-page">
-        <div class="container">
-          <h4>Start Intersection</h4>
-          <p>It looks like you're at...</p>
-          <ul class="nav nav-tabs nav-stacked">
-            <li class="closest-location"><a href="#streetdetails">Lafayette St. &amp; Grand St.<i class="icon-chevron-right pull-right"></i></a></li>
-          </ul>
-
-          <p>You might also be at...</p>
-          <ul class="nav nav-tabs nav-stacked">
-            <li><a href="#streetdetails">Lafayette St. &amp; Grand St.<i class="icon-chevron-right pull-right"></i></a></li>
-            <li><a href="#streetdetails">Lafayette St. &amp; Grand St.<i class="icon-chevron-right pull-right"></i></a></li>
-            <li><a href="#streetdetails">Lafayette St. &amp; Grand St.<i class="icon-chevron-right pull-right"></i></a></li>
-            <li><a href="#streetdetails">Lafayette St. &amp; Grand St.<i class="icon-chevron-right pull-right"></i></a></li>
-            <li><a href="#streetdetails">Lafayette St. &amp; Grand St.<i class="icon-chevron-right pull-right"></i></a></li>
-          </ul>
-        </div>
-      </div>
-
-
-      <div id="streetdetails" class="swipe-page">
-        <div class="container">
-          <h4>@ Lafayette St. &amp; Grand St.</h4>
-
           <div class="well">
-          <p>What side of the street?</p>
-          <div class="btn-group">
-            <button class="btn btn-large btn-primary">Left</button>
-            <button class="btn btn-large">Right</button>
+            <fieldset>
+              <legend>Size</legend>
+              <label>Length of tree bed</label>
+              <input type="text" placeholder="">
+              <label>Circumference</label>
+              <input type="text" placeholder="">
+            </fieldset>
           </div>
-          </div>
-
           <div class="well">
-          <p>The addresses are?</p>
-          <div class="btn-group">
-            <button class="btn btn-large btn-primary">Even</button>
-            <button class="btn btn-large">Odd</button>
-          </div>
-          </div>
-
-          <a href="#treedetails" class="btn btn-large btn-primary btn-block">Next</a>
-        </div>
-      </div>
-
-      <div id="treedetails" class="swipe-page">
-        <div class="container">
-          <h4>@ Lafayette St. &amp; Grand St.</h4>
-
-          <div id="treeforms">
-            <div id="treedetailform" class="well">
-              <h5>Add a Tree</h5>
-            <div class="subpages">
-              <div class="subpage current">
-                <fieldset>
-                  <legend>Where is it?</legend>
-                  <label>Distance to tree bed</label>
-                  <input type="text" placeholder="">
-                  <label>Address</label>
-                  <input type="text" placeholder="">
-                </fieldset>
+            <fieldset>
+              <legend>Details</legend>
+              <label>Genus</label>
+              <select>
+<option value="unknown">Unknown</option><option value="Acer">Acer - maple</option><option value="Aesculus">Aesculus - horsechestnut, buckeye</option><option value="Ailanthus">Ailanthus - Ailanthus</option><option value="Amelanchier">Amelanchier - serviceberry</option><option value="Betula">Betula - birch</option><option value="Carpinus ">Carpinus - hornbeam</option><option value="Celtis ">Celtis - hackberry</option><option value="Cercidiphyllum">Cercidiphyllum - katsura</option><option value="Cercis ">Cercis - redbud</option><option value="Cornus">Cornus - dogwood</option><option value="Crataegus">Crataegus - hawthorn</option><option value="Eucommia">Eucommia - hardy rubber tree</option><option value="Fraxinus ">Fraxinus - ash</option><option value="Ginkgo">Ginkgo - ginkgo</option><option value="Gleditsia">Gleditsia - locust</option><option value="Gymnocladus">Gymnocladus - Gymnocladus</option><option value="Koelreuteria">Koelreuteria - raintree</option><option value="Liquidambar">Liquidambar - sweetgum</option><option value="Liriodendron">Liriodendron - tulip tree</option><option value="Maackia">Maackia - amur </option><option value="Magnolia">Magnolia - magnolia</option><option value="Malus">Malus - apple</option><option value="Metasequoia">Metasequoia - redwood</option><option value="Morus">Morus - mulberry</option><option value="Pinus">Pinus - pine</option><option value="Platanus">Platanus - plane tree</option><option value="Populus">Populus - poplar</option><option value="Prunus">Prunus - cherry, plum, almond</option><option value="Pyrus">Pyrus - pear</option><option value="Quercus">Quercus - oak</option><option value="Quercus">Quercus - oak </option><option value="Robinia">Robinia - locust</option><option value="Styphnolobium">Styphnolobium - Styphnolobium</option><option value="Syringa">Syringa - lilac</option><option value="Taxodium">Taxodium - cypress</option><option value="Tilia">Tilia - linden</option><option value="Ulmus">Ulmus - elm</option><option value="Ulmus ">Ulmus - elm</option><option value="Zelkova ">Zelkova - zelkova</option>              </select>
+              <label class="checkbox">
+                <input type="checkbox" value="">
+                Fastigiate?
+              </label>
+              <label>How certain are you?</label>
+              <div class="btn-group">
+                <button class="btn btn-primary">Certain</button>
+                <button class="btn">Somewhat</button>
+                <button class="btn">Not at all</button>
               </div>
-              <div class="subpage">
-                <fieldset>
-                  <legend>Size</legend>
-                  <label>Length of tree bed</label>
-                  <input type="text" placeholder="">
-                  <label>Circumference</label>
-                  <input type="text" placeholder="">
-                </fieldset>
-
-              </div>
-              <div class="subpage">
-                <fieldset>
-                  <legend>Details</legend>
-                  <label>Genus</label>
-                  <select>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                  <label>Common Name</label>
-                  <select>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                  <label class="checkbox">
-                    <input type="checkbox" value="">
-                    Fastigiate?
-                  </label>
-                  <label>How certain are you?</label>
-                  <div class="btn-group">
-                    <button class="btn btn-primary">Certain</button>
-                    <button class="btn">Somewhat</button>
-                    <button class="btn">None</button>
-                  </div>
-                </fieldset>
-              </div>
-              </div>
-            </div>
+            </fieldset>
           </div>
-          <p id="treecontrols" class="text-center">
-            <a id="anothertree" href="#" class="btn">Another Tree</a>
-            <a href="#endlocation" class="btn btn-primary">No More Trees</a>
-          </p>
-          <p class="text-center">
-            <a href="#cancel" class="flipleft">Oh no! We had to stop mapping this block...</a>
-          </p>
         </div>
+        <p id="treecontrols" class="text-center">
+          <a id="anothertree" href="#" class="btn">Another Tree</a>
+          <a href="#end" class="btn btn-primary">No More Trees</a>
+        </p>
+        <p class="text-center">
+          <a href="#cancel" class="flipleft">Oh no! We had to stop mapping this block...</a>
+        </p>
       </div>
+    </div>
 
-      <div id="endlocation" class="swipe-page">
-        <div class="container">
-          <h3>End Intersection</h3>
-          <p>It looks like you're at...</p>
-          <ul class="nav nav-tabs nav-stacked">
-            <li class="closest-location"><a href="#end">Lafayette St. &amp; Canal St.<i class="icon-chevron-right pull-right"></i></a></li>
-          </ul>
-
-          <p>You might also be at...</p>
-          <ul class="nav nav-tabs nav-stacked">
-            <li><a href="#end">Lafayette St. &amp; Canal St.<i class="icon-chevron-right pull-right"></i></a></li>
-            <li><a href="#end">Lafayette St. &amp; Canal St.<i class="icon-chevron-right pull-right"></i></a></li>
-            <li><a href="#end">Lafayette St. &amp; Canal St.<i class="icon-chevron-right pull-right"></i></a></li>
-            <li><a href="#end">Lafayette St. &amp; Canal St.<i class="icon-chevron-right pull-right"></i></a></li>
-            <li><a href="#end">Lafayette St. &amp; Canal St.<i class="icon-chevron-right pull-right"></i></a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div id="end" class="swipe-page">
-        <div class="container">
-          <h4>Almost done!</h4>
-
-          <div class="well">
-          <p>Distance to the end of the block</p>
-          <input type="text"></text>
+    <div id="end">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#">TreeKIT</a>
           </div>
-
-          <a href="#save" class="btn btn-large btn-primary btn-block">Save</a>
         </div>
       </div>
+      <div class="container">
+        <h4>Almost done!</h4>
 
-      <div id="save" class="swipe-page">
-        <div class="container">
-          <h4>Thank you!</h4>
+        <div class="well">
+        <p>Distance to the end of the block</p>
+        <input type="text"></text>
+        </div>
 
-          <div class="well">
-          <p>The block from <strong>Lafayette St. &amp; Grand St.</strong> to
-            <strong>Lafayette St. &amp; Canal St.</strong> has been saved.</p>
+        <a href="#save" class="btn btn-large btn-primary btn-block">Save</a>
+      </div>
+    </div>
+
+    <div id="save">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#">TreeKIT</a>
           </div>
-
-          <a href="#start" class="slidedown btn btn-large btn-primary btn-block">Map another block</a>
         </div>
       </div>
+      <div class="container">
+        <h4>Thank you!</h4>
 
-
-      <div id="cancel" class="swipe-page">
-        <div class="container">
-          <h4>Why did you have to stop?</h4>
-
-          <div class="well">
-            <label class="checkbox">
-              <input type="checkbox" value="">Offset tree bed
-            </label>
-            <label class="checkbox">
-              <input type="checkbox" value="">Bad sidewalks
-            </label>
-            <label class="checkbox">
-              <input type="checkbox" value="">Other
-            </label>
-            <input type="text" value="">
-          </div>
-
-          <p class="text-center">
-            <a href="#treedetails" class="flipright">Go back</a>
-            <a href="#start" class="slidedown btn btn-primary">Stop</a>
-          </p>
+        <div class="well">
+        <p>This block has been saved.</p>
         </div>
+
+        <a href="#start" class="slidedown btn btn-large btn-primary btn-block">Map another block</a>
       </div>
+    </div>
 
 
+    <div id="cancel">
+      <div class="container">
+        <h4>Why did you have to stop?</h4>
+
+        <div class="well">
+          <label class="checkbox">
+            <input type="checkbox" value="">Offset tree bed
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" value="">Bad sidewalks
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" value="">Other
+          </label>
+          <input type="text" value="">
+        </div>
+
+        <p class="text-center">
+          <a href="#treedetails" class="flipright">Go back</a>
+          <a href="#start" class="slidedown btn btn-primary">Submit</a>
+        </p>
+      </div>
     </div>
   </body>
 </html>

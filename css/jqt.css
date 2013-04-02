@@ -1503,7 +1503,7 @@ body {
 */}
 /* line 240, ../scss/include/_skeleton.scss */
 #jqt ul:first-child {
-  margin-top: 15px;
+  /*margin-top: 15px;*/
 }
 /* line 246, ../scss/include/_skeleton.scss */
 #jqt ul li {
@@ -1511,7 +1511,7 @@ body {
   list-style-type: none;
   overflow: hidden;
   padding: 10px;*/
-  -webkit-transform: translate3d(0, 0, 0);
+  /*-webkit-transform: translate3d(0, 0, 0);*/
   /* expensive way to avoid flickr */
 }
 /* line 253, ../scss/include/_skeleton.scss */
