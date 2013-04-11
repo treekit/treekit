@@ -7,9 +7,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
     <title>TreeKIT</title>
-    <link rel="stylesheet" href="css/jqt.css">
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Google Web Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
@@ -22,43 +25,6 @@
     <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
     <script src="lib/feature-select.js"></script>
     <script src="js/main.js"></script>
-
-    <style type="text/css" media="screen">
-      #map {
-        position: absolute;
-        top: 43px;
-        left: 0;
-        right: 0;
-        bottom: 0;
-      }
-
-      .map-btn {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        right: 20px;
-      }
-
-      #map-next-btn {
-        display: none;
-      }
-
-      #map-alert {
-        position: absolute;
-        right: 20px;
-        margin-left: 65px;
-        display: none;
-      }
-
-      .container {
-        margin: 0 20px;
-      }
-
-      label.checkbox {
-        margin: 5px 0 12px 0;
-      }
-
-    </style>
   </head>
   <body>
   <div id="jqt">
@@ -66,16 +32,14 @@
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container">
-            <a class="brand" href="#">TreeKIT</a>
+            <a class="brand" href="#"><span>Tree</span>KIT</a>
           </div>
         </div>
       </div>
-      <div class="container">
-        <div class="well">
-          <h3 class="form-signin-heading">Please sign in</h3>
-          <input type="text" class="input-block-level" placeholder="Your name">
-          <a href="#start" class="btn btn-large btn-primary btn-block">Sign in</a>
-        </div>
+      <div class="container content">
+        <h3 class="form-signin-heading">Please sign in</h3>
+        <p><input type="text" class="input-block-level" placeholder="Your name"></p>
+        <a href="#start" class="btn btn-large btn-primary btn-block">Sign in</a>
       </div>
     </div>
 
@@ -83,15 +47,15 @@
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container">
-            <a class="brand" href="#">TreeKIT</a>
+            <a class="brand" href="#"><span>Tree</span>KIT</a>
           </div>
         </div>
       </div>
-      <div class="container">
-        <div class="well text-center">
+      <div class="container content">
+        <p><a href="#login" class="slideright btn btn-mini">&larr; Not you?</a></p>
+        <div class="text-center">
           <h3>Welcome Aaron!</h3>
-          <p><a href="#login" class="slideright">not you?</a></p>
-          <a href="#startlocation" class="btn btn-large btn-primary btn-block">Start!</a>
+          <a href="#startlocation" class="btn btn-large btn-primary btn-block">Start mapping!</a>
         </div>
       </div>
     </div>
@@ -100,13 +64,13 @@
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container">
-            <a class="brand" href="#">TreeKIT</a>
+            <a class="brand" href="#"><span>Tree</span>KIT</a>
           </div>
         </div>
       </div>
       <div id="map"></div>
       <div id="map-alert" class="alert alert-info"></div>
-      <a href="#treedetails" id="map-next-btn" class="map-btn btn btn-large btn-primary">Next</a>
+      <a href="#treedetails" id="map-next-btn" class="map-btn btn btn-large btn-primary">Next &raquo;</a>
     </div>
 
 
@@ -114,58 +78,52 @@
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container">
-            <a class="brand" href="#">TreeKIT</a>
+            <a class="brand" href="#"><span>Tree</span>KIT</a>
           </div>
         </div>
       </div>
 
-      <div class="container">
-        <h4>Add a Tree</h4>
+      <div class="container content">
+        <h5 class="tree-header">Tree 1</h5>
 
         <div id="treeforms">
-          <div class="well">
-            <fieldset>
-              <legend>Where is it?</legend>
-              <label>Distance to tree bed</label>
-              <input type="number" placeholder="">
-              <label>Address</label>
-              <input type="text" placeholder="">
-            </fieldset>
-          </div>
-          <div class="well">
-            <fieldset>
-              <legend>Size</legend>
-              <label>Length of tree bed</label>
-              <input type="number" placeholder="">
-              <label>Circumference</label>
-              <input type="number" placeholder="">
-            </fieldset>
-          </div>
-          <div class="well">
-            <fieldset>
-              <legend>Details</legend>
-              <label>Genus</label>
-              <select>
-<option value="unknown">Unknown</option><option value="Acer">Acer - maple</option><option value="Aesculus">Aesculus - horsechestnut, buckeye</option><option value="Ailanthus">Ailanthus - Ailanthus</option><option value="Amelanchier">Amelanchier - serviceberry</option><option value="Betula">Betula - birch</option><option value="Carpinus ">Carpinus - hornbeam</option><option value="Celtis ">Celtis - hackberry</option><option value="Cercidiphyllum">Cercidiphyllum - katsura</option><option value="Cercis ">Cercis - redbud</option><option value="Cornus">Cornus - dogwood</option><option value="Crataegus">Crataegus - hawthorn</option><option value="Eucommia">Eucommia - hardy rubber tree</option><option value="Fraxinus ">Fraxinus - ash</option><option value="Ginkgo">Ginkgo - ginkgo</option><option value="Gleditsia">Gleditsia - locust</option><option value="Gymnocladus">Gymnocladus - Gymnocladus</option><option value="Koelreuteria">Koelreuteria - raintree</option><option value="Liquidambar">Liquidambar - sweetgum</option><option value="Liriodendron">Liriodendron - tulip tree</option><option value="Maackia">Maackia - amur </option><option value="Magnolia">Magnolia - magnolia</option><option value="Malus">Malus - apple</option><option value="Metasequoia">Metasequoia - redwood</option><option value="Morus">Morus - mulberry</option><option value="Pinus">Pinus - pine</option><option value="Platanus">Platanus - plane tree</option><option value="Populus">Populus - poplar</option><option value="Prunus">Prunus - cherry, plum, almond</option><option value="Pyrus">Pyrus - pear</option><option value="Quercus">Quercus - oak</option><option value="Quercus">Quercus - oak </option><option value="Robinia">Robinia - locust</option><option value="Styphnolobium">Styphnolobium - Styphnolobium</option><option value="Syringa">Syringa - lilac</option><option value="Taxodium">Taxodium - cypress</option><option value="Tilia">Tilia - linden</option><option value="Ulmus">Ulmus - elm</option><option value="Ulmus ">Ulmus - elm</option><option value="Zelkova ">Zelkova - zelkova</option>              </select>
-              <label class="checkbox">
-                <input type="checkbox" value="">
-                Fastigiate?
-              </label>
-              <label>How certain are you?</label>
-              <div class="btn-group">
-                <button class="btn btn-primary">Certain</button>
-                <button class="btn">Somewhat</button>
-                <button class="btn">Not at all</button>
-              </div>
-            </fieldset>
-          </div>
+          <fieldset>
+            <legend>Where is it?</legend>
+            <p class="clearfix"><label class="pull-left">Distance to Tree Bed</label> <input type="number" class="pull-right" placeholder=""></p>
+            <p class="clearfix"><label>Address</label><input type="text" class="input-block-level" placeholder=""></p>
+          </fieldset>
+          <fieldset>
+            <legend>How big is it?</legend>
+            <p class="clearfix"><label class="pull-left">Length of Tree Bed</label><input type="number" class="pull-right" placeholder=""></p>
+            <p class="clearfix"><label class="pull-left">Circumference</label><input type="number" class="pull-right" placeholder=""></p>
+          </fieldset>
+          <fieldset>
+            <legend>Which type of tree?</legend>
+            <p class="clearfix">
+              <!-- <label>Genus</label> -->
+              <select class="select-block-level">
+                <option value="unknown">Genus???</option><option value="Acer">Acer - maple</option><option value="Aesculus">Aesculus - horsechestnut, buckeye</option><option value="Ailanthus">Ailanthus - Ailanthus</option><option value="Amelanchier">Amelanchier - serviceberry</option><option value="Betula">Betula - birch</option><option value="Carpinus ">Carpinus - hornbeam</option><option value="Celtis ">Celtis - hackberry</option><option value="Cercidiphyllum">Cercidiphyllum - katsura</option><option value="Cercis ">Cercis - redbud</option><option value="Cornus">Cornus - dogwood</option><option value="Crataegus">Crataegus - hawthorn</option><option value="Eucommia">Eucommia - hardy rubber tree</option><option value="Fraxinus ">Fraxinus - ash</option><option value="Ginkgo">Ginkgo - ginkgo</option><option value="Gleditsia">Gleditsia - locust</option><option value="Gymnocladus">Gymnocladus - Gymnocladus</option><option value="Koelreuteria">Koelreuteria - raintree</option><option value="Liquidambar">Liquidambar - sweetgum</option><option value="Liriodendron">Liriodendron - tulip tree</option><option value="Maackia">Maackia - amur </option><option value="Magnolia">Magnolia - magnolia</option><option value="Malus">Malus - apple</option><option value="Metasequoia">Metasequoia - redwood</option><option value="Morus">Morus - mulberry</option><option value="Pinus">Pinus - pine</option><option value="Platanus">Platanus - plane tree</option><option value="Populus">Populus - poplar</option><option value="Prunus">Prunus - cherry, plum, almond</option><option value="Pyrus">Pyrus - pear</option><option value="Quercus">Quercus - oak</option><option value="Quercus">Quercus - oak </option><option value="Robinia">Robinia - locust</option><option value="Styphnolobium">Styphnolobium - Styphnolobium</option><option value="Syringa">Syringa - lilac</option><option value="Taxodium">Taxodium - cypress</option><option value="Tilia">Tilia - linden</option><option value="Ulmus">Ulmus - elm</option><option value="Ulmus ">Ulmus - elm</option><option value="Zelkova ">Zelkova - zelkova</option>
+              </select>
+            </p>
+            <!-- <label>How certain are you?</label> -->
+            <div class="btn-group clearfix">
+              <button class="btn btn-third btn-mini btn-primary">I'm Sure</button>
+              <button class="btn btn-third btn-mini">Probably</button>
+              <button class="btn btn-third btn-mini">Uncertain</button>
+            </div>
+            <p class="clearfix">
+              <input id="fastigiate_1" type="checkbox" value="">
+              <label for="fastigiate_1" class="checkbox">Fastigiate?</label>
+            </p>
+          </fieldset>
         </div>
-        <p id="treecontrols" class="text-center">
-          <a id="anothertree" href="#" class="btn">Another Tree</a>
-          <a href="#end" class="btn btn-primary">No More Trees</a>
-        </p>
+        <div id="treecontrols" class="text-center">
+          <p><a id="anothertree" href="#" class="btn">+ Another Tree</a></p>
+          <p><a href="#end" class="btn btn-block btn-primary btn-large">No More Trees &raquo;</a></p>
+        </div>
+        <hr />
         <p class="text-center">
-          <a href="#cancel" class="flipleft">Oh no! We had to stop mapping this block...</a>
+          <a href="#cancel" class="flipleft btn btn-mini btn-warning">Uh oh! Can't map this block 'cause&hellip;</a>
         </p>
       </div>
     </div>
@@ -174,17 +132,17 @@
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container">
-            <a class="brand" href="#">TreeKIT</a>
+            <a class="brand" href="#"><span>Tree</span>KIT</a>
           </div>
         </div>
       </div>
-      <div class="container">
+      <div class="container content">
         <h4>Almost done!</h4>
 
-        <div class="well">
-        <p>Distance to the end of the block</p>
-        <input type="number"></text>
-        </div>
+        <p class="clearfix">
+          <label class="pull-left">Distance to End</label>
+          <input class="pull-right" type="number" value="">
+        </p>
 
         <a href="#save" class="btn btn-large btn-primary btn-block">Submit</a>
       </div>
@@ -194,43 +152,40 @@
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container">
-            <a class="brand" href="#">TreeKIT</a>
+            <a class="brand" href="#"><span>Tree</span>KIT</a>
           </div>
         </div>
       </div>
-      <div class="container">
+      <div class="container content">
         <h4>Thank you!</h4>
-
-        <div class="well">
         <p>This block has been saved.</p>
-        </div>
-
         <a href="#start" class="slidedown btn btn-large btn-primary btn-block">Map another block</a>
       </div>
     </div>
 
 
     <div id="cancel">
-      <div class="container">
-        <h4>Why did you have to stop?</h4>
+      <div class="container content">
 
-        <div class="well">
-          <label class="checkbox">
-            <input type="checkbox" value="">Offset tree bed
-          </label>
-          <label class="checkbox">
-            <input type="checkbox" value="">Bad sidewalks
-          </label>
-          <label class="checkbox">
-            <input type="checkbox" value="">Other
-          </label>
-          <input type="text" value="">
-        </div>
+        <p><a href="#treedetails" class="flipright btn btn-mini">Actually, let's keep mapping&hellip;</a></p>
 
-        <p class="text-center">
-          <a href="#treedetails" class="flipright">Go back</a>
-          <a href="#start" class="slidedown btn btn-primary">Submit</a>
+        <h6>Why did you have to stop mapping?</h6>
+        
+        <p>
+          <input id="offset_bed_1" type="checkbox" value="">
+          <label for="offset_bed_1" class="checkbox">Offset Tree Bed</label>
+          <br />
+          <input id="bad_sidewalks_1" type="checkbox" value="">
+          <label for="bad_sidewalks_1" class="checkbox">Bad Sidewalks</label>
+          <br />
+          <input id="other_1" type="checkbox" value="">
+          <label for="other_1" class="checkbox">Other (explain below)</label>
         </p>
+
+        <p><input type="text" value="" class="input-block-level"></p>
+
+        <a href="#start" class="slidedown btn btn-block btn-primary">Submit</a>
+
       </div>
     </div>
   </div>

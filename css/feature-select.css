@@ -1,3 +1,5 @@
 .leaflet-feature-selector {
-  border: 2px solid #444;
+  border: 2px solid rgba(0,0,0,0.5);
+  border-radius: 1em;
+  box-shadow: 0 0 0 2px #d9ffb2, 0 0 1em rgba(0,0,0,0.5);
 }
