@@ -1,0 +1,188 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <title>TreeKIT</title>
+    <!-- Google Web Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="styles/343b5f37.main.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="components/leaflet/dist/leaflet.ie.css" />
+        <link rel="stylesheet" href="components/leaflet-locatecontrol/src/L.Control.Locate.ie.css" />
+    <![endif]-->
+  </head>
+  <body id="jqt">
+    <div class="page" id="login">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#"><span>Tree</span>KIT</a>
+          </div>
+        </div>
+      </div>
+      <form class="container content">
+        <h3 class="form-signin-heading">Please sign in</h3>
+        <p><input id="mapper-name-input" type="text" class="input-block-level" placeholder="Your name" autofocus="" required=""></p>
+        <a href="#start" class="btn btn-large btn-primary btn-block next-btn">Sign in</a>
+      </form>
+    </div>
+
+    <div class="page" id="start">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#"><span>Tree</span>KIT</a>
+          </div>
+        </div>
+      </div>
+      <div class="container content">
+        <p><a href="#login" class="slideright btn btn-mini">&larr; Not you?</a></p>
+        <div class="text-center">
+          <h3>Welcome <span class="mapper-name-label"></span>!</h3>
+          <a href="#startlocation" class="btn btn-large btn-primary btn-block">Start mapping!</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="page" id="startlocation">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#"><span>Tree</span>KIT</a>
+          </div>
+        </div>
+      </div>
+      <div id="map"></div>
+      <div id="map-alert" class="alert alert-info"></div>
+      <a href="#treedetails" id="map-next-btn" class="map-btn btn btn-large btn-primary">Next &raquo;</a>
+    </div>
+
+
+    <div class="page" id="treedetails">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#"><span>Tree</span>KIT</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="container content">
+        <h5 class="tree-header">Tree 1</h5>
+
+        <div id="treeforms">
+          <fieldset>
+            <legend>Where is it?</legend>
+            <p class="clearfix"><label class="pull-left">Distance to Tree Bed</label> <input type="number" class="pull-right" placeholder=""></p>
+            <p class="clearfix"><label>Address</label><input type="text" class="input-block-level" placeholder=""></p>
+          </fieldset>
+          <fieldset>
+            <legend>How big is it?</legend>
+            <p class="clearfix"><label class="pull-left">Length of Tree Bed</label><input type="number" class="pull-right" placeholder=""></p>
+            <p class="clearfix"><label class="pull-left">Circumference</label><input type="number" class="pull-right" placeholder=""></p>
+          </fieldset>
+          <fieldset>
+            <legend>Which type of tree?</legend>
+            <p class="clearfix">
+              <!-- <label>Genus</label> -->
+              <select class="select-block-level">
+                <option value="unknown">Genus???</option><option value="Acer">Acer - maple</option><option value="Aesculus">Aesculus - horsechestnut, buckeye</option><option value="Ailanthus">Ailanthus - Ailanthus</option><option value="Amelanchier">Amelanchier - serviceberry</option><option value="Betula">Betula - birch</option><option value="Carpinus ">Carpinus - hornbeam</option><option value="Celtis ">Celtis - hackberry</option><option value="Cercidiphyllum">Cercidiphyllum - katsura</option><option value="Cercis ">Cercis - redbud</option><option value="Cornus">Cornus - dogwood</option><option value="Crataegus">Crataegus - hawthorn</option><option value="Eucommia">Eucommia - hardy rubber tree</option><option value="Fraxinus ">Fraxinus - ash</option><option value="Ginkgo">Ginkgo - ginkgo</option><option value="Gleditsia">Gleditsia - locust</option><option value="Gymnocladus">Gymnocladus - Gymnocladus</option><option value="Koelreuteria">Koelreuteria - raintree</option><option value="Liquidambar">Liquidambar - sweetgum</option><option value="Liriodendron">Liriodendron - tulip tree</option><option value="Maackia">Maackia - amur </option><option value="Magnolia">Magnolia - magnolia</option><option value="Malus">Malus - apple</option><option value="Metasequoia">Metasequoia - redwood</option><option value="Morus">Morus - mulberry</option><option value="Pinus">Pinus - pine</option><option value="Platanus">Platanus - plane tree</option><option value="Populus">Populus - poplar</option><option value="Prunus">Prunus - cherry, plum, almond</option><option value="Pyrus">Pyrus - pear</option><option value="Quercus">Quercus - oak</option><option value="Quercus">Quercus - oak </option><option value="Robinia">Robinia - locust</option><option value="Styphnolobium">Styphnolobium - Styphnolobium</option><option value="Syringa">Syringa - lilac</option><option value="Taxodium">Taxodium - cypress</option><option value="Tilia">Tilia - linden</option><option value="Ulmus">Ulmus - elm</option><option value="Ulmus ">Ulmus - elm</option><option value="Zelkova ">Zelkova - zelkova</option>
+              </select>
+            </p>
+            <!-- <label>How certain are you?</label> -->
+            <div class="btn-group clearfix">
+              <button class="btn btn-third btn-mini btn-primary">I'm Sure</button>
+              <button class="btn btn-third btn-mini">Probably</button>
+              <button class="btn btn-third btn-mini">Uncertain</button>
+            </div>
+            <p class="clearfix">
+              <input id="fastigiate_1" type="checkbox" value="">
+              <label for="fastigiate_1" class="checkbox">Fastigiate?</label>
+            </p>
+          </fieldset>
+        </div>
+        <div id="treecontrols" class="text-center">
+          <p><a id="anothertree" href="#" class="btn">+ Another Tree</a></p>
+          <p><a href="#end" class="btn btn-block btn-primary btn-large">No More Trees &raquo;</a></p>
+        </div>
+        <hr>
+        <p class="text-center">
+          <a href="#cancel" class="flipleft btn btn-mini btn-warning">Uh oh! Can't map this block 'cause&hellip;</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="page" id="end">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#"><span>Tree</span>KIT</a>
+          </div>
+        </div>
+      </div>
+      <div class="container content">
+        <h4>Almost done!</h4>
+
+        <p class="clearfix">
+          <label class="pull-left">Distance to End</label>
+          <input class="pull-right" type="number" value="">
+        </p>
+
+        <a href="#save" class="btn btn-large btn-primary btn-block">Submit</a>
+      </div>
+    </div>
+
+    <div class="page" id="save">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="#"><span>Tree</span>KIT</a>
+          </div>
+        </div>
+      </div>
+      <div class="container content">
+        <h4>Thanks <span class="mapper-name-label"></span>!</h4>
+        <p>This block has been saved.</p>
+        <a href="#start" class="slidedown btn btn-large btn-primary btn-block">Map another block</a>
+      </div>
+    </div>
+
+
+    <div class="page" id="cancel">
+      <div class="container content">
+
+        <p><a href="#treedetails" class="flipright btn btn-mini">Actually, let's keep mapping&hellip;</a></p>
+
+        <h6>Why did you have to stop mapping?</h6>
+
+        <p>
+          <input id="offset_bed_1" type="checkbox" value="">
+          <label for="offset_bed_1" class="checkbox">Offset Tree Bed</label>
+          <br>
+          <input id="bad_sidewalks_1" type="checkbox" value="">
+          <label for="bad_sidewalks_1" class="checkbox">Bad Sidewalks</label>
+          <br>
+          <input id="other_1" type="checkbox" value="">
+          <label for="other_1" class="checkbox">Other (explain below)</label>
+        </p>
+
+        <p><input type="text" value="" class="input-block-level"></p>
+
+        <a href="#start" class="slidedown btn btn-block btn-primary">Submit</a>
+
+      </div>
+    </div>
+
+    <script src="scripts/2657ca02.zepto.js"></script>
+    <script src="scripts/ab1ea95c.main.js"></script>
+  </body>
+</html>
