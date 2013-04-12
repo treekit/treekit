@@ -1,9 +1,11 @@
 /*globals Zepto L */
 
 (function($) {
+  'use strict';
+
   // Some sample Javascript functions:
   $(function(){
-    var jQT = new $.jQTouch({
+    new $.jQTouch({
       addGlossToIcon: false, // turn off
       fixedViewport: false, // turn off
       fullScreen: false, // turn off

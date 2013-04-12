@@ -1,0 +1,9 @@
+{
+  "name": "treekit",
+  "version": "0.1.0",
+  "dependencies": {
+    "modernizr": "~2.6.2",
+    "leaflet": "~0.5.1"
+  },
+  "devDependencies": {}
+}

@@ -1,33 +1,29 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
     <title>TreeKIT</title>
-
-    <link rel="stylesheet" href="css/style.css">
-
     <!-- Google Web Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
 
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="components/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles/feature-select.css">
+    <!-- endbuild -->
     <!--[if lte IE 8]>
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+        <link rel="stylesheet" href="components/leaflet/dist/leaflet.ie.css" />
     <![endif]-->
-    <link rel="stylesheet" href="css/feature-select.css">
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"></script>
-    <script src="lib/zepto/touch.js"></script>
-    <script src="lib/jqtouch.js" type="text/javascript" charset="utf-8"></script>
-    <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
-    <script src="lib/feature-select.js"></script>
-    <script src="js/main.js"></script>
   </head>
-  <body>
-  <div id="jqt">
+  <body id="jqt">
     <div id="login" class="current">
       <div class="navbar">
         <div class="navbar-inner">
@@ -170,7 +166,7 @@
         <p><a href="#treedetails" class="flipright btn btn-mini">Actually, let's keep mapping&hellip;</a></p>
 
         <h6>Why did you have to stop mapping?</h6>
-        
+
         <p>
           <input id="offset_bed_1" type="checkbox" value="">
           <label for="offset_bed_1" class="checkbox">Offset Tree Bed</label>
@@ -188,6 +184,22 @@
 
       </div>
     </div>
-  </div>
+
+    <!-- build:js scripts/zepto.js -->
+    <script src="scripts/vendor/zepto/zepto.js"></script>
+    <script src="scripts/vendor/zepto/polyfill.js"></script>
+    <script src="scripts/vendor/zepto/event.js"></script>
+    <script src="scripts/vendor/zepto/detect.js"></script>
+    <script src="scripts/vendor/zepto/fx.js"></script>
+    <script src="scripts/vendor/zepto/ajax.js"></script>
+    <script src="scripts/vendor/zepto/form.js"></script>
+    <script src="scripts/vendor/zepto/touch.js"></script>
+    <!-- endbuild -->
+    <!-- build:js scripts/main.js -->
+    <script src="scripts/vendor/jqtouch.js"></script>
+    <script src="components/leaflet/dist/leaflet.js"></script>
+    <script src="scripts/vendor/feature-select.js"></script>
+    <script src="scripts/main.js"></script>
+    <!-- endbuild -->
   </body>
 </html>
