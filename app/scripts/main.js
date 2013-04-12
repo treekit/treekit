@@ -144,6 +144,9 @@
             subdomains: ['otile1', 'otile2', 'otile3', 'otile4']
           }).addTo(map);
 
+      // Add geolocation
+      L.control.locate().addTo(map);
+
       featureSelect = window.featureSelect = L.featureSelect({
         layerGroup: layerGroup
       }).addTo(map);

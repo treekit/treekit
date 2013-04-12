@@ -257,6 +257,12 @@ module.exports = function (grunt) {
                         'images/{,*/}*.{webp,gif}',
                         'styles/fonts/*'
                     ]
+                },{
+                    // Copy images for the Leaflet locate control plugin
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/components/leaflet-locatecontrol/src/images',
+                    src: '{,*/}*.{png,jpg,jpeg,gif}',
+                    dest: '<%= yeoman.dist %>/styles/images'
                 }]
             }
         },
