@@ -165,6 +165,7 @@
     $nameInput = $('#mapper-name-input'),
     $nameLabel = $('.mapper-name-label');
 
+    // Save the mapper name
     $nameInput.on('change', function() {
       var val = $(this).val();
       window.localStorage.setItem('mapperName', val);
@@ -185,30 +186,32 @@
       statusBar: 'default' // other options: black-translucent, black
     });
 
+    // Init the map when we animate to that page
+    $('#startlocation').on('pageAnimationEnd', function(evt, data) {
+      if (!map && data.direction === 'in') {
+        initMap();
+      }
+    });
+
     if (window.localStorage.getItem('mapperName')) {
       $nameInput.val(window.localStorage.getItem('mapperName'));
       $nameLabel.text(window.localStorage.getItem('mapperName'));
       jqt.goTo('#start');
     } else {
       jqt.goTo('#login');
-      $nameInput.focus();
     }
 
-    if ($('#startlocation').hasClass('current')) {
-      // Init the map if we start on that page
-      initMap();
-    } else {
-      // Init the map when we animate to that page
-      $('#startlocation').on('pageAnimationEnd', function(evt, data) {
-        if (!map && data.direction === 'in') {
-          initMap();
+    // Prevent page transition if the current form is invalid
+    $('.page a.next-btn').on('tap', function(evt, data) {
+      var $form = $(this).parent('form').addClass('submitted');
+
+      // For each form element
+      $form.find('input, select, textarea').each(function(i, el) {
+        if (!el.validity.valid) {
+          evt.stopPropagation();
+          return false;
         }
       });
-    }
-
-    $('.page a.next-btn').on('tap', function(evt, data) {
-      console.log('if invalid form, prevent page transition');
-      // evt.stopPropagation();
     });
 
     $('.btn-group > button').click(function(evt){

@@ -1171,8 +1171,8 @@ body {
 -------------------------------------------------------------- */
 
 /* clearfix */
-.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; visibility: hidden; } 
-.clearfix:after { clear: both; } 
+.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; visibility: hidden; }
+.clearfix:after { clear: both; }
 .clearfix { zoom: 1; }
 
 
@@ -1216,14 +1216,14 @@ hr{ margin: 2em 0; border:0; border-top: 1px solid rgba(0,0,0,0.1); border-botto
 .tree-header {
   font-size: 2.5em;
   padding-left: 1.25em;
-  position: relative; 
+  position: relative;
 /*  color: #999;*/
   font-weight: 300;
 /*  text-transform: uppercase;*/
 }
 .tree-header:before {
   content: "";
-  position: absolute; 
+  position: absolute;
   top: 0.5em;
   right: auto;
   bottom: 0;
@@ -1234,7 +1234,7 @@ hr{ margin: 2em 0; border:0; border-top: 1px solid rgba(0,0,0,0.1); border-botto
 }
 .tree-header:after {
   content: "";
-  position: absolute; 
+  position: absolute;
   top: 0.25em;
   left: 0.2em;
   height: 0.5em;
@@ -1403,7 +1403,7 @@ input[type="number"] {
 }
 
 /* block-level form elements */
-.btn-block, 
+.btn-block,
 .input-block-level,
 .select-block-level {
   display: block;
@@ -1457,4 +1457,8 @@ input,
   left: 60px;
   text-align: center;
   display: none;
+}
+
+.submitted input:invalid {
+  border: 2px solid #dd514c;
 }
