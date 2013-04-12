@@ -1,34 +1,22 @@
 /*globals Zepto L */
 
-(function($) {
+(function(NS, $) {
   'use strict';
 
-  // Some sample Javascript functions:
-  $(function(){
-    new $.jQTouch({
-      addGlossToIcon: false, // turn off
-      fixedViewport: false, // turn off
-      fullScreen: false, // turn off
-      fullScreenClass: 'fullscreen',
-      useFastTouch: false,
-      icon: null,
-      icon4: null, // available in iOS 4.2 and later.
-      preloadImages: false,
-      startupScreen: null,
-      statusBar: 'default' // other options: black-translucent, black
-    });
 
-    var $mapPage = $('#startlocation'),
-        $mapAlert = $('#map-alert'),
+    var $nameInput,
+        $nameLabel,
+        $mapAlert,
+        jqt,
         defaultStyle = {
           opacity: 0.7,
-          weight: 4,
+          weight: 2,
           color: '#4575b4',
           clickable: false
         },
         selectStyle = {
           opacity: 0.9,
-          weight: 4,
+          weight: 3,
           color: '#ff0000',
           clickable: false
         },
@@ -171,17 +159,57 @@
       $mapAlert.text('Select a blockface by dragging it to the center...').show();
     }
 
+  // Init the app
+  NS.init = function() {
+    $mapAlert = $('#map-alert');
+    $nameInput = $('#mapper-name-input'),
+    $nameLabel = $('.mapper-name-label');
+
+    $nameInput.on('change', function() {
+      var val = $(this).val();
+      window.localStorage.setItem('mapperName', val);
+      $nameLabel.text(val);
+    });
+
+    // Init jQT
+    jqt = new $.jQTouch({
+      addGlossToIcon: false, // turn off
+      fixedViewport: false, // turn off
+      fullScreen: false, // turn off
+      fullScreenClass: 'fullscreen',
+      useFastTouch: false,
+      icon: null,
+      icon4: null, // available in iOS 4.2 and later.
+      preloadImages: false,
+      startupScreen: null,
+      statusBar: 'default' // other options: black-translucent, black
+    });
+
+    if (window.localStorage.getItem('mapperName')) {
+      $nameInput.val(window.localStorage.getItem('mapperName'));
+      $nameLabel.text(window.localStorage.getItem('mapperName'));
+      jqt.goTo('#start');
+    } else {
+      jqt.goTo('#login');
+      $nameInput.focus();
+    }
+
     if ($('#startlocation').hasClass('current')) {
       // Init the map if we start on that page
       initMap();
     } else {
       // Init the map when we animate to that page
-      $mapPage.on('pageAnimationEnd', function(evt, data) {
+      $('#startlocation').on('pageAnimationEnd', function(evt, data) {
         if (!map && data.direction === 'in') {
           initMap();
         }
       });
     }
+
+    $('.page a.next-btn').on('tap', function(evt, data) {
+      console.log('if invalid form, prevent page transition');
+      // evt.stopPropagation();
+    });
 
     $('.btn-group > button').click(function(evt){
       $(this)
@@ -192,6 +220,11 @@
     $('#anothertree').click(function() {
       window.alert('This will show you another form just like this one to map the next tree.');
     });
+  };
+
+  // Init on document ready
+  $(function(){
+    NS.init();
   });
 
-}(Zepto));
+}(window.TreeKit = window.TreeKit || {}, Zepto));

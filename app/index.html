@@ -26,7 +26,7 @@
     <![endif]-->
   </head>
   <body id="jqt">
-    <div id="login" class="current">
+    <div class="page" id="login">
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container">
@@ -36,12 +36,12 @@
       </div>
       <div class="container content">
         <h3 class="form-signin-heading">Please sign in</h3>
-        <p><input type="text" class="input-block-level" placeholder="Your name"></p>
-        <a href="#start" class="btn btn-large btn-primary btn-block">Sign in</a>
+        <p><input id="mapper-name-input" type="text" class="input-block-level" placeholder="Your name" required></p>
+        <a href="#start" class="btn btn-large btn-primary btn-block next-btn">Sign in</a>
       </div>
     </div>
 
-    <div id="start">
+    <div class="page" id="start">
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container">
@@ -52,13 +52,13 @@
       <div class="container content">
         <p><a href="#login" class="slideright btn btn-mini">&larr; Not you?</a></p>
         <div class="text-center">
-          <h3>Welcome Aaron!</h3>
+          <h3>Welcome <span class="mapper-name-label"></span>!</h3>
           <a href="#startlocation" class="btn btn-large btn-primary btn-block">Start mapping!</a>
         </div>
       </div>
     </div>
 
-    <div id="startlocation">
+    <div class="page" id="startlocation">
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container">
@@ -72,7 +72,7 @@
     </div>
 
 
-    <div id="treedetails">
+    <div class="page" id="treedetails">
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container">
@@ -126,7 +126,7 @@
       </div>
     </div>
 
-    <div id="end">
+    <div class="page" id="end">
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container">
@@ -146,7 +146,7 @@
       </div>
     </div>
 
-    <div id="save">
+    <div class="page" id="save">
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container">
@@ -155,14 +155,14 @@
         </div>
       </div>
       <div class="container content">
-        <h4>Thank you!</h4>
+        <h4>Thanks <span class="mapper-name-label"></span>!</h4>
         <p>This block has been saved.</p>
         <a href="#start" class="slidedown btn btn-large btn-primary btn-block">Map another block</a>
       </div>
     </div>
 
 
-    <div id="cancel">
+    <div class="page" id="cancel">
       <div class="container content">
 
         <p><a href="#treedetails" class="flipright btn btn-mini">Actually, let's keep mapping&hellip;</a></p>
