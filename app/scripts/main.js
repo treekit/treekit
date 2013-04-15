@@ -202,13 +202,15 @@
     }
 
     // Prevent page transition if the current form is invalid
-    $('.page a.next-btn').on('tap', function(evt, data) {
-      var $form = $(this).parent('form').addClass('submitted');
+    $('.page a.btn-next').on('tap', function(evt, data) {
+      var $form = $(this).parents('form').addClass('submitted');
 
       // For each form element
       $form.find('input, select, textarea').each(function(i, el) {
         if (!el.validity.valid) {
           evt.stopPropagation();
+          $(el).focus();
+          el.select();
           return false;
         }
       });
