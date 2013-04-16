@@ -200,7 +200,7 @@
       <div class="container content">
         <h4>Thanks <span class="mapper-name-label"></span>!</h4>
         <p>This block has been saved.</p>
-        <a href="#start" class="slidedown btn btn-large btn-primary btn-block">Map another block</a>
+        <a href="/"  rel="external" class="slidedown btn btn-large btn-primary btn-block">Map another block</a>
       </div>
     </div>
 
@@ -212,20 +212,19 @@
 
         <h6>Why did you have to stop mapping?</h6>
 
+        <form>
         <p>
-          <input id="offset_bed_1" type="checkbox" value="">
-          <label for="offset_bed_1" class="checkbox">Offset Tree Bed</label>
+          <label><input type="radio" name="quitreason" value="Offset Tree Bed" checked>Offset Tree Bed</label>
           <br />
-          <input id="bad_sidewalks_1" type="checkbox" value="">
-          <label for="bad_sidewalks_1" class="checkbox">Bad Sidewalks</label>
+          <label><input type="radio" name="quitreason" value="Bad Sidewalks">Bad Sidewalks</label>
           <br />
-          <input id="other_1" type="checkbox" value="">
-          <label for="other_1" class="checkbox">Other (explain below)</label>
+          <label><input type="radio" name="quitreason" value="Other">Other</label>
         </p>
 
-        <p><input type="text" value="" class="input-block-level"></p>
+        <p><input type="text" name="quitnotes" class="input-block-level" placeholder="More details..."></p>
+        </form>
 
-        <a href="#start" class="slidedown btn btn-block btn-primary">Submit</a>
+        <a href="/" rel="external" class="slidedown btn btn-block btn-primary">Submit</a>
 
       </div>
     </div>

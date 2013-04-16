@@ -142,7 +142,6 @@
       layerGroup: layerGroup
     }).addTo(map);
 
-
     map.addLayer(layerGroup).addLayer(endLayers);
 
     featureSelect.on('select', function(evt) {
