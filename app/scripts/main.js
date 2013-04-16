@@ -79,7 +79,8 @@
   }
 
   endLayers.on('click', function(evt) {
-    console.log('You picked', evt.layer.options.id);
+    $('#startid').val(evt.layer.options.id);
+
     endLayers.setStyle(defaultStyle);
     evt.layer.setStyle(selectStyle);
 
@@ -95,10 +96,11 @@
     endLayers.clearLayers();
 
     if (selectedLayers.length === 1) {
+      $('#blockid').val(selectedLayers[0].options.id);
+
       $mapAlert.text('Tap your starting point...').show();
       endIds = selectedLayers[0].options.ends;
 
-      console.log(endIds);
       endLayers.clearLayers();
       for (i=0; i<endIds.length; i++) {
         endLayers.addLayer(
@@ -145,14 +147,12 @@
     map.addLayer(layerGroup).addLayer(endLayers);
 
     featureSelect.on('select', function(evt) {
-      console.log(evt);
       setStyle(evt.layers, selectStyle);
 
       updateMapState(featureSelect.layers);
     });
 
     featureSelect.on('unselect', function(evt) {
-      console.log(evt);
       setStyle(evt.layers, defaultStyle);
 
       updateMapState(featureSelect.layers);

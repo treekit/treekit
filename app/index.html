@@ -139,9 +139,12 @@
       </div>
       <div id="map"></div>
       <div id="map-alert" class="alert alert-info"></div>
+      <form>
+        <input id="blockid" name="blockid" type="hidden"></input>
+        <input id="startid" name="startid" type="hidden"></input>
+      </form>
       <a href="#treedetails" id="map-next-btn" class="map-btn btn btn-large btn-primary">Next &raquo;</a>
     </div>
-
 
     <div class="page" id="treedetails">
       <div class="navbar">
@@ -151,7 +154,6 @@
           </div>
         </div>
       </div>
-
       <div class="container content">
         <div id="forms-container"></div>
 
@@ -177,7 +179,6 @@
       </div>
       <div class="container content">
         <h4>Almost done!</h4>
-
         <form>
           <p class="clearfix">
             <label class="pull-left">Distance to End</label>
@@ -185,7 +186,7 @@
           </p>
         </form>
 
-        <a href="#save" class="btn btn-large btn-primary btn-block btn-next">Submit</a>
+        <a href="#save" id="save-btn" class="btn btn-large btn-primary btn-block btn-next">Submit</a>
       </div>
     </div>
 
@@ -204,7 +205,6 @@
       </div>
     </div>
 
-
     <div class="page" id="cancel">
       <div class="container content">
 
@@ -213,7 +213,7 @@
         <h6>Why did you have to stop mapping?</h6>
 
         <form>
-          <p><input type="text" name="quitreason" class="input-block-level" placeholder="Offset tree bed, bad sidewalks, etc"></p>
+          <p><input type="text" name="quitreason" class="input-block-level" placeholder="Offset tree bed, bad sidewalks, etc..."></p>
         </form>
 
         <a href="/" rel="external" class="slidedown btn btn-block btn-primary">Submit</a>
