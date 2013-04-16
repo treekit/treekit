@@ -156,9 +156,12 @@
       </div>
       <div id="map"></div>
       <div id="map-alert" class="alert alert-info"></div>
+      <form>
+        <input id="blockid" name="blockid" type="hidden"></input>
+        <input id="startid" name="startid" type="hidden"></input>
+      </form>
       <a href="#treedetails" id="map-next-btn" class="map-btn btn btn-large btn-primary">Next &raquo;</a>
     </div>
-
 
     <div class="page" id="treedetails">
       <div class="navbar">
@@ -168,7 +171,6 @@
           </div>
         </div>
       </div>
-
       <div class="container content">
         <div id="forms-container"></div>
 
@@ -194,7 +196,6 @@
       </div>
       <div class="container content">
         <h4>Almost done!</h4>
-
         <form>
           <p class="clearfix">
             <label class="pull-left">Distance to End</label>
@@ -202,7 +203,7 @@
           </p>
         </form>
 
-        <a href="#save" class="btn btn-large btn-primary btn-block btn-next">Submit</a>
+        <a href="#save" id="save-btn" class="btn btn-large btn-primary btn-block btn-next">Submit</a>
       </div>
     </div>
 
@@ -217,10 +218,9 @@
       <div class="container content">
         <h4>Thanks <span class="mapper-name-label"></span>!</h4>
         <p>This block has been saved.</p>
-        <a href="#start" class="slidedown btn btn-large btn-primary btn-block">Map another block</a>
+        <a href="/"  rel="external" class="slidedown btn btn-large btn-primary btn-block">Map another block</a>
       </div>
     </div>
-
 
     <div class="page" id="cancel">
       <div class="container content">
@@ -229,20 +229,11 @@
 
         <h6>Why did you have to stop mapping?</h6>
 
-        <p>
-          <input id="offset_bed_1" type="checkbox" value="">
-          <label for="offset_bed_1" class="checkbox">Offset Tree Bed</label>
-          <br />
-          <input id="bad_sidewalks_1" type="checkbox" value="">
-          <label for="bad_sidewalks_1" class="checkbox">Bad Sidewalks</label>
-          <br />
-          <input id="other_1" type="checkbox" value="">
-          <label for="other_1" class="checkbox">Other (explain below)</label>
-        </p>
+        <form>
+          <p><input type="text" name="quitreason" class="input-block-level" placeholder="Offset tree bed, bad sidewalks, etc..."></p>
+        </form>
 
-        <p><input type="text" value="" class="input-block-level"></p>
-
-        <a href="#start" class="slidedown btn btn-block btn-primary">Submit</a>
+        <a href="/" rel="external" class="slidedown btn btn-block btn-primary">Submit</a>
 
       </div>
     </div>
