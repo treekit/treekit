@@ -14,11 +14,97 @@
     <!-- Google Web Fonts -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="styles/343b5f37.main.css">
+    <link rel="stylesheet" href="styles/4a87114b.main.css">
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="components/leaflet/dist/leaflet.ie.css" />
         <link rel="stylesheet" href="components/leaflet-locatecontrol/src/L.Control.Locate.ie.css" />
     <![endif]-->
+
+    <script id="tree-form-tpl" type="text/x-handlebars-template">
+      <form class="treeform" data-index="{{ index }}">
+        <h5 class="tree-header">Tree {{ index }}<a href="#" class="remove pull-right">&times;</a></h5>
+        <fieldset>
+
+          <legend class="tree-subheader"><span>{{ index }}</span> Measurements</legend>
+
+          <p class="clearfix">
+            <label class="pull-left">Distance to Bed</label>
+            <input type="number" step="any" required name="dist" class="pull-right" placeholder="">
+          </p>
+
+          <p class="clearfix">
+            <label class="pull-left">Length of Bed</label>
+            <input name="length" type="number" step="any" required class="pull-right" placeholder="">
+          </p>
+
+          <p class="clearfix">
+            <label class="pull-left">Width of Bed</label>
+            <input name="width" type="number" step="any" required class="pull-right" placeholder="">
+          </p>
+
+          <p class="clearfix">
+            <label class="pull-left">Circumference of Tree</label>
+            <input name="circ" type="number" step="any" required class="pull-right" placeholder="">
+          </p>
+
+        </fieldset>
+
+        <fieldset>
+
+          <legend class="tree-subheader"><span>{{ index }}</span>  Details</legend>
+
+          <p class="clearfix btn-group">
+            <label class="radio btn btn-fourth btn-primary"><input name="status" type="radio" value="alive" checked>Alive</label>
+            <label class="radio btn btn-fourth"><input name="status" type="radio" value="dead">Side</label>
+            <label class="radio btn btn-fourth"><input name="status" type="radio" value="stump">Stump</label>
+            <label class="radio btn btn-fourth"><input name="status" type="radio" value="none">Empty</label>
+          </p>
+
+          <p class="clearfix">
+            <label class="pull-left">Genus</label>
+            <select name="genus" class="pull-right">
+              <option value="unknown">Unknown</option><option value="Acer">Acer - maple</option><option value="Aesculus">Aesculus - horsechestnut, buckeye</option><option value="Ailanthus">Ailanthus - Ailanthus</option><option value="Amelanchier">Amelanchier - serviceberry</option><option value="Betula">Betula - birch</option><option value="Carpinus ">Carpinus - hornbeam</option><option value="Celtis ">Celtis - hackberry</option><option value="Cercidiphyllum">Cercidiphyllum - katsura</option><option value="Cercis ">Cercis - redbud</option><option value="Cornus">Cornus - dogwood</option><option value="Crataegus">Crataegus - hawthorn</option><option value="Eucommia">Eucommia - hardy rubber tree</option><option value="Fraxinus ">Fraxinus - ash</option><option value="Ginkgo">Ginkgo - ginkgo</option><option value="Gleditsia">Gleditsia - locust</option><option value="Gymnocladus">Gymnocladus - Gymnocladus</option><option value="Koelreuteria">Koelreuteria - raintree</option><option value="Liquidambar">Liquidambar - sweetgum</option><option value="Liriodendron">Liriodendron - tulip tree</option><option value="Maackia">Maackia - amur </option><option value="Magnolia">Magnolia - magnolia</option><option value="Malus">Malus - apple</option><option value="Metasequoia">Metasequoia - redwood</option><option value="Morus">Morus - mulberry</option><option value="Pinus">Pinus - pine</option><option value="Platanus">Platanus - plane tree</option><option value="Populus">Populus - poplar</option><option value="Prunus">Prunus - cherry, plum, almond</option><option value="Pyrus">Pyrus - pear</option><option value="Quercus">Quercus - oak</option><option value="Quercus">Quercus - oak </option><option value="Robinia">Robinia - locust</option><option value="Styphnolobium">Styphnolobium - Styphnolobium</option><option value="Syringa">Syringa - lilac</option><option value="Taxodium">Taxodium - cypress</option><option value="Tilia">Tilia - linden</option><option value="Ulmus">Ulmus - elm</option><option value="Ulmus ">Ulmus - elm</option><option value="Zelkova ">Zelkova - zelkova</option>
+            </select>
+          </p>
+
+          <p class="clearfix">
+            <label class="pull-left" for="fastigiate" class="checkbox">Fastigiate</label>
+            <input class="pull-left" id="fastigiate" name="fastigiate" type="checkbox" value="">
+          </p>
+
+          <p class="clearfix btn-group">
+            <label class="radio btn btn-third btn-primary" for="certainty-2"><input id="certainty-2" name="speciesconfirmed" type="radio" value="2" checked>I&apos;m Sure!</label>
+            <label class="radio btn btn-third" for="certainty-1"><input id="certainty-1" name="speciesconfirmed" type="radio" value="1">Probably</label>
+            <label class="radio btn btn-third" for="certainty-0"><input id="certainty-0" name="speciesconfirmed" type="radio" value="0">Uncertain</label>
+          </p>
+
+        </fieldset>
+
+        <fieldset>
+
+          <legend class="tree-subheader"><span>{{ index }}</span>  Address</legend>
+
+          <p class="clearfix street-address">
+            <label class="pull-left">Address</label>
+            <span class="pull-right">
+              <input type="number" required name="housenum" placeholder="123"><input type="text" required name="street" placeholder="Main St.">
+            </span>
+          </p>
+
+          <p class="clearfix">
+            <label class="pull-left">Tree Number</label>
+            <input type="number" step="any" required name="treenum" class="pull-right" placeholder="">
+          </p>
+
+          <p class="clearfix btn-group">
+            <label class="radio btn btn-third btn-primary"><input name="position" type="radio" value="front" checked>Front</label>
+            <label class="radio btn btn-third"><input name="position" type="radio" value="side">Side</label>
+            <label class="radio btn btn-third"><input name="position" type="radio" value="unknown">Unknown</label>
+          </p>
+
+        </fieldset>
+      </form>
+    </script>
   </head>
   <body id="jqt">
     <div class="page" id="login">
@@ -29,11 +115,13 @@
           </div>
         </div>
       </div>
-      <form class="container content">
+      <div class="container content">
         <h3 class="form-signin-heading">Please sign in</h3>
-        <p><input id="mapper-name-input" type="text" class="input-block-level" placeholder="Your name" autofocus="" required=""></p>
-        <a href="#start" class="btn btn-large btn-primary btn-block next-btn">Sign in</a>
-      </form>
+        <form>
+          <p><input id="mapper-name-input" type="text" class="input-block-level" placeholder="Your name" autofocus="" required=""></p>
+        </form>
+        <a href="#start" class="btn btn-large btn-primary btn-block btn-next">Sign in</a>
+      </div>
     </div>
 
     <div class="page" id="start">
@@ -63,9 +151,12 @@
       </div>
       <div id="map"></div>
       <div id="map-alert" class="alert alert-info"></div>
+      <form>
+        <input id="blockid" name="blockid" type="hidden">
+        <input id="startid" name="startid" type="hidden">
+      </form>
       <a href="#treedetails" id="map-next-btn" class="map-btn btn btn-large btn-primary">Next &raquo;</a>
     </div>
-
 
     <div class="page" id="treedetails">
       <div class="navbar">
@@ -75,45 +166,14 @@
           </div>
         </div>
       </div>
-
       <div class="container content">
-        <h5 class="tree-header">Tree 1</h5>
+        <div id="forms-container"></div>
 
-        <div id="treeforms">
-          <fieldset>
-            <legend>Where is it?</legend>
-            <p class="clearfix"><label class="pull-left">Distance to Tree Bed</label> <input type="number" class="pull-right" placeholder=""></p>
-            <p class="clearfix"><label>Address</label><input type="text" class="input-block-level" placeholder=""></p>
-          </fieldset>
-          <fieldset>
-            <legend>How big is it?</legend>
-            <p class="clearfix"><label class="pull-left">Length of Tree Bed</label><input type="number" class="pull-right" placeholder=""></p>
-            <p class="clearfix"><label class="pull-left">Circumference</label><input type="number" class="pull-right" placeholder=""></p>
-          </fieldset>
-          <fieldset>
-            <legend>Which type of tree?</legend>
-            <p class="clearfix">
-              <!-- <label>Genus</label> -->
-              <select class="select-block-level">
-                <option value="unknown">Genus???</option><option value="Acer">Acer - maple</option><option value="Aesculus">Aesculus - horsechestnut, buckeye</option><option value="Ailanthus">Ailanthus - Ailanthus</option><option value="Amelanchier">Amelanchier - serviceberry</option><option value="Betula">Betula - birch</option><option value="Carpinus ">Carpinus - hornbeam</option><option value="Celtis ">Celtis - hackberry</option><option value="Cercidiphyllum">Cercidiphyllum - katsura</option><option value="Cercis ">Cercis - redbud</option><option value="Cornus">Cornus - dogwood</option><option value="Crataegus">Crataegus - hawthorn</option><option value="Eucommia">Eucommia - hardy rubber tree</option><option value="Fraxinus ">Fraxinus - ash</option><option value="Ginkgo">Ginkgo - ginkgo</option><option value="Gleditsia">Gleditsia - locust</option><option value="Gymnocladus">Gymnocladus - Gymnocladus</option><option value="Koelreuteria">Koelreuteria - raintree</option><option value="Liquidambar">Liquidambar - sweetgum</option><option value="Liriodendron">Liriodendron - tulip tree</option><option value="Maackia">Maackia - amur </option><option value="Magnolia">Magnolia - magnolia</option><option value="Malus">Malus - apple</option><option value="Metasequoia">Metasequoia - redwood</option><option value="Morus">Morus - mulberry</option><option value="Pinus">Pinus - pine</option><option value="Platanus">Platanus - plane tree</option><option value="Populus">Populus - poplar</option><option value="Prunus">Prunus - cherry, plum, almond</option><option value="Pyrus">Pyrus - pear</option><option value="Quercus">Quercus - oak</option><option value="Quercus">Quercus - oak </option><option value="Robinia">Robinia - locust</option><option value="Styphnolobium">Styphnolobium - Styphnolobium</option><option value="Syringa">Syringa - lilac</option><option value="Taxodium">Taxodium - cypress</option><option value="Tilia">Tilia - linden</option><option value="Ulmus">Ulmus - elm</option><option value="Ulmus ">Ulmus - elm</option><option value="Zelkova ">Zelkova - zelkova</option>
-              </select>
-            </p>
-            <!-- <label>How certain are you?</label> -->
-            <div class="btn-group clearfix">
-              <button class="btn btn-third btn-mini btn-primary">I'm Sure</button>
-              <button class="btn btn-third btn-mini">Probably</button>
-              <button class="btn btn-third btn-mini">Uncertain</button>
-            </div>
-            <p class="clearfix">
-              <input id="fastigiate_1" type="checkbox" value="">
-              <label for="fastigiate_1" class="checkbox">Fastigiate?</label>
-            </p>
-          </fieldset>
-        </div>
         <div id="treecontrols" class="text-center">
           <p><a id="anothertree" href="#" class="btn">+ Another Tree</a></p>
-          <p><a href="#end" class="btn btn-block btn-primary btn-large">No More Trees &raquo;</a></p>
+          <p><a href="#end" class="btn btn-block btn-primary btn-large btn-next">No More Trees &raquo;</a></p>
         </div>
+
         <hr>
         <p class="text-center">
           <a href="#cancel" class="flipleft btn btn-mini btn-warning">Uh oh! Can't map this block 'cause&hellip;</a>
@@ -131,13 +191,14 @@
       </div>
       <div class="container content">
         <h4>Almost done!</h4>
+        <form>
+          <p class="clearfix">
+            <label class="pull-left">Distance to End</label>
+            <input class="pull-right" type="number" step="any" required="" value="">
+          </p>
+        </form>
 
-        <p class="clearfix">
-          <label class="pull-left">Distance to End</label>
-          <input class="pull-right" type="number" value="">
-        </p>
-
-        <a href="#save" class="btn btn-large btn-primary btn-block">Submit</a>
+        <a href="#save" id="save-btn" class="btn btn-large btn-primary btn-block btn-next">Submit</a>
       </div>
     </div>
 
@@ -152,10 +213,9 @@
       <div class="container content">
         <h4>Thanks <span class="mapper-name-label"></span>!</h4>
         <p>This block has been saved.</p>
-        <a href="#start" class="slidedown btn btn-large btn-primary btn-block">Map another block</a>
+        <a href="/" rel="external" class="slidedown btn btn-large btn-primary btn-block">Map another block</a>
       </div>
     </div>
-
 
     <div class="page" id="cancel">
       <div class="container content">
@@ -164,25 +224,16 @@
 
         <h6>Why did you have to stop mapping?</h6>
 
-        <p>
-          <input id="offset_bed_1" type="checkbox" value="">
-          <label for="offset_bed_1" class="checkbox">Offset Tree Bed</label>
-          <br>
-          <input id="bad_sidewalks_1" type="checkbox" value="">
-          <label for="bad_sidewalks_1" class="checkbox">Bad Sidewalks</label>
-          <br>
-          <input id="other_1" type="checkbox" value="">
-          <label for="other_1" class="checkbox">Other (explain below)</label>
-        </p>
+        <form>
+          <p><input type="text" name="quitreason" class="input-block-level" placeholder="Offset tree bed, bad sidewalks, etc..."></p>
+        </form>
 
-        <p><input type="text" value="" class="input-block-level"></p>
-
-        <a href="#start" class="slidedown btn btn-block btn-primary">Submit</a>
+        <a href="/" rel="external" class="slidedown btn btn-block btn-primary">Submit</a>
 
       </div>
     </div>
 
     <script src="scripts/2657ca02.zepto.js"></script>
-    <script src="scripts/ab1ea95c.main.js"></script>
+    <script src="scripts/39a46f80.main.js"></script>
   </body>
 </html>
