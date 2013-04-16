@@ -1462,3 +1462,16 @@ input,
 .submitted input:invalid {
   border: 2px solid #dd514c;
 }
+
+a.remove {
+  text-decoration: none;
+  display: none;
+}
+
+#forms-container form:last-child a.remove {
+  display: block;
+}
+
+#forms-container form:first-child a.remove {
+  display: none !important;
+}

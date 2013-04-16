@@ -1,169 +1,197 @@
-/*globals Zepto L */
+/*globals Zepto L Handlebars */
 
 (function(NS, $) {
   'use strict';
 
+  var tplSource = $('#tree-form-tpl').html(),
+      formTemplate = Handlebars.compile(tplSource),
+      $formContainer,
+      treeIndex = 1,
+      $nameInput,
+      $nameLabel,
+      $mapAlert,
+      jqt,
+      defaultStyle = {
+        opacity: 0.7,
+        weight: 2,
+        color: '#4575b4',
+        clickable: false
+      },
+      selectStyle = {
+        opacity: 0.9,
+        weight: 3,
+        color: '#ff0000',
+        clickable: false
+      },
+      ends = {
+        '100': [40.721273, -74.001453],
+        '101': [40.721627, -74.002180],
+        '102': [40.722536, -74.001400],
+        '103': [40.722180, -74.000681],
 
-    var $nameInput,
-        $nameLabel,
-        $mapAlert,
-        jqt,
-        defaultStyle = {
-          opacity: 0.7,
-          weight: 2,
-          color: '#4575b4',
-          clickable: false
+        '104': [40.720865, -74.000665],
+        '105': [40.721259, -74.001421],
+        '106': [40.722160, -74.000649],
+        '107': [40.721790, -73.999882]
+      },
+      layerData = [
+        {
+          ends: ['100', '101'],
+          line: [[40.721273, -74.001453], [40.721627, -74.002180]]
         },
-        selectStyle = {
-          opacity: 0.9,
-          weight: 3,
-          color: '#ff0000',
-          clickable: false
+        {
+          ends: ['101', '102'],
+          line: [[40.721627, -74.002180], [40.722536, -74.001400]]
         },
-        ends = {
-          '100': [40.721273, -74.001453],
-          '101': [40.721627, -74.002180],
-          '102': [40.722536, -74.001400],
-          '103': [40.722180, -74.000681],
-
-          '104': [40.720865, -74.000665],
-          '105': [40.721259, -74.001421],
-          '106': [40.722160, -74.000649],
-          '107': [40.721790, -73.999882]
+        {
+          ends: ['102', '103'],
+          line: [[40.722536, -74.001400], [40.722180, -74.000681]]
         },
-        layerData = [
-          {
-            ends: ['100', '101'],
-            line: [[40.721273, -74.001453], [40.721627, -74.002180]]
-          },
-          {
-            ends: ['101', '102'],
-            line: [[40.721627, -74.002180], [40.722536, -74.001400]]
-          },
-          {
-            ends: ['102', '103'],
-            line: [[40.722536, -74.001400], [40.722180, -74.000681]]
-          },
-          {
-            ends: ['103', '100'],
-            line: [[40.722180, -74.000681], [40.721273, -74.001453]]
-          },
+        {
+          ends: ['103', '100'],
+          line: [[40.722180, -74.000681], [40.721273, -74.001453]]
+        },
 
-          {
-            ends: ['104', '105'],
-            line: [[40.720865, -74.000665], [40.721259, -74.001421]]
-          },
-          {
-            ends: ['105', '106'],
-            line: [[40.721259, -74.001421], [40.722160, -74.000649]]
-          },
-          {
-            ends: ['106', '107'],
-            line: [[40.722160, -74.000649], [40.721790, -73.999882]]
-          },
-          {
-            ends: ['107', '104'],
-            line: [[40.721790, -73.999882], [40.720865, -74.000665]]
-          },
-        ],
-        layerGroup = L.featureGroup([]),
-        endLayers = L.featureGroup([]),
-        $mapNextBtn = $('#map-next-btn'),
-        i, len, map, featureSelect;
+        {
+          ends: ['104', '105'],
+          line: [[40.720865, -74.000665], [40.721259, -74.001421]]
+        },
+        {
+          ends: ['105', '106'],
+          line: [[40.721259, -74.001421], [40.722160, -74.000649]]
+        },
+        {
+          ends: ['106', '107'],
+          line: [[40.722160, -74.000649], [40.721790, -73.999882]]
+        },
+        {
+          ends: ['107', '104'],
+          line: [[40.721790, -73.999882], [40.720865, -74.000665]]
+        },
+      ],
+      layerGroup = L.featureGroup([]),
+      endLayers = L.featureGroup([]),
+      $mapNextBtn = $('#map-next-btn'),
+      i, len, map, featureSelect;
 
-    for(i=0, len=layerData.length; i<len; i++) {
-      layerGroup.addLayer(L.polyline(layerData[i].line, L.Util.extend({ends: layerData[i].ends}, defaultStyle)));
-    }
+  for(i=0, len=layerData.length; i<len; i++) {
+    layerGroup.addLayer(L.polyline(layerData[i].line, L.Util.extend({ends: layerData[i].ends}, defaultStyle)));
+  }
 
-    endLayers.on('click', function(evt) {
-      console.log('You picked', evt.layer.options.id);
-      endLayers.setStyle(defaultStyle);
-      evt.layer.setStyle(selectStyle);
+  endLayers.on('click', function(evt) {
+    console.log('You picked', evt.layer.options.id);
+    endLayers.setStyle(defaultStyle);
+    evt.layer.setStyle(selectStyle);
 
-      $mapAlert.text('Click Next to continue...');
-      $mapNextBtn.show();
-    });
+    $mapAlert.text('Click Next to continue...');
+    $mapNextBtn.show();
+  });
 
 
-    function updateMapState(selectedLayers) {
-      var i, endIds;
+  function updateMapState(selectedLayers) {
+    var i, endIds;
 
-      $mapNextBtn.hide();
+    $mapNextBtn.hide();
+    endLayers.clearLayers();
+
+    if (selectedLayers.length === 1) {
+      $mapAlert.text('Tap your starting point...').show();
+      endIds = selectedLayers[0].options.ends;
+
+      console.log(endIds);
       endLayers.clearLayers();
-
-      if (selectedLayers.length === 1) {
-        $mapAlert.text('Tap your starting point...').show();
-        endIds = selectedLayers[0].options.ends;
-
-        console.log(endIds);
-        endLayers.clearLayers();
-        for (i=0; i<endIds.length; i++) {
-          endLayers.addLayer(
-            L.circleMarker(ends[endIds[i]], L.Util.extend(defaultStyle, {
-              id: endIds[i],
-              radius: 25,
-              clickable: true
-            }))
-          );
-        }
-      } else {
-        $mapAlert.text('Select a blockface by dragging it to the center...').show();
+      for (i=0; i<endIds.length; i++) {
+        endLayers.addLayer(
+          L.circleMarker(ends[endIds[i]], L.Util.extend(defaultStyle, {
+            id: endIds[i],
+            radius: 25,
+            clickable: true
+          }))
+        );
       }
-    }
-
-    function setStyle(layers, style) {
-      var i;
-      for (i=0; i<layers.length; i++) {
-        layers[i].setStyle(style);
-      }
-    }
-
-    function initMap() {
-      map = new L.map('map', {
-        center: [40.721879, -74.001432],
-        zoom: 18
-      });
-
-      var layerUrl = 'http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg',
-          layerAttribution = 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
-          layer = L.tileLayer(layerUrl, {
-            maxZoom: 19,
-            attribution: layerAttribution,
-            subdomains: ['otile1', 'otile2', 'otile3', 'otile4']
-          }).addTo(map);
-
-      // Add geolocation
-      L.control.locate().addTo(map);
-
-      featureSelect = window.featureSelect = L.featureSelect({
-        layerGroup: layerGroup
-      }).addTo(map);
-
-
-      map.addLayer(layerGroup).addLayer(endLayers);
-
-      featureSelect.on('select', function(evt) {
-        console.log(evt);
-        setStyle(evt.layers, selectStyle);
-
-        updateMapState(featureSelect.layers);
-      });
-
-      featureSelect.on('unselect', function(evt) {
-        console.log(evt);
-        setStyle(evt.layers, defaultStyle);
-
-        updateMapState(featureSelect.layers);
-      });
-
+    } else {
       $mapAlert.text('Select a blockface by dragging it to the center...').show();
     }
+  }
+
+  function setStyle(layers, style) {
+    var i;
+    for (i=0; i<layers.length; i++) {
+      layers[i].setStyle(style);
+    }
+  }
+
+  function initMap() {
+    map = new L.map('map', {
+      center: [40.721879, -74.001432],
+      zoom: 18
+    });
+
+    var layerUrl = 'http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg',
+        layerAttribution = 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
+        layer = L.tileLayer(layerUrl, {
+          maxZoom: 19,
+          attribution: layerAttribution,
+          subdomains: ['otile1', 'otile2', 'otile3', 'otile4']
+        }).addTo(map);
+
+    // Add geolocation
+    L.control.locate().addTo(map);
+
+    featureSelect = window.featureSelect = L.featureSelect({
+      layerGroup: layerGroup
+    }).addTo(map);
+
+
+    map.addLayer(layerGroup).addLayer(endLayers);
+
+    featureSelect.on('select', function(evt) {
+      console.log(evt);
+      setStyle(evt.layers, selectStyle);
+
+      updateMapState(featureSelect.layers);
+    });
+
+    featureSelect.on('unselect', function(evt) {
+      console.log(evt);
+      setStyle(evt.layers, defaultStyle);
+
+      updateMapState(featureSelect.layers);
+    });
+
+    $mapAlert.text('Select a blockface by dragging it to the center...').show();
+  }
+
+  function checkFormValidity($form) {
+    var valid = true;
+
+    // Note that we've checked this form. Enables smart :invalid styles
+    $form.addClass('submitted');
+
+    // For each form element
+    $form.find('input, select, textarea').each(function(i, el) {
+      if (!el.validity.valid) {
+        valid = false;
+        $(el).focus();
+        el.select();
+        return false;
+      }
+    });
+
+    return valid;
+  }
 
   // Init the app
   NS.init = function() {
     $mapAlert = $('#map-alert');
     $nameInput = $('#mapper-name-input'),
-    $nameLabel = $('.mapper-name-label');
+    $nameLabel = $('.mapper-name-label'),
+    $formContainer = $('#treedetails #forms-container');
+
+    // Init form 1
+    $formContainer.append(formTemplate({
+      index: treeIndex
+    }));
 
     // Save the mapper name
     $nameInput.on('change', function() {
@@ -203,27 +231,36 @@
 
     // Prevent page transition if the current form is invalid
     $('.page a.btn-next').on('tap', function(evt, data) {
-      var $form = $(this).parents('form').addClass('submitted');
+      // Get a list of forms on this page - could be many
+      var $pageForms = $(this).parents('.page').find('form');
 
-      // For each form element
-      $form.find('input, select, textarea').each(function(i, el) {
-        if (!el.validity.valid) {
-          evt.stopPropagation();
-          $(el).focus();
-          el.select();
-          return false;
-        }
-      });
+      // If this is invalid, then stop propagation
+      if (!checkFormValidity($pageForms)) {
+        evt.stopPropagation();
+      }
     });
 
-    $('.btn-group > button').click(function(evt){
-      $(this)
-        .addClass('btn-primary')
-        .siblings().removeClass('btn-primary');
+    // Append a new form
+    $('#anothertree').on('tap', function() {
+      // Get a list of forms on this page - could be many
+      var $pageForms = $(this).parents('.page').find('form');
+
+      // If this form is valid
+      if (checkFormValidity($pageForms.last())) {
+
+        // Append a new form since the previous is valid
+        $formContainer.append(formTemplate({
+          index: ++treeIndex
+        }));
+      }
     });
 
-    $('#anothertree').click(function() {
-      window.alert('This will show you another form just like this one to map the next tree.');
+    // Remove the tree form. Using CSS to only show this button on the last form.
+    $('body').on('tap', '.remove', function() {
+      if (window.confirm('Are you sure you want to remove this tree measurement?')) {
+        $(this).parents('form').remove();
+        treeIndex--;
+      }
     });
   };
 
