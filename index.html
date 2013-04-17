@@ -14,7 +14,7 @@
     <!-- Google Web Fonts -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="styles/4a87114b.main.css">
+    <link rel="stylesheet" href="styles/54c97bf5.main.css">
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="components/leaflet/dist/leaflet.ie.css" />
         <link rel="stylesheet" href="components/leaflet-locatecontrol/src/L.Control.Locate.ie.css" />
@@ -54,10 +54,10 @@
           <legend class="tree-subheader"><span>{{ index }}</span>  Details</legend>
 
           <p class="clearfix btn-group">
-            <label class="radio btn btn-fourth btn-primary"><input name="status" type="radio" value="alive" checked>Alive</label>
-            <label class="radio btn btn-fourth"><input name="status" type="radio" value="dead">Side</label>
-            <label class="radio btn btn-fourth"><input name="status" type="radio" value="stump">Stump</label>
-            <label class="radio btn btn-fourth"><input name="status" type="radio" value="none">Empty</label>
+            <label class="radio btn btn-fourth btn-primary"><input name="status" type="radio" value="alive" checked />Alive</label>
+            <label class="radio btn btn-fourth"><input name="status" type="radio" value="dead" />Dead</label>
+            <label class="radio btn btn-fourth"><input name="status" type="radio" value="stump" />Stump</label>
+            <label class="radio btn btn-fourth"><input name="status" type="radio" value="none" />Empty</label>
           </p>
 
           <p class="clearfix">
@@ -69,13 +69,13 @@
 
           <p class="clearfix">
             <label class="pull-left" for="fastigiate" class="checkbox">Fastigiate</label>
-            <input class="pull-left" id="fastigiate" name="fastigiate" type="checkbox" value="">
+            <input class="pull-left" id="fastigiate" name="fastigiate" type="checkbox" value="true">
           </p>
 
           <p class="clearfix btn-group">
-            <label class="radio btn btn-third btn-primary" for="certainty-2"><input id="certainty-2" name="speciesconfirmed" type="radio" value="2" checked>I&apos;m Sure!</label>
-            <label class="radio btn btn-third" for="certainty-1"><input id="certainty-1" name="speciesconfirmed" type="radio" value="1">Probably</label>
-            <label class="radio btn btn-third" for="certainty-0"><input id="certainty-0" name="speciesconfirmed" type="radio" value="0">Uncertain</label>
+            <label class="radio btn btn-third btn-primary" for="certainty-2"><input id="certainty-2" name="speciesconfirmed" type="radio" value="2" checked />I&apos;m Sure!</label>
+            <label class="radio btn btn-third" for="certainty-1"><input id="certainty-1" name="speciesconfirmed" type="radio" value="1" />Probably</label>
+            <label class="radio btn btn-third" for="certainty-0"><input id="certainty-0" name="speciesconfirmed" type="radio" value="0" />Uncertain</label>
           </p>
 
         </fieldset>
@@ -93,16 +93,18 @@
 
           <p class="clearfix">
             <label class="pull-left">Tree Number</label>
-            <input type="number" step="any" required name="treenum" class="pull-right" placeholder="">
+            <input type="number" step="any" required name="treenum" class="pull-right" placeholder="" value="1">
           </p>
 
           <p class="clearfix btn-group">
-            <label class="radio btn btn-third btn-primary"><input name="position" type="radio" value="front" checked>Front</label>
-            <label class="radio btn btn-third"><input name="position" type="radio" value="side">Side</label>
-            <label class="radio btn btn-third"><input name="position" type="radio" value="unknown">Unknown</label>
+            <label class="radio btn btn-third btn-primary"><input name="position" type="radio" value="front" checked />Front</label>
+            <label class="radio btn btn-third"><input name="position" type="radio" value="side" />Side</label>
+            <label class="radio btn btn-third"><input name="position" type="radio" value="unknown" />Unknown</label>
           </p>
 
         </fieldset>
+
+        <input type="hidden" name="orderonstreet" value="{{ index }}" />
       </form>
     </script>
   </head>
@@ -118,7 +120,7 @@
       <div class="container content">
         <h3 class="form-signin-heading">Please sign in</h3>
         <form>
-          <p><input id="mapper-name-input" type="text" class="input-block-level" placeholder="Your name" autofocus="" required=""></p>
+          <p><input id="mapper-name-input" type="text" name="who" class="input-block-level" placeholder="Your name" autofocus="" required=""></p>
         </form>
         <a href="#start" class="btn btn-large btn-primary btn-block btn-next">Sign in</a>
       </div>
@@ -194,7 +196,7 @@
         <form>
           <p class="clearfix">
             <label class="pull-left">Distance to End</label>
-            <input class="pull-right" type="number" step="any" required="" value="">
+            <input class="pull-right" name="enddist" type="number" step="any" required="" value="">
           </p>
         </form>
 
@@ -234,6 +236,6 @@
     </div>
 
     <script src="scripts/2657ca02.zepto.js"></script>
-    <script src="scripts/39a46f80.main.js"></script>
+    <script src="scripts/0cc11b63.main.js"></script>
   </body>
 </html>

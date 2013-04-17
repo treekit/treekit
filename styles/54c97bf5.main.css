@@ -20,12 +20,6 @@ article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,su
   user-select:none;
 }
 
-body {
-  -webkit-tap-highlight-color:rgba(0,0,0,0);
-  -webkit-touch-callout:none;
-  background:black;
-}
-
 #jqt {
   -webkit-text-size-adjust: none;
   -webkit-user-select: none;
@@ -549,10 +543,6 @@ body {
     -webkit-transform: rotateY(90deg) translateZ(320px);
     opacity: .5;
   }
-}
-
-body {
-  background: black;
 }
 
 .base-chevron, #jqt ul li.arrow:after, #jqt ul li.forward:after {
@@ -1179,7 +1169,6 @@ body {
 /* =Typography
 -------------------------------------------------------------- */
 body {
-  color: #333;
   font-family: "Open Sans", "Helvetica Neue", Helvetica, sans-serif;
 }
 
