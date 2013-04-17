@@ -36,35 +36,43 @@
       },
       layerData = [
         {
+          id: '500',
           ends: ['100', '101'],
           line: [[40.721273, -74.001453], [40.721627, -74.002180]]
         },
         {
+          id: '501',
           ends: ['101', '102'],
           line: [[40.721627, -74.002180], [40.722536, -74.001400]]
         },
         {
+          id: '502',
           ends: ['102', '103'],
           line: [[40.722536, -74.001400], [40.722180, -74.000681]]
         },
         {
+          id: '503',
           ends: ['103', '100'],
           line: [[40.722180, -74.000681], [40.721273, -74.001453]]
         },
 
         {
+          id: '504',
           ends: ['104', '105'],
           line: [[40.720865, -74.000665], [40.721259, -74.001421]]
         },
         {
+          id: '505',
           ends: ['105', '106'],
           line: [[40.721259, -74.001421], [40.722160, -74.000649]]
         },
         {
+          id: '506',
           ends: ['106', '107'],
           line: [[40.722160, -74.000649], [40.721790, -73.999882]]
         },
         {
+          id: '507',
           ends: ['107', '104'],
           line: [[40.721790, -73.999882], [40.720865, -74.000665]]
         },
@@ -75,7 +83,7 @@
       i, len, map, featureSelect;
 
   for(i=0, len=layerData.length; i<len; i++) {
-    layerGroup.addLayer(L.polyline(layerData[i].line, L.Util.extend({ends: layerData[i].ends}, defaultStyle)));
+    layerGroup.addLayer(L.polyline(layerData[i].line, L.Util.extend({id: layerData[i].id, ends: layerData[i].ends}, defaultStyle)));
   }
 
   endLayers.on('click', function(evt) {
@@ -104,7 +112,7 @@
       endLayers.clearLayers();
       for (i=0; i<endIds.length; i++) {
         endLayers.addLayer(
-          L.circleMarker(ends[endIds[i]], L.Util.extend(defaultStyle, {
+          L.circleMarker(ends[endIds[i]], L.Util.extend({}, defaultStyle, {
             id: endIds[i],
             radius: 25,
             clickable: true
@@ -178,6 +186,37 @@
     });
 
     return valid;
+  }
+
+  function formToObj(formEl) {
+    var formArray = $(formEl).serializeArray(),
+        obj = {};
+
+    $.each(formArray, function(i, o){
+      obj[o.name] = o.value;
+    });
+
+    return obj;
+  }
+
+  function serializeEverything() {
+    var obj = {
+          datetime: (new Date()).toISOString(),
+          trees: []
+        },
+        treeObj;
+
+    $('form').each(function(i, el) {
+      if ($(el).hasClass('treeform')) {
+        treeObj = formToObj(el);
+        treeObj.fastigiate = treeObj.fastigiate || false;
+        obj.trees.push(treeObj);
+      } else {
+        $.extend(obj, formToObj(el));
+      }
+    });
+
+    return obj;
   }
 
   // Init the app
@@ -260,6 +299,18 @@
         $(this).parents('form').remove();
         treeIndex--;
       }
+    });
+
+    $('input[type="radio"]').on('change', function(evt) {
+      var $label = $(evt.target).parent('label');
+      $label.siblings().removeClass('btn-primary');
+      $label.addClass('btn-primary');
+    });
+
+    $('#save-btn').on('tap', function() {
+      var obj = serializeEverything();
+
+      console.log('Save this', obj);
     });
   };
 
