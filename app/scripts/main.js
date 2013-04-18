@@ -259,6 +259,14 @@
       }
     });
 
+    // Autofocus on the first input element, if any
+    $('.page').on('pageAnimationEnd', function(evt, data) {
+      var $input = $(evt.target).find('input').first();
+      if (data.direction === 'in') {
+        $input.focus();
+      }
+    });
+
     if (window.localStorage.getItem('mapperName')) {
       $nameInput.val(window.localStorage.getItem('mapperName'));
       $nameLabel.text(window.localStorage.getItem('mapperName'));
