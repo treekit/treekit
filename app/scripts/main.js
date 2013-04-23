@@ -315,6 +315,10 @@
       $label.addClass('btn-primary');
     });
 
+    $('a[data-refresh="true"]').on('tap', function(evt) {
+      window.location.reload();
+    });
+
     $('#save-btn').on('tap', function() {
       var obj = serializeEverything();
 
