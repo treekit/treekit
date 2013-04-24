@@ -382,7 +382,7 @@
       }
     });
 
-    $('input[type="radio"]').on('change', function(evt) {
+    $('body').on('change', 'input[type="radio"]', function(evt) {
       var $label = $(evt.target).parent('label');
       $label.siblings().removeClass('btn-primary');
       $label.addClass('btn-primary');
