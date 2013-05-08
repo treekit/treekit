@@ -27,6 +27,12 @@
         <link rel="stylesheet" href="components/leaflet-locatecontrol/src/L.Control.Locate.ie.css" />
     <![endif]-->
 
+    <script id="option-tpl" type="text/x-handlebars-template">
+      {{#options}}
+      <option>{{.}}</option>
+      {{/options}}
+    </script>
+
     <script id="tree-form-tpl" type="text/x-handlebars-template">
       <form class="treeform" data-index="{{ index }}">
         <h5 class="tree-header">Tree {{ index }}
@@ -72,7 +78,14 @@
           <p class="clearfix">
             <label class="pull-left">Genus</label>
             <select name="genus" class="pull-right">
-              <option value="unknown">Unknown</option><option value="Acer">Acer - maple</option><option value="Aesculus">Aesculus - horsechestnut, buckeye</option><option value="Ailanthus">Ailanthus - Ailanthus</option><option value="Amelanchier">Amelanchier - serviceberry</option><option value="Betula">Betula - birch</option><option value="Carpinus ">Carpinus - hornbeam</option><option value="Celtis ">Celtis - hackberry</option><option value="Cercidiphyllum">Cercidiphyllum - katsura</option><option value="Cercis ">Cercis - redbud</option><option value="Cornus">Cornus - dogwood</option><option value="Crataegus">Crataegus - hawthorn</option><option value="Eucommia">Eucommia - hardy rubber tree</option><option value="Fraxinus ">Fraxinus - ash</option><option value="Ginkgo">Ginkgo - ginkgo</option><option value="Gleditsia">Gleditsia - locust</option><option value="Gymnocladus">Gymnocladus - Gymnocladus</option><option value="Koelreuteria">Koelreuteria - raintree</option><option value="Liquidambar">Liquidambar - sweetgum</option><option value="Liriodendron">Liriodendron - tulip tree</option><option value="Maackia">Maackia - amur </option><option value="Magnolia">Magnolia - magnolia</option><option value="Malus">Malus - apple</option><option value="Metasequoia">Metasequoia - redwood</option><option value="Morus">Morus - mulberry</option><option value="Pinus">Pinus - pine</option><option value="Platanus">Platanus - plane tree</option><option value="Populus">Populus - poplar</option><option value="Prunus">Prunus - cherry, plum, almond</option><option value="Pyrus">Pyrus - pear</option><option value="Quercus">Quercus - oak</option><option value="Quercus">Quercus - oak </option><option value="Robinia">Robinia - locust</option><option value="Styphnolobium">Styphnolobium - Styphnolobium</option><option value="Syringa">Syringa - lilac</option><option value="Taxodium">Taxodium - cypress</option><option value="Tilia">Tilia - linden</option><option value="Ulmus">Ulmus - elm</option><option value="Ulmus ">Ulmus - elm</option><option value="Zelkova ">Zelkova - zelkova</option>
+              <option value="Unknown">Unknown</option>
+              <option value="Acer">Acer - maple</option><option value="Aesculus">Aesculus - horsechestnut, buckeye</option><option value="Ailanthus">Ailanthus - Ailanthus</option><option value="Amelanchier">Amelanchier - serviceberry</option><option value="Betula">Betula - birch</option><option value="Carpinus ">Carpinus - hornbeam</option><option value="Celtis ">Celtis - hackberry</option><option value="Cercidiphyllum">Cercidiphyllum - katsura</option><option value="Cercis ">Cercis - redbud</option><option value="Cornus">Cornus - dogwood</option><option value="Crataegus">Crataegus - hawthorn</option><option value="Eucommia">Eucommia - hardy rubber tree</option><option value="Fraxinus ">Fraxinus - ash</option><option value="Ginkgo">Ginkgo - ginkgo</option><option value="Gleditsia">Gleditsia - locust</option><option value="Gymnocladus">Gymnocladus - Gymnocladus</option><option value="Koelreuteria">Koelreuteria - raintree</option><option value="Liquidambar">Liquidambar - sweetgum</option><option value="Liriodendron">Liriodendron - tulip tree</option><option value="Maackia">Maackia - amur </option><option value="Magnolia">Magnolia - magnolia</option><option value="Malus">Malus - apple</option><option value="Metasequoia">Metasequoia - redwood</option><option value="Morus">Morus - mulberry</option><option value="Pinus">Pinus - pine</option><option value="Platanus">Platanus - plane tree</option><option value="Populus">Populus - poplar</option><option value="Prunus">Prunus - cherry, plum, almond</option><option value="Pyrus">Pyrus - pear</option><option value="Quercus">Quercus - oak</option><option value="Quercus">Quercus - oak </option><option value="Robinia">Robinia - locust</option><option value="Styphnolobium">Styphnolobium - Styphnolobium</option><option value="Syringa">Syringa - lilac</option><option value="Taxodium">Taxodium - cypress</option><option value="Tilia">Tilia - linden</option><option value="Ulmus">Ulmus - elm</option><option value="Ulmus ">Ulmus - elm</option><option value="Zelkova ">Zelkova - zelkova</option>
+            </select>
+          </p>
+          <p class="clearfix">
+            <label class="pull-left">Species</label>
+            <select name="species" class="pull-right">
+              <option value="Unknown">Unknown</option>
             </select>
           </p>
 
