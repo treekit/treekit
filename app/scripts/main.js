@@ -333,6 +333,11 @@
     return obj;
   }
 
+  // Save the survey to CartoDB
+  function saveSurvey(obj) {
+    console.log('Save this', obj);
+  }
+
   // Init the app
   NS.init = function() {
     $mapAlert = $('#map-alert');
@@ -390,7 +395,7 @@
     }
 
     // Prevent page transition if the current form is invalid
-    $('.page a.btn-next').on('tap', function(evt, data) {
+    $('.page a.btn-next').on('click', function(evt, data) {
       // Get a list of forms on this page - could be many
       var $pageForms = $(this).parents('.page').find('form');
 
@@ -401,7 +406,7 @@
     });
 
     // Append a new form
-    $('#anothertree').on('tap', function() {
+    $('#anothertree').on('click', function() {
       // Get a list of forms on this page - could be many
       var $pageForms = $(this).parents('.page').find('form');
 
@@ -416,7 +421,7 @@
     });
 
     // Escape route for no trees on this block
-    $('#no-trees-btn').on('tap', function() {
+    $('#no-trees-btn').on('click', function() {
       var confirmMsg = 'Are you sure there are no trees? Ready to move to the next block?',
           obj;
 
@@ -425,20 +430,22 @@
         obj.hastrees = false;
         obj.trees = [];
 
-        console.log('Save this', obj);
+        // Save the survey with no trees
+        saveSurvey(obj);
 
         jqt.goTo('#save');
       }
     });
 
     // Remove the tree form. Using CSS to only show this button on the last form.
-    $('body').on('tap', '.remove', function() {
+    $('body').on('click', '.remove', function() {
       if (window.confirm('Are you sure you want to remove this tree measurement?')) {
         $(this).parents('form').remove();
         treeIndex--;
       }
     });
 
+    // Set the btn-primary class when a grouped radio button changes
     $('body').on('change', 'input[type="radio"]', function(evt) {
       var $label = $(evt.target).parent('label');
       $label.siblings().removeClass('btn-primary');
@@ -456,14 +463,16 @@
       $siblingSpeciesSelect.html(optionsHtml);
     });
 
-    $('a[data-refresh="true"]').on('tap', function(evt) {
+    // Manually reload the page since linking to index.html acts weird on IOS
+    // Safari apps running in app mode (loads Safari, not reload the page)
+    $('a[data-refresh="true"]').on('click', function(evt) {
       window.location.reload();
     });
 
-    $('#save-btn').on('tap', function() {
+    // Save the complete
+    $('#save-btn').on('click', function() {
       var obj = serializeEverything();
-
-      console.log('Save this', obj);
+      saveSurvey(obj);
     });
   };
 
