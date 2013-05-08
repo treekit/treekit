@@ -207,7 +207,7 @@
   function initMap() {
     map = new L.map('map', {
       center: [40.6785, -73.9868],
-      zoom: 18
+      zoom: 17
     });
 
     var layerUrl = 'http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg',
@@ -371,6 +371,22 @@
         $formContainer.append(formTemplate({
           index: ++treeIndex
         }));
+      }
+    });
+
+    // Escape route for no trees on this block
+    $('#no-trees-btn').on('tap', function() {
+      var confirmMsg = 'Are you sure there are no trees? Ready to move to the next block?',
+          obj;
+
+      if (window.confirm(confirmMsg)) {
+        obj = serializeEverything();
+        obj.hastrees = false;
+        obj.trees = [];
+
+        console.log('Save this', obj);
+
+        jqt.goTo('#save');
       }
     });
 

@@ -34,7 +34,9 @@
 
     <script id="tree-form-tpl" type="text/x-handlebars-template">
       <form class="treeform" data-index="{{ index }}">
-        <h5 class="tree-header">Tree {{ index }}<a href="#" class="remove pull-right">&times;</a></h5>
+        <h5 class="tree-header">Tree {{ index }}
+          <a href="#" class="remove pull-right">&times;</a>
+        </h5>
         <fieldset>
 
           <legend class="tree-subheader"><span>{{ index }}</span> Measurements</legend>
@@ -181,6 +183,9 @@
         </div>
       </div>
       <div class="container content">
+        <p class="text-center">
+          <a href="#" id="no-trees-btn" class="btn btn-mini btn-warning pull-right">No trees on this block?</a>
+        </p>
         <div id="forms-container"></div>
 
         <div id="treecontrols" class="text-center">
