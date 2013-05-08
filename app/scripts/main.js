@@ -3,8 +3,10 @@
 (function(NS, $) {
   'use strict';
 
-  var tplSource = $('#tree-form-tpl').html(),
-      formTemplate = Handlebars.compile(tplSource),
+  var formTplSource = $('#tree-form-tpl').html(),
+      formTemplate = Handlebars.compile(formTplSource),
+      optionTplSource = $('#option-tpl').html(),
+      optionTemplate = Handlebars.compile(optionTplSource),
       $formContainer,
       treeIndex = 1,
       $nameInput,
@@ -22,6 +24,45 @@
         weight: 3,
         color: '#ff0000',
         clickable: false
+      },
+      species = {
+        'Acer': ['Unknown', 'Species Acer'],
+        'Aesculus': ['Unknown', 'Species Aesculus'],
+        'Ailanthus': ['Unknown', 'Species Ailanthus'],
+        'Amelanchier': ['Unknown', 'Species Amelanchier'],
+        'Betula': ['Unknown', 'Species Betula'],
+        'Carpinus': ['Unknown', 'Species Carpinus'],
+        'Celtis': ['Unknown', 'Species Celtis'],
+        'Cercidiphyllum': ['Unknown', 'Species Cercidiphyllum'],
+        'Cercis': ['Unknown', 'Species Cercis'],
+        'Cornus': ['Unknown', 'Species Cornus'],
+        'Crataegus': ['Unknown', 'Species Crataegus'],
+        'Eucommia': ['Unknown', 'Species Eucommia'],
+        'Fraxinus': ['Unknown', 'Species Fraxinus'],
+        'Ginkgo': ['Unknown', 'Species Ginkgo'],
+        'Gleditsia': ['Unknown', 'Species Gleditsia'],
+        'Gymnocladus': ['Unknown', 'Species Gymnocladus'],
+        'Koelreuteria': ['Unknown', 'Species Koelreuteria'],
+        'Liquidambar': ['Unknown', 'Species Liquidambar'],
+        'Liriodendron': ['Unknown', 'Species Liriodendron'],
+        'Maackia': ['Unknown', 'Species Maackia'],
+        'Magnolia': ['Unknown', 'Species Magnolia'],
+        'Malus': ['Unknown', 'Species Malus'],
+        'Metasequoia': ['Unknown', 'Species Metasequoia'],
+        'Morus': ['Unknown', 'Species Morus'],
+        'Pinus': ['Unknown', 'Species Pinus'],
+        'Platanus': ['Unknown', 'Species Platanus'],
+        'Populus': ['Unknown', 'Species Populus'],
+        'Prunus': ['Unknown', 'Species Prunus'],
+        'Pyrus': ['Unknown', 'Species Pyrus'],
+        'Quercus': ['Unknown', 'Species Quercus'],
+        'Robinia': ['Unknown', 'Species Robinia'],
+        'Styphnolobium': ['Unknown', 'Species Styphnolobium'],
+        'Syringa': ['Unknown', 'Species Syringa'],
+        'Taxodium': ['Unknown', 'Species Taxodium'],
+        'Tilia': ['Unknown', 'Species Tilia'],
+        'Ulmus': ['Unknown', 'Species Ulmus'],
+        'Zelkova': ['Unknown', 'Species Zelkova']
       },
       ends = {
         '100': [40.6799730691326, -73.9894885689526],
@@ -402,6 +443,17 @@
       var $label = $(evt.target).parent('label');
       $label.siblings().removeClass('btn-primary');
       $label.addClass('btn-primary');
+    });
+
+    // Update the species list when the genus is selected
+    $('body').on('change', 'select[name="genus"]', function(evt) {
+      var $parentForm = $(evt.target).parents('.treeform'),
+          $siblingSpeciesSelect = $parentForm.find('select[name="species"]'),
+          optionsHtml = optionTemplate({
+            options: species[evt.target.value]
+          });
+
+      $siblingSpeciesSelect.html(optionsHtml);
     });
 
     $('a[data-refresh="true"]').on('tap', function(evt) {
