@@ -25,46 +25,8 @@
         color: '#ff0000',
         clickable: false
       },
-      species = {
-        'Acer': ['Unknown', 'Species Acer'],
-        'Aesculus': ['Unknown', 'Species Aesculus'],
-        'Ailanthus': ['Unknown', 'Species Ailanthus'],
-        'Amelanchier': ['Unknown', 'Species Amelanchier'],
-        'Betula': ['Unknown', 'Species Betula'],
-        'Carpinus': ['Unknown', 'Species Carpinus'],
-        'Celtis': ['Unknown', 'Species Celtis'],
-        'Cercidiphyllum': ['Unknown', 'Species Cercidiphyllum'],
-        'Cercis': ['Unknown', 'Species Cercis'],
-        'Cornus': ['Unknown', 'Species Cornus'],
-        'Crataegus': ['Unknown', 'Species Crataegus'],
-        'Eucommia': ['Unknown', 'Species Eucommia'],
-        'Fraxinus': ['Unknown', 'Species Fraxinus'],
-        'Ginkgo': ['Unknown', 'Species Ginkgo'],
-        'Gleditsia': ['Unknown', 'Species Gleditsia'],
-        'Gymnocladus': ['Unknown', 'Species Gymnocladus'],
-        'Koelreuteria': ['Unknown', 'Species Koelreuteria'],
-        'Liquidambar': ['Unknown', 'Species Liquidambar'],
-        'Liriodendron': ['Unknown', 'Species Liriodendron'],
-        'Maackia': ['Unknown', 'Species Maackia'],
-        'Magnolia': ['Unknown', 'Species Magnolia'],
-        'Malus': ['Unknown', 'Species Malus'],
-        'Metasequoia': ['Unknown', 'Species Metasequoia'],
-        'Morus': ['Unknown', 'Species Morus'],
-        'Pinus': ['Unknown', 'Species Pinus'],
-        'Platanus': ['Unknown', 'Species Platanus'],
-        'Populus': ['Unknown', 'Species Populus'],
-        'Prunus': ['Unknown', 'Species Prunus'],
-        'Pyrus': ['Unknown', 'Species Pyrus'],
-        'Quercus': ['Unknown', 'Species Quercus'],
-        'Robinia': ['Unknown', 'Species Robinia'],
-        'Styphnolobium': ['Unknown', 'Species Styphnolobium'],
-        'Syringa': ['Unknown', 'Species Syringa'],
-        'Taxodium': ['Unknown', 'Species Taxodium'],
-        'Tilia': ['Unknown', 'Species Tilia'],
-        'Ulmus': ['Unknown', 'Species Ulmus'],
-        'Zelkova': ['Unknown', 'Species Zelkova']
-      },
       $mapNextBtn = $('#map-next-btn'),
+      speciesByGenus = {},
       endPointLayers, blockfaceLayer,
       i, len, map, featureSelect;
 
@@ -237,6 +199,45 @@
     return obj;
   }
 
+  function initTreeSpecies() {
+    var genusField = 'latin_common_genus',
+        speciesField = 'latin_species',
+        sql = 'SELECT '+genusField+', '+speciesField+' FROM tree_species ORDER BY ' + genusField,
+        genusOptionsHtml;
+
+    $.getJSON('http://atogle.cartodb.com/api/v2/sql/?q=' + sql, function(data){
+      console.log(data);
+
+      var len = data.rows.length,
+          row, i, genus, species;
+      for (i=0; i<len; i++) {
+        row = data.rows[i],
+        genus = row[genusField],
+        species = row[speciesField];
+
+        if (speciesByGenus[genus]) {
+          speciesByGenus[genus].push(species);
+        } else {
+          speciesByGenus[genus] = [species];
+        }
+      }
+
+      console.log(speciesByGenus);
+
+      // Init form 1
+      $formContainer.append(renderTreeForm(treeIndex));
+    });
+  }
+
+  function renderTreeForm(index) {
+    var html = formTemplate({
+      index: index,
+      genusList: Object.keys(speciesByGenus)
+    });
+
+    return html;
+  }
+
   // Save the survey to CartoDB
   function saveSurvey(obj) {
     console.log('Save this', obj);
@@ -248,11 +249,6 @@
     $nameInput = $('#mapper-name-input'),
     $nameLabel = $('.mapper-name-label'),
     $formContainer = $('#treedetails #forms-container');
-
-    // Init form 1
-    $formContainer.append(formTemplate({
-      index: treeIndex
-    }));
 
     // Save the mapper name
     $nameInput.on('change', function() {
@@ -274,6 +270,9 @@
       startupScreen: null,
       statusBar: 'default' // other options: black-translucent, black
     });
+
+    // Fetch and init the tree species list
+    initTreeSpecies();
 
     // Init the map when we animate to that page
     $('#startlocation').on('pageAnimationEnd', function(evt, data) {
@@ -300,7 +299,7 @@
     }
 
     // Prevent page transition if the current form is invalid
-    $('.page a.btn-next').on('click', function(evt, data) {
+    $('body').on('click', '.page a.btn-next', function(evt, data) {
       // Get a list of forms on this page - could be many
       var $pageForms = $(this).parents('.page').find('form');
 
@@ -311,7 +310,7 @@
     });
 
     // Append a new form
-    $('#anothertree').on('click', function() {
+    $('body').on('click', '#anothertree', function() {
       // Get a list of forms on this page - could be many
       var $pageForms = $(this).parents('.page').find('form');
 
@@ -319,14 +318,12 @@
       if (checkFormValidity($pageForms.last())) {
 
         // Append a new form since the previous is valid
-        $formContainer.append(formTemplate({
-          index: ++treeIndex
-        }));
+        $formContainer.append(renderTreeForm(++treeIndex));
       }
     });
 
     // Escape route for no trees on this block
-    $('#no-trees-btn').on('click', function() {
+    $('body').on('click', '#no-trees-btn', function() {
       var confirmMsg = 'Are you sure there are no trees? Ready to move to the next block?',
           obj;
 
@@ -362,7 +359,7 @@
       var $parentForm = $(evt.target).parents('.treeform'),
           $siblingSpeciesSelect = $parentForm.find('select[name="species"]'),
           optionsHtml = optionTemplate({
-            options: species[evt.target.value]
+            options: speciesByGenus[evt.target.value]
           });
 
       $siblingSpeciesSelect.html(optionsHtml);
@@ -370,12 +367,12 @@
 
     // Manually reload the page since linking to index.html acts weird on IOS
     // Safari apps running in app mode (loads Safari, not reload the page)
-    $('a[data-refresh="true"]').on('click', function(evt) {
+    $('body').on('click', 'a[data-refresh="true"]', function(evt) {
       window.location.reload();
     });
 
     // Save the complete
-    $('#save-btn').on('click', function() {
+    $('body').on('click', '#save-btn', function() {
       var obj = serializeEverything();
       saveSurvey(obj);
     });
