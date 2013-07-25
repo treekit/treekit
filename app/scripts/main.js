@@ -64,175 +64,46 @@
         'Ulmus': ['Unknown', 'Species Ulmus'],
         'Zelkova': ['Unknown', 'Species Zelkova']
       },
-      ends = {
-        '100': [40.6799730691326, -73.9894885689526],
-        '101': [40.6791627598675, -73.9874064112064],
-        '102': [40.6798846867123, -73.9895462914959],
-        '103': [40.6790763162354, -73.9874653858336],
-        '104': [40.6790763162354, -73.9874653858336],
-        '105': [40.6778874158229, -73.9882713883809],
-        '106': [40.6778529539171, -73.9881860768339],
-        '107': [40.6771357495325, -73.9863391440943],
-        '108': [40.6784141510259, -73.9878038160408],
-        '109': [40.6776972649985, -73.9859618502971],
-        '110': [40.6784873666764, -73.9877572631041],
-        '111': [40.6790434556787, -73.9873819971489],
-        '112': [40.6783248922489, -73.9855374751128],
-        '113': [40.6777719614761, -73.9859114916668],
-        '114': [40.6803541866844, -73.9866027780511],
-        '115': [40.6791317178005, -73.9873184663572],
-        '116': [40.6796806801732, -73.9869484946735],
-        '117': [40.6789692537774, -73.9850985789912],
-        '118': [40.6784128309048, -73.9854711014195],
-        '119': [40.6797598352688, -73.9868953690466],
-        '120': [40.6803164969259, -73.9865154774295],
-        '121': [40.6796014026842, -73.9846716249001],
-        '122': [40.6790411891506, -73.985047784531]
-      },
-      layerData = [
-        {
-          id: '500',
-          ends: ['100', '101'],
-          line: [[40.6799730691326, -73.9894885689526], [40.6791627598675, -73.9874064112064]]
-        },
-        {
-          id: '501',
-          ends: ['102', '103'],
-          line: [[40.6798846867123, -73.9895462914959], [40.6790763162354, -73.9874653858336]]
-        },
-        {
-          id: '502',
-          ends: ['104', '105'],
-          line: [[40.6790763162354, -73.9874653858336], [40.6778874158229, -73.9882713883809]]
-        },
-        {
-          id: '503',
-          ends: ['106', '107'],
-          line: [[40.6778529539171, -73.9881860768339], [40.6771357495325, -73.9863391440943]]
-        },
-        {
-          id: '504',
-          ends: ['106', '108'],
-          line: [[40.6778529539171, -73.9881860768339], [40.6784141510259, -73.9878038160408]]
-        },
-        {
-          id: '505',
-          ends: ['108', '109'],
-          line: [[40.6784141510259, -73.9878038160408], [40.6776972649985, -73.9859618502971]]
-        },
-        {
-          id: '506',
-          ends: ['109', '107'],
-          line: [[40.6776972649985, -73.9859618502971], [40.6771357495325, -73.9863391440943]]
-        },
-        {
-          id: '507',
-          ends: ['110', '111'],
-          line: [[40.6784873666764, -73.9877572631041], [40.6790434556787, -73.9873819971489]]
-        },
-        {
-          id: '508',
-          ends: ['111', '112'],
-          line: [[40.6790434556787, -73.9873819971489], [40.6783248922489, -73.9855374751128]]
-        },
-        {
-          id: '509',
-          ends: ['112', '113'],
-          line: [[40.6783248922489, -73.9855374751128], [40.6777719614761, -73.9859114916668]]
-        },
-        {
-          id: '510',
-          ends: ['113', '110'],
-          line: [[40.6777719614761, -73.9859114916668], [40.6784873666764, -73.9877572631041]]
-        },
-        {
-          id: '511',
-          ends: ['101', '114'],
-          line: [[40.6791627598675, -73.9874064112064], [40.6803541866844, -73.9866027780511]]
-        },
-        {
-          id: '512',
-          ends: ['115', '116'],
-          line: [[40.6791317178005, -73.9873184663572], [40.6796806801732, -73.9869484946735]]
-        },
-        {
-          id: '513',
-          ends: ['116', '117'],
-          line: [[40.6796806801732, -73.9869484946735], [40.6789692537774, -73.9850985789912]]
-        },
-        {
-          id: '514',
-          ends: ['117', '118'],
-          line: [[40.6789692537774, -73.9850985789912], [40.6784128309048, -73.9854711014195]]
-        },
-        {
-          id: '515',
-          ends: ['118', '115'],
-          line: [[40.6784128309048, -73.9854711014195], [40.6791317178005, -73.9873184663572]]
-        },
-        {
-          id: '516',
-          ends: ['119', '120'],
-          line: [[40.6797598352688, -73.9868953690466], [40.6803164969259, -73.9865154774295]]
-        },
-        {
-          id: '517',
-          ends: ['120', '121'],
-          line: [[40.6803164969259, -73.9865154774295], [40.6796014026842, -73.9846716249001]]
-        },
-        {
-          id: '518',
-          ends: ['121', '122'],
-          line: [[40.6796014026842, -73.9846716249001], [40.6790411891506, -73.985047784531]]
-        },
-        {
-          id: '519',
-          ends: ['122', '119'],
-          line: [[40.6790411891506, -73.985047784531], [40.6797598352688, -73.9868953690466]]
-        }
-      ],
-      layerGroup = L.featureGroup([]),
-      endLayers = L.featureGroup([]),
       $mapNextBtn = $('#map-next-btn'),
+      endPointLayers, blockfaceLayer,
       i, len, map, featureSelect;
-
-  for(i=0, len=layerData.length; i<len; i++) {
-    layerGroup.addLayer(L.polyline(layerData[i].line, L.Util.extend({id: layerData[i].id, ends: layerData[i].ends}, defaultStyle)));
-  }
-
-  endLayers.on('click', function(evt) {
-    $('#startid').val(evt.layer.options.id);
-
-    endLayers.setStyle(defaultStyle);
-    evt.layer.setStyle(selectStyle);
-
-    $mapAlert.text('Click Next to continue...');
-    $mapNextBtn.show();
-  });
 
 
   function updateMapState(selectedLayers) {
-    var i, endIds;
+    var latLngs;
 
+    // Starting the map session. Can't move forward.
     $mapNextBtn.hide();
-    endLayers.clearLayers();
+    // Hide any visible end points
+    endPointLayers.clearLayers();
 
+    // Can't choose a start point if more than one block is selected
     if (selectedLayers.length === 1) {
-      $('#blockid').val(selectedLayers[0].options.id);
+      // Get the lat/lng array for this line
+      latLngs = L.GeoJSON.coordsToLatLngs(selectedLayers[0].feature.geometry.coordinates, 1)[0];
 
+      // Set the ID value on the hidden input field for serialization
+      $('#blockid').val(selectedLayers[0].feature.properties.blockface_id);
+
+      // Update the user prompt
       $mapAlert.text('Tap your starting point...').show();
-      endIds = selectedLayers[0].options.ends;
 
-      endLayers.clearLayers();
-      for (i=0; i<endIds.length; i++) {
-        endLayers.addLayer(
-          L.circleMarker(ends[endIds[i]], L.Util.extend({}, defaultStyle, {
-            id: endIds[i],
-            radius: 25,
-            clickable: true
-          }))
-        );
-      }
+      endPointLayers.addLayer(
+        L.circleMarker(latLngs[0], L.Util.extend({}, defaultStyle, {
+          direction: 1,
+          radius: 25,
+          clickable: true
+        }))
+      );
+
+      endPointLayers.addLayer(
+        L.circleMarker(latLngs[latLngs.length-1], L.Util.extend({}, defaultStyle, {
+          direction: -1,
+          radius: 25,
+          clickable: true
+        }))
+      );
+
     } else {
       $mapAlert.text('Select a blockface by dragging it to the center...').show();
     }
@@ -246,43 +117,74 @@
   }
 
   function initMap() {
-    map = new L.map('map', {
-      center: [40.6785, -73.9868],
-      zoom: 17
+    if (!map) {
+      map = new L.map('map');
+
+      var layerUrl = 'http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg',
+          layerAttribution = 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
+          layer = L.tileLayer(layerUrl, {
+            maxZoom: 18,
+            attribution: layerAttribution,
+            subdomains: ['otile1', 'otile2', 'otile3', 'otile4']
+          }).addTo(map);
+
+      // Add geolocation
+      L.control.locate().addTo(map);
+
+      // Init layer group for endpoints
+      endPointLayers = L.featureGroup();
+
+      // Add empty layerGroup for our endpoints
+      map.addLayer(endPointLayers);
+
+      endPointLayers.on('click', function(evt) {
+        $('#startid').val(evt.layer.options.direction);
+
+        endPointLayers.setStyle(defaultStyle);
+        evt.layer.setStyle(selectStyle);
+
+        $mapAlert.text('Click Next to continue...');
+        $mapNextBtn.show();
+      });
+    }
+
+    // Fetch the blockfaces from CartoDB
+    $.getJSON('http://treekit.cartodb.com/api/v2/sql/?format=GeoJSON&q=SELECT%20*%20FROM%20blockface_live', function(data){
+      blockfaceLayer = L.geoJson(data, {
+        style: defaultStyle
+      });
+
+      // Zoom to the center of the blockfaces
+      map.setView(blockfaceLayer.getBounds().getCenter(), 17);
+
+      // Setup the selector tool
+      featureSelect = window.featureSelect = L.featureSelect({
+        layerGroup: blockfaceLayer
+      }).addTo(map);
+
+      // Add blockfaces to the map
+      map.addLayer(blockfaceLayer);
+
+      // Handle selection events
+      featureSelect.on('select', function(evt) {
+        setStyle(evt.layers, selectStyle);
+        updateMapState(featureSelect.layers);
+      });
+
+      featureSelect.on('unselect', function(evt) {
+        setStyle(evt.layers, defaultStyle);
+        updateMapState(featureSelect.layers);
+      });
+
+      // Prompt the user to use the data now that it's loaded
+      $mapAlert.text('Select a blockface by dragging it to the center...');
     });
 
-    var layerUrl = 'http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg',
-        layerAttribution = 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
-        layer = L.tileLayer(layerUrl, {
-          maxZoom: 18,
-          attribution: layerAttribution,
-          subdomains: ['otile1', 'otile2', 'otile3', 'otile4']
-        }).addTo(map);
-
-    // Add geolocation
-    L.control.locate().addTo(map);
-
-    featureSelect = window.featureSelect = L.featureSelect({
-      layerGroup: layerGroup
-    }).addTo(map);
-
-    map.addLayer(layerGroup).addLayer(endLayers);
-
-    featureSelect.on('select', function(evt) {
-      setStyle(evt.layers, selectStyle);
-
-      updateMapState(featureSelect.layers);
-    });
-
-    featureSelect.on('unselect', function(evt) {
-      setStyle(evt.layers, defaultStyle);
-
-      updateMapState(featureSelect.layers);
-    });
-
-    $mapAlert.text('Select a blockface by dragging it to the center...').show();
+    // Let the user know we're fetching data
+    $mapAlert.text('Loading map data...').show();
   }
 
+  // Helper for checking the validity of a form
   function checkFormValidity($form) {
     var valid = true;
 
@@ -302,6 +204,7 @@
     return valid;
   }
 
+  // Serialize a form to an object
   function formToObj(formEl) {
     var formArray = $(formEl).serializeArray(),
         obj = {};
@@ -313,6 +216,7 @@
     return obj;
   }
 
+  // Look at all the forms on all of the pages and serialize
   function serializeEverything() {
     var obj = {
           datetime: (new Date()).toISOString(),
@@ -386,6 +290,7 @@
       }
     });
 
+    // Store the mapper in local storage
     if (window.localStorage.getItem('mapperName')) {
       $nameInput.val(window.localStorage.getItem('mapperName'));
       $nameLabel.text(window.localStorage.getItem('mapperName'));
@@ -399,9 +304,9 @@
       // Get a list of forms on this page - could be many
       var $pageForms = $(this).parents('.page').find('form');
 
-      // If this is invalid, then stop propagation
+      // If this is invalid, then stop all the things
       if (!checkFormValidity($pageForms)) {
-        evt.stopPropagation();
+        return false;
       }
     });
 

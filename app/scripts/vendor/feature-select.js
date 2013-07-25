@@ -40,14 +40,12 @@ L.FeatureSelect = L.Class.extend({
 
     map.on('move', function(evt) {
       var justSelected = [],
-          justUnselected  = [];
+          justUnselected  = [],
+          centerPoint = this._map.project(this._center);
 
       this.layers = [];
       this._center = this._map.getCenter();
       this._marker.setLatLng(this._center);
-
-      var centerPoint = this._map.project(this._center),
-          id, layer, latLngs;
 
       this._selectBounds = L.latLngBounds(
         this._map.unproject([
@@ -62,38 +60,37 @@ L.FeatureSelect = L.Class.extend({
 
       // TODO: this is not very robust. It has only been tested with multiline strings
       // via GeoJSON layers and will not work for other geometry types. FIX ME!
-      for (id in this.options.layerGroup._layers) {
-        if (this.options.layerGroup._layers.hasOwnProperty(id)) {
-          layer = this.options.layerGroup._layers[id];
-          if (layer.feature) {
-            latLngs = L.GeoJSON.coordsToLatLngs(layer.feature.geometry.coordinates, 1)[0];
-          } else if (layer.getLatLngs) {
-            latLngs = layer.getLatLngs();
-          }
+      this.options.layerGroup.eachLayer(function(layer) {
+        var latLngs;
 
-          if (latLngs) {
-            if (this._lineStringsIntersect(L.rectangle(this._selectBounds).getLatLngs(), latLngs)) {
-              this.layers.push(layer);
+        if (layer.feature) {
+          latLngs = L.GeoJSON.coordsToLatLngs(layer.feature.geometry.coordinates, 1)[0];
+        } else if (layer.getLatLngs) {
+          latLngs = layer.getLatLngs();
+        }
 
-              if (this._nonIntersectingLayers[L.stamp(layer)]) {
-                selectionChanged = true;
-                delete this._nonIntersectingLayers[L.stamp(layer)];
-                this._intersectingLayers[L.stamp(layer)] = layer;
+        if (latLngs) {
+          if (this._lineStringsIntersect(L.rectangle(this._selectBounds).getLatLngs(), latLngs)) {
+            this.layers.push(layer);
 
-                justSelected.push(layer);
-              }
-            } else {
-              if (this._intersectingLayers[L.stamp(layer)]) {
-                selectionChanged = true;
-                delete this._intersectingLayers[L.stamp(layer)];
-                this._nonIntersectingLayers[L.stamp(layer)] = layer;
+            if (this._nonIntersectingLayers[L.stamp(layer)]) {
+              selectionChanged = true;
+              delete this._nonIntersectingLayers[L.stamp(layer)];
+              this._intersectingLayers[L.stamp(layer)] = layer;
 
-                justUnselected.push(layer);
-              }
+              justSelected.push(layer);
+            }
+          } else {
+            if (this._intersectingLayers[L.stamp(layer)]) {
+              selectionChanged = true;
+              delete this._intersectingLayers[L.stamp(layer)];
+              this._nonIntersectingLayers[L.stamp(layer)] = layer;
+
+              justUnselected.push(layer);
             }
           }
         }
-      }
+      }, this);
 
       if (selectionChanged) {
         selectionChanged = false;

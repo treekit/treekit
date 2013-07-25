@@ -6,6 +6,5 @@
     "leaflet": "~0.5.1",
     "leaflet-locatecontrol": "git://github.com/domoritz/leaflet-locatecontrol.git",
     "handlebars.js": "~1.0.10"
-  },
-  "devDependencies": {}
+  }
 }
