@@ -79,71 +79,91 @@
   }
 
   function initMap() {
-    if (!map) {
-      map = new L.map('map');
+    map = new L.map('map', NS.Config.map);
 
-      var layerUrl = 'http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg',
-          layerAttribution = 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
-          layer = L.tileLayer(layerUrl, {
-            maxZoom: 18,
-            attribution: layerAttribution,
-            subdomains: ['otile1', 'otile2', 'otile3', 'otile4']
-          }).addTo(map);
+    var updateBlockfaces,
+        layerUrl = 'http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg',
+        layerAttribution = 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
+        layer = L.tileLayer(layerUrl, {
+          maxZoom: 18,
+          attribution: layerAttribution,
+          subdomains: ['otile1', 'otile2', 'otile3', 'otile4']
+        }).addTo(map);
 
-      // Add geolocation
-      L.control.locate().addTo(map);
+    // Add geolocation
+    L.control.locate().addTo(map);
 
-      // Init layer group for endpoints
-      endPointLayers = L.featureGroup();
+    // Init feature group for endpoints
+    endPointLayers = L.featureGroup();
 
-      // Add empty layerGroup for our endpoints
-      map.addLayer(endPointLayers);
+    // Init feature group for the blockfaces
+    blockfaceLayer = L.geoJson(null, {
+      style: defaultStyle
+    });
 
-      endPointLayers.on('click', function(evt) {
-        $('#startid').val(evt.layer.options.direction);
+    // Setup the selector tool
+    featureSelect = window.featureSelect = L.featureSelect({
+      featureGroup: blockfaceLayer
+    }).addTo(map);
 
-        endPointLayers.setStyle(defaultStyle);
-        evt.layer.setStyle(selectStyle);
+    // Handle selection events
+    featureSelect.on('select', function(evt) {
+      setStyle(evt.layers, selectStyle);
+      updateMapState(featureSelect.layers);
+    });
 
-        $mapAlert.text('Click Next to continue...');
-        $mapNextBtn.show();
+    featureSelect.on('unselect', function(evt) {
+      setStyle(evt.layers, defaultStyle);
+      updateMapState(featureSelect.layers);
+    });
+
+    // Add empty layerGroup for our endpoints
+    map.addLayer(endPointLayers);
+
+    // Add empty blockfaces to the map
+    map.addLayer(blockfaceLayer);
+
+    endPointLayers.on('click', function(evt) {
+      $('#startid').val(evt.layer.options.direction);
+
+      endPointLayers.setStyle(defaultStyle);
+      evt.layer.setStyle(selectStyle);
+
+      $mapAlert.text('Click Next to continue...');
+      $mapNextBtn.show();
+    });
+
+    // Fetch and update the blockface layer with features in the current extent
+    updateBlockfaces = function(callback) {
+      var sql = NS.Config.cartodb.queryUrl + '?format=GeoJSON&q=' +
+          'SELECT * FROM ' + NS.Config.cartodb.blockfaceTable +
+          ' WHERE ST_Intersects(the_geom, ST_MakeEnvelope('+map.getBounds().toBBoxString()+',4326))';
+
+      $.getJSON(sql, function(data){
+        blockfaceLayer.clearLayers();
+        blockfaceLayer.addData(data);
+
+        if (callback) {
+          callback(data);
+        }
       });
-    }
+    };
 
-    // Fetch the blockfaces from CartoDB
-    $.getJSON('http://treekit.cartodb.com/api/v2/sql/?format=GeoJSON&q=SELECT%20*%20FROM%20blockface_live', function(data){
-      blockfaceLayer = L.geoJson(data, {
-        style: defaultStyle
+    // Update the blockfaces for those in the current extent on moveend
+    map.on('moveend', function(evt) {
+      $mapAlert.text('Loading map data...').show();
+      updateBlockfaces(function() {
+        // Prompt the user to use the data now that it's loaded
+        $mapAlert.text('Select a blockface by dragging it to the center...');
       });
+    });
 
-      // Zoom to the center of the blockfaces
-      map.setView(blockfaceLayer.getBounds().getCenter(), 17);
-
-      // Setup the selector tool
-      featureSelect = window.featureSelect = L.featureSelect({
-        layerGroup: blockfaceLayer
-      }).addTo(map);
-
-      // Add blockfaces to the map
-      map.addLayer(blockfaceLayer);
-
-      // Handle selection events
-      featureSelect.on('select', function(evt) {
-        setStyle(evt.layers, selectStyle);
-        updateMapState(featureSelect.layers);
-      });
-
-      featureSelect.on('unselect', function(evt) {
-        setStyle(evt.layers, defaultStyle);
-        updateMapState(featureSelect.layers);
-      });
-
+    // Fetch the blockfaces on init
+    $mapAlert.text('Loading map data...').show();
+    updateBlockfaces(function() {
       // Prompt the user to use the data now that it's loaded
       $mapAlert.text('Select a blockface by dragging it to the center...');
     });
-
-    // Let the user know we're fetching data
-    $mapAlert.text('Loading map data...').show();
   }
 
   // Helper for checking the validity of a form
