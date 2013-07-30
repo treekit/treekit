@@ -10,7 +10,7 @@ L.FeatureSelect = L.Class.extend({
       className: 'leaflet-feature-selector'
     }),
     selectSize: [16, 16],
-    layerGroup: null
+    featureGroup: null
   },
 
   initialize: function (options) {
@@ -20,13 +20,10 @@ L.FeatureSelect = L.Class.extend({
   },
 
   addTo: function (map) {
-    var selectionChanged = false;
-
     this._map = map;
     this._center = map.getCenter();
 
     this._intersectingLayers = {};
-    this._nonIntersectingLayers = {};
 
     this._marker = L.marker(this._center, {
       icon: this.options.icon,
@@ -34,83 +31,84 @@ L.FeatureSelect = L.Class.extend({
       zIndexOffset: 1000
     }).addTo(map);
 
-    this.options.layerGroup.eachLayer(function(layer){
-      this._nonIntersectingLayers[L.stamp(layer)] = layer;
-    }, this);
+    map.on('move', this._checkIntersections, this);
 
-    map.on('move', function(evt) {
-      var justSelected = [],
-          justUnselected  = [],
-          centerPoint = this._map.project(this._center);
-
-      this.layers = [];
-      this._center = this._map.getCenter();
-      this._marker.setLatLng(this._center);
-
-      this._selectBounds = L.latLngBounds(
-        this._map.unproject([
-          centerPoint.x + this.options.selectSize.x/2,
-          centerPoint.y - this.options.selectSize.y/2
-        ]),
-        this._map.unproject([
-          centerPoint.x - this.options.selectSize.x/2,
-          centerPoint.y + this.options.selectSize.y/2
-        ])
-      );
-
-      // TODO: this is not very robust. It has only been tested with multiline strings
-      // via GeoJSON layers and will not work for other geometry types. FIX ME!
-      this.options.layerGroup.eachLayer(function(layer) {
-        var latLngs;
-
-        if (layer.feature) {
-          latLngs = L.GeoJSON.coordsToLatLngs(layer.feature.geometry.coordinates, 1)[0];
-        } else if (layer.getLatLngs) {
-          latLngs = layer.getLatLngs();
-        }
-
-        if (latLngs) {
-          if (this._lineStringsIntersect(L.rectangle(this._selectBounds).getLatLngs(), latLngs)) {
-            this.layers.push(layer);
-
-            if (this._nonIntersectingLayers[L.stamp(layer)]) {
-              selectionChanged = true;
-              delete this._nonIntersectingLayers[L.stamp(layer)];
-              this._intersectingLayers[L.stamp(layer)] = layer;
-
-              justSelected.push(layer);
-            }
-          } else {
-            if (this._intersectingLayers[L.stamp(layer)]) {
-              selectionChanged = true;
-              delete this._intersectingLayers[L.stamp(layer)];
-              this._nonIntersectingLayers[L.stamp(layer)] = layer;
-
-              justUnselected.push(layer);
-            }
-          }
-        }
-      }, this);
-
-      if (selectionChanged) {
-        selectionChanged = false;
-
-        if (justSelected.length) {
-          this.fire('select', {
-            layers: justSelected
-          });
-        }
-
-        if (justUnselected.length) {
-          this.fire('unselect', {
-            layers: justUnselected
-          });
-        }
-      }
-
-    }, this);
+    this.options.featureGroup.on('layeradd', this._checkIntersections, this);
+    this.options.featureGroup.on('layerremove', this._checkIntersections, this);
 
     return this;
+  },
+
+  _checkIntersections: function() {
+    var selectionChanged = false,
+        justSelected = [],
+        justUnselected  = [],
+        centerPoint = this._map.project(this._center);
+
+    this.layers = [];
+    this._center = this._map.getCenter();
+    this._marker.setLatLng(this._center);
+
+    this._selectBounds = L.latLngBounds(
+      this._map.unproject([
+        centerPoint.x + this.options.selectSize.x/2,
+        centerPoint.y - this.options.selectSize.y/2
+      ]),
+      this._map.unproject([
+        centerPoint.x - this.options.selectSize.x/2,
+        centerPoint.y + this.options.selectSize.y/2
+      ])
+    );
+
+    // TODO: this is not very robust. It has only been tested with multiline strings
+    // via GeoJSON layers and will not work for other geometry types. FIX ME!
+    this.options.featureGroup.eachLayer(function(layer) {
+      var latLngs;
+
+      if (layer.feature) {
+        latLngs = L.GeoJSON.coordsToLatLngs(layer.feature.geometry.coordinates, 1)[0];
+      } else if (layer.getLatLngs) {
+        latLngs = layer.getLatLngs();
+      }
+
+      if (latLngs) {
+        if (this._lineStringsIntersect(L.rectangle(this._selectBounds).getLatLngs(), latLngs)) {
+          this.layers.push(layer);
+
+          if (!this._intersectingLayers[L.stamp(layer)]) {
+            selectionChanged = true;
+            this._intersectingLayers[L.stamp(layer)] = layer;
+
+            justSelected.push(layer);
+          }
+        } else {
+          if (this._intersectingLayers[L.stamp(layer)]) {
+            selectionChanged = true;
+            delete this._intersectingLayers[L.stamp(layer)];
+
+            justUnselected.push(layer);
+          }
+        }
+      }
+    }, this);
+
+    if (selectionChanged) {
+      selectionChanged = false;
+
+      if (justSelected.length) {
+        this.fire('select', {
+          layers: justSelected
+        });
+      }
+
+      if (justUnselected.length) {
+        this.fire('unselect', {
+          layers: justUnselected
+        });
+      }
+    }
+
+
   },
 
   // adapted from https://github.com/maxogden/geojson-js-utils/
