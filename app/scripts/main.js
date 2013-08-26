@@ -351,7 +351,8 @@
       icon4: null, // available in iOS 4.2 and later.
       preloadImages: false,
       startupScreen: null,
-      statusBar: 'default' // other options: black-translucent, black
+      statusBar: 'default', // other options: black-translucent, black
+      useTouchScroll: false
     });
 
     // Fetch and init the tree species list
