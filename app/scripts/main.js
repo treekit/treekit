@@ -383,13 +383,13 @@
     }
 
     // Prevent page transition if the current form is invalid
-    $('body').on('click', '.page a.btn-next', function(evt, data) {
+    $('body').on('tap click', '.page a.btn-next', function(evt, data) {
       // Get a list of forms on this page - could be many
       var $pageForms = $(this).parents('.page').find('form');
 
       // If this is invalid, then stop all the things
-      if (!checkFormValidity($pageForms)) {
-        return false;
+      if (checkFormValidity($pageForms)) {
+        jqt.goTo($(this).attr('data-next'), 'slideleft');
       }
     });
 
@@ -419,7 +419,7 @@
         // Save the survey with no trees
         saveSurvey(obj);
 
-        jqt.goTo('#save');
+        jqt.goTo('#save', 'slideleft');
       }
     });
 
