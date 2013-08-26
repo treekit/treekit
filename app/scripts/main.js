@@ -318,11 +318,14 @@
   }
 
   // Save the survey to CartoDB
-  var saveSurvey = function(obj) {
+  var saveSurvey = function(obj, success, error) {
     var sql = getSurveySql(obj);
 
-    $.post(NS.Config.cartodb.queryUrl + '?q=' + sql, function() {
-      console.log(arguments);
+    $.ajax({
+      url: NS.Config.cartodb.queryUrl + '?q=' + sql,
+      type: 'POST',
+      success: success,
+      error: error
     });
   };
 
@@ -417,9 +420,11 @@
         obj.trees = [];
 
         // Save the survey with no trees
-        saveSurvey(obj);
-
-        jqt.goTo('#save', 'slideleft');
+        saveSurvey(obj, function() {
+          jqt.goTo('#save', 'slideleft');
+        }, function() {
+          window.alert('Unable to save. Please try again.');
+        });
       }
     });
 
@@ -457,14 +462,38 @@
 
     // Save the complete
     $('body').on('click', '.save-btn', function() {
-      var obj = serializeEverything();
-      saveSurvey(obj);
+      // Get a list of forms on this page - could be many
+      var $this = $(this),
+          $pageForms = $this.parents('.page').find('form'),
+          obj;
+
+      // If this is invalid, then stop all the things
+      if (checkFormValidity($pageForms)) {
+        obj = serializeEverything();
+        saveSurvey(obj, function() {
+          jqt.goTo($this.attr('data-next'), 'slideleft');
+        }, function() {
+          window.alert('Unable to save. Please try again.');
+        });
+      }
     });
 
     $('body').on('click', '.quit-btn', function() {
-      var obj = serializeEverything();
-      obj.trees = [];
-      saveSurvey(obj);
+      // Get a list of forms on this page - could be many
+      var $this = $(this),
+          $pageForms = $this.parents('.page').find('form'),
+          obj;
+
+      // If this is invalid, then stop all the things
+      if (checkFormValidity($pageForms)) {
+        obj = serializeEverything();
+        obj.trees = [];
+        saveSurvey(obj, function() {
+          jqt.goTo($this.attr('data-next'), 'slideleft');
+        }, function() {
+          window.alert('Unable to save. Please try again.');
+        });
+      }
     });
 
   };
