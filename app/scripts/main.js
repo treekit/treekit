@@ -222,10 +222,10 @@
   function initTreeSpecies() {
     var genusField = 'latin_common_genus',
         speciesField = 'latin_species',
-        sql = 'SELECT '+genusField+', '+speciesField+' FROM tree_species ORDER BY ' + genusField,
+        sql = 'SELECT '+genusField+', '+speciesField+' FROM species_list_live ORDER BY ' + genusField,
         genusOptionsHtml;
 
-    $.getJSON('http://atogle.cartodb.com/api/v2/sql/?q=' + sql, function(data){
+    $.getJSON(NS.Config.cartodb.queryUrl+'?q=' + sql, function(data){
       console.log(data);
 
       var len = data.rows.length,
@@ -258,10 +258,73 @@
     return html;
   }
 
-  // Save the survey to CartoDB
-  function saveSurvey(obj) {
-    console.log('Save this', obj);
+  // Get SQL true/false
+  function getSqlBoolean(val) {
+    return val ? 'TRUE' : 'FALSE';
   }
+
+  // Get the SQL for saving a survey
+  function getSurveySql(s) {
+    var tree, i, treeSql, noteSql,
+        unionSqls = [],
+        hasTrees = getSqlBoolean(s.trees.length),
+        sql = "SELECT " +
+              "OTK_NewBlockfaceSurvey( "+
+                s.blockid+"," +
+                "'"+s.who+"'," +
+                hasTrees+","+
+                s.startid+"," +
+                "'"+s.datetime+"'::timestamp) as sid ";
+
+    if (s.trees.length > 0 || s.quitreason) {
+      sql = "WITH new_survey_id AS ( " + sql + ") ";
+    }
+
+    for(i=0; i<s.trees.length; i++) {
+      tree = s.trees[i];
+      treeSql = "SELECT " +
+          "OTK_NewTree( sid, "+
+            tree.circ+","+
+            tree.dist+","+
+            getSqlBoolean(s.fastigiate)+","+
+            "'"+tree.genus+"',"+
+            "'"+tree.housenum+"',"+
+            tree.length+","+
+            tree.orderonstreet+","+
+            "'"+tree.position+"',"+
+            "'"+tree.species+"',"+
+            tree.speciesconfirmed+","+
+            "'"+tree.status+"',"+
+            "'"+tree.street+"',"+
+            tree.treenum+","+
+            tree.width+")" +
+        "FROM new_survey_id ";
+
+      unionSqls.push(treeSql);
+    }
+
+    if (s.quitreason) {
+      noteSql =
+        "SELECT "+
+          "OTK_NewNotes( sid , '"+ s.quitreason +"')"+
+        "FROM new_survey_id";
+
+      unionSqls.push(noteSql);
+    }
+
+    sql = sql + unionSqls.join(' UNION ALL ');
+
+    return sql;
+  }
+
+  // Save the survey to CartoDB
+  var saveSurvey = function(obj) {
+    var sql = getSurveySql(obj);
+
+    $.post(NS.Config.cartodb.queryUrl + '?q=' + sql, function() {
+      console.log(arguments);
+    });
+  };
 
   // Init the app
   NS.init = function() {
@@ -392,10 +455,17 @@
     });
 
     // Save the complete
-    $('body').on('click', '#save-btn', function() {
+    $('body').on('click', '.save-btn', function() {
       var obj = serializeEverything();
       saveSurvey(obj);
     });
+
+    $('body').on('click', '.quit-btn', function() {
+      var obj = serializeEverything();
+      obj.trees = [];
+      saveSurvey(obj);
+    });
+
   };
 
   // Init on document ready

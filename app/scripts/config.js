@@ -7,7 +7,7 @@
       zoom: 17
     },
     cartodb: {
-      queryUrl: 'http://treekit.cartodb.com/api/v2/sql/',
+      queryUrl: 'https://treekit.cartodb.com/api/v2/sql/',
       blockfaceTable: 'blockface_live',
       speciesTable: 'species'
     }
