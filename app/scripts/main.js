@@ -26,7 +26,7 @@
         clickable: false
       },
       $mapNextBtn = $('#map-next-btn'),
-      speciesByGenus = {},
+      speciesByGenus,
       endPointLayers, blockfaceLayer,
       i, len, map, featureSelect;
 
@@ -218,33 +218,33 @@
     return obj;
   }
 
-  function initTreeSpecies() {
+  function getTreeSpecies(callback) {
     var genusField = 'latin_common_genus',
         speciesField = 'latin_species',
-        sql = 'SELECT '+genusField+', '+speciesField+' FROM species_list_live ORDER BY ' + genusField,
-        genusOptionsHtml;
+        widelyPlantedField = 'widely_planted',
+        sql = 'SELECT DISTINCT ' + widelyPlantedField + ',' + genusField + ',' + speciesField +
+          ' FROM species_list_live ORDER BY ' +
+          widelyPlantedField + ',' + genusField + ',' + speciesField,
+        sbg = {};
 
     $.getJSON(NS.Config.cartodb.queryUrl+'?q=' + sql, function(data){
-      console.log(data);
-
       var len = data.rows.length,
           row, i, genus, species;
+
       for (i=0; i<len; i++) {
         row = data.rows[i],
         genus = row[genusField],
         species = row[speciesField];
 
-        if (speciesByGenus[genus]) {
-          speciesByGenus[genus].push(species);
+        if (sbg[genus]) {
+          sbg[genus].push(species);
         } else {
-          speciesByGenus[genus] = [species];
+          sbg[genus] = [species];
         }
       }
 
-      console.log(speciesByGenus);
-
       // Init form 1
-      $formContainer.append(renderTreeForm(treeIndex));
+      callback(sbg);
     });
   }
 
@@ -358,7 +358,10 @@
     });
 
     // Fetch and init the tree species list
-    initTreeSpecies();
+    getTreeSpecies(function(sbg) {
+      speciesByGenus = sbg;
+      $formContainer.append(renderTreeForm(treeIndex));
+    });
 
     // Init the map when we animate to that page
     $('#startlocation').on('pageAnimationEnd', function(evt, data) {
