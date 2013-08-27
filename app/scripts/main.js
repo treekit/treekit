@@ -296,8 +296,14 @@
             "'"+tree.status+"',"+
             "'"+tree.street+"',"+
             tree.treenum+","+
-            tree.width+")" +
-        "FROM new_survey_id ";
+            tree.width;
+
+      // if this is the last tree, include the end distance
+      if (i+1 === s.trees.length) {
+        treeSql = treeSql + "," + s.enddist;
+      }
+
+      treeSql = treeSql + ") FROM new_survey_id ";
 
       unionSqls.push(treeSql);
     }
