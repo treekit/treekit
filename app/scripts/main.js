@@ -79,16 +79,15 @@
   }
 
   function initMap() {
-    map = new L.map('map', NS.Config.map);
+    map = L.map('map', NS.Config.map);
 
     var updateBlockfaces,
-        layerUrl = 'http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg',
-        layerAttribution = 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
-        layer = L.tileLayer(layerUrl, {
-          maxZoom: 18,
-          attribution: layerAttribution,
-          subdomains: ['otile1', 'otile2', 'otile3', 'otile4']
-        }).addTo(map);
+        layerConfig, i;
+
+    for (i=0; i<NS.Config.layers.length; i++) {
+      layerConfig = NS.Config.layers[i];
+      L.tileLayer(layerConfig.url, layerConfig).addTo(map);
+    }
 
     // Add geolocation
     L.control.locate().addTo(map);
