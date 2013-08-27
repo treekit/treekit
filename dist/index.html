@@ -47,24 +47,18 @@
 
           <p class="clearfix">
             <label class="pull-left">Distance to Bed</label>
-            <input type="number" step="any" required name="dist" class="pull-right" placeholder="">
+            <input type="number" step="any" required name="dist" class="pull-right" placeholder="ft">
           </p>
 
           <p class="clearfix">
             <label class="pull-left">Length of Bed</label>
-            <input name="length" type="number" step="any" required class="pull-right" placeholder="">
+            <input name="length" type="number" step="any" required class="pull-right" placeholder="ft">
           </p>
 
           <p class="clearfix">
             <label class="pull-left">Width of Bed</label>
-            <input name="width" type="number" step="any" required class="pull-right" placeholder="">
+            <input name="width" type="number" step="any" required class="pull-right" placeholder="ft">
           </p>
-
-          <p class="clearfix">
-            <label class="pull-left">Circumference of Tree</label>
-            <input name="circ" type="number" step="any" required class="pull-right" placeholder="">
-          </p>
-
         </fieldset>
 
         <fieldset>
@@ -76,6 +70,11 @@
             <label class="radio btn btn-fourth"><input name="status" type="radio" value="dead" />Dead</label>
             <label class="radio btn btn-fourth"><input name="status" type="radio" value="stump" />Stump</label>
             <label class="radio btn btn-fourth"><input name="status" type="radio" value="none" />Empty</label>
+          </p>
+
+          <p class="clearfix">
+            <label class="pull-left">Circumference of Tree</label>
+            <input name="circ" type="number" step="any" required class="pull-right" placeholder="in">
           </p>
 
           <p class="clearfix">
@@ -149,7 +148,7 @@
         <form>
           <p><input id="mapper-name-input" type="text" name="who" class="input-block-level" placeholder="Your name" autofocus="" required=""></p>
         </form>
-        <a href="#start" class="btn btn-large btn-primary btn-block btn-next">Sign in</a>
+        <a href="#" data-next="#start" class="btn btn-large btn-primary btn-block btn-next">Sign in</a>
       </div>
     </div>
 
@@ -203,7 +202,7 @@
 
         <div id="treecontrols" class="text-center">
           <p><a id="anothertree" href="#" class="btn">+ Another Tree</a></p>
-          <p><a href="#end" class="btn btn-block btn-primary btn-large btn-next">No More Trees &raquo;</a></p>
+          <p><a href="#" data-next="#end" class="btn btn-block btn-primary btn-large btn-next">No More Trees &raquo;</a></p>
         </div>
 
         <hr>
@@ -226,11 +225,11 @@
         <form>
           <p class="clearfix">
             <label class="pull-left">Distance to End</label>
-            <input class="pull-right" name="enddist" type="number" step="any" required="" value="">
+            <input class="pull-right" name="enddist" type="number" step="any" required="" value="" placeholder="ft">
           </p>
         </form>
 
-        <a href="#save" class="btn btn-large btn-primary btn-block btn-next save-btn">Submit</a>
+        <a href="#" data-next="#save" class="btn btn-large btn-primary btn-block save-btn">Submit</a>
       </div>
     </div>
 
@@ -257,10 +256,10 @@
         <h6>Why did you have to stop mapping?</h6>
 
         <form>
-          <p><input type="text" name="quitreason" class="input-block-level" placeholder="Offset tree bed, bad sidewalks, etc..."></p>
+          <p><input type="text" name="quitreason" class="input-block-level" placeholder="Offset tree bed, bad sidewalks, etc..." required=""></p>
         </form>
 
-        <a href="#save" class="btn btn-large btn-primary btn-block btn-next quit-btn">Submit</a>
+        <a href="#" data-next="#save" class="btn btn-large btn-primary btn-block quit-btn">Submit</a>
 
       </div>
     </div>
