@@ -1367,6 +1367,14 @@ select.pull-right {
 input[type="checkbox"].pull-left {
   margin: 1.1em 0 0.75em 1em;
 }
+select.block {
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
 
 input[type="number"] {
   width: 4em;
