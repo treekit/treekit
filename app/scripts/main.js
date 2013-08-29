@@ -153,7 +153,11 @@
       $mapAlert.text('Loading map data...').show();
       updateBlockfaces(function() {
         // Prompt the user to use the data now that it's loaded
-        $mapAlert.text('Select a blockface by dragging it to the center...');
+        if (featureSelect.layers.length === 1) {
+          $mapAlert.text('Tap your starting point...');
+        } else {
+          $mapAlert.text('Select a blockface by dragging it to the center...');
+        }
       });
     });
 
