@@ -16,8 +16,8 @@
       }
     ],
     cartodb: {
-      queryUrl: 'https://treekit.cartodb.com/api/v2/sql/',
-      blockfaceTable: 'blockface_live',
+      queryUrl: 'https://civicworks.cartodb.com/api/v2/sql/',
+      blockfaceTable: 'test_blockfaces',
       speciesTable: 'species'
     }
   };
