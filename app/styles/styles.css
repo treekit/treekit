@@ -1536,7 +1536,8 @@ input,
   display: none;
 }
 
-.submitted input:invalid {
+.submitted input:invalid,
+.submitted select:invalid {
   border: 2px solid #dd514c;
 }
 

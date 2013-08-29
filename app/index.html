@@ -34,7 +34,8 @@
     <![endif]-->
 
     <script id="option-tpl" type="text/x-handlebars-template">
-      <option value="Unknown">Unknown</option>
+      <option value="">Select Species</option>
+      <option value="Unknown">Unknown Species</option>
       {{#options}}
       <option>{{.}}</option>
       {{/options}}
@@ -82,16 +83,17 @@
           </p>
 
           <p class="clearfix">
-            <select name="genus" class="block">
-              <option value="Unknown">Genus</option>
+            <select name="genus" class="block" required>
+              <option value="">Select Genus</option>
+              <option value="Unknown">Unknown Genus</option>
               {{#genusList}}
               <option>{{.}}</option>
               {{/genusList}}
             </select>
           </p>
           <p class="clearfix">
-            <select name="species" class="block">
-              <option value="Unknown">Species</option>
+            <select name="species" class="block" required>
+              <option value="">Select Species</option>
             </select>
           </p>
 
@@ -148,7 +150,7 @@
       <div class="container content">
         <h3 class="form-signin-heading">Please sign in</h3>
         <form>
-          <p><input id="mapper-name-input" type="text" name="who" class="input-block-level" placeholder="Your name" autofocus required></p>
+          <p><input id="mapper-name-input" type="text" name="who" class="input-block-level" placeholder="Your name" required></p>
         </form>
         <a href="#" data-next="#start" class="btn btn-large btn-primary btn-block btn-next">Sign in</a>
       </div>

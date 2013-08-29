@@ -222,9 +222,9 @@
     var genusField = 'latin_common_genus',
         speciesField = 'latin_species',
         widelyPlantedField = 'widely_planted',
-        sql = 'SELECT DISTINCT ' + widelyPlantedField + ',' + genusField + ',' + speciesField +
-          ' FROM species_list_live ORDER BY ' +
-          widelyPlantedField + ',' + genusField + ',' + speciesField,
+        sql = 'SELECT DISTINCT ' + widelyPlantedField + ', initcap(' + genusField + ') AS ' + genusField +
+          ', initcap(' + speciesField + ') AS ' + speciesField + ' FROM species_list_live ORDER BY ' +
+          widelyPlantedField + ', ' + genusField + ', ' + speciesField,
         sbg = {};
 
     $.getJSON(NS.Config.cartodb.queryUrl+'?q=' + sql, function(data){
