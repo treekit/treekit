@@ -150,7 +150,7 @@
 
     // Update the blockfaces for those in the current extent on moveend
     map.on('moveend', function(evt) {
-      $mapAlert.text('Loading map data...').show();
+      // $mapAlert.text('Loading map data...').show();
       updateBlockfaces(function() {
         // Prompt the user to use the data now that it's loaded
         if (featureSelect.layers.length === 1) {
@@ -162,7 +162,7 @@
     });
 
     // Fetch the blockfaces on init
-    $mapAlert.text('Loading map data...').show();
+    // $mapAlert.text('Loading map data...').show();
     updateBlockfaces(function() {
       // Prompt the user to use the data now that it's loaded
       $mapAlert.text('Select a blockface by dragging it to the center...');
