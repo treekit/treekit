@@ -51,7 +51,7 @@ unnested AS (
   FROM layed
 )
 SELECT
-  u.*, t.orderonstreet, t.street, t.housenum,
+  u.*, bs.who, t.orderonstreet, t.street, t.housenum,
   t.status, t.genus, t.species
 FROM
   unnested u, trees_live t, blockface_survey_live bs
