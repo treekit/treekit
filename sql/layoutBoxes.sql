@@ -12,11 +12,12 @@
 -- Author: Sandro Santilli <strk@vizzuality.com>
 --
 -- }{
-CREATE OR REPLACE FUNCTION layoutBoxes(line geometry, left_side boolean, dist float8[], len float8[], width float8[])
+CREATE OR REPLACE FUNCTION layoutBoxes(line geometry, left_side boolean, dist float8[], len float8[], width float8[], off float8[])
 RETURNS geometry[] AS
 $$
 DECLARE
-  off GEOMETRY; -- offsetted geometry
+  l0 GEOMETRY; -- offsetted geometry 0
+  l1 GEOMETRY; -- offsetted geometry 1
   roadrec RECORD;
   tree RECORD;
   curdst FLOAT8; -- current distance from road's start point, in meters
@@ -39,7 +40,8 @@ BEGIN
   LOOP
     SELECT dist[i] as dist,
            len[i] as len,
-           width[i] as width
+           width[i] as width,
+           off[i] as off
     INTO tree;
 
     --RAISE DEBUG 'Box % dist:% len:% width:%', i, tree.dist, tree.len, tree.width;
@@ -52,20 +54,23 @@ BEGIN
     distfrac := curdst/roadrec.len;
     distfrac := greatest(least(distfrac,1),0); -- warn if clamped ?
     p1 := ST_Line_Interpolate_Point(roadrec.geom, distfrac);
-    ret := ST_MakeLine(p0, p1);
+    l0 := ST_MakeLine(p0, p1);
     BEGIN
-      off := ST_OffsetCurve(ret, tree.width*roadrec.side);
+      IF tree.off IS NOT NULL THEN
+        l0 := ST_OffsetCurve(l0, tree.off*roadrec.side);
+      END IF;
+      l1 := ST_OffsetCurve(l0, tree.width*roadrec.side);
     EXCEPTION
       WHEN OTHERS THEN
         RAISE WARNING 'Running OffsetCurve on line % returned %', ret, SQLERRM;
         CONTINUE;
     END;
     IF roadrec.side = 1 THEN
-      ret := ST_MakeLine(ret, ST_Reverse(off));
+      ret := ST_MakeLine(l0, ST_Reverse(l1));
     ELSE
-      ret := ST_MakeLine(ret, off);
+      ret := ST_MakeLine(l0, l1);
     END IF;
-    ret := ST_MakeLine(ret, p0); -- add closing point
+    ret := ST_MakeLine(ret, ST_StartPoint(l0)); -- add closing point
     ret := ST_MakePolygon(ret); -- turn into a polygon
 
     --RAISE DEBUG 'Box %: %', i, ST_AsEWKT(ret);
@@ -79,4 +84,12 @@ BEGIN
 END
 $$
 LANGUAGE 'plpgsql' IMMUTABLE STRICT;
+-- }{
+-- Kept for backward compatibility
+CREATE OR REPLACE FUNCTION layoutBoxes(line geometry, left_side boolean, dist float8[], len float8[], width float8[])
+RETURNS geometry[] AS
+$$
+ SELECT layoutBoxes($1, $2, $3, $4, $5, ARRAY[]::float8[]);
+$$
+LANGUAGE 'sql' IMMUTABLE STRICT;
 -- }
