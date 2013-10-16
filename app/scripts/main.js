@@ -7,6 +7,7 @@
       formTemplate = Handlebars.compile(formTplSource),
       optionTplSource = $('#option-tpl').html(),
       optionTemplate = Handlebars.compile(optionTplSource),
+      selectBlockfaceMsg = 'Drag the map to choose your block (it will turn red)',
       $formContainer,
       treeIndex = 1,
       $nameInput,
@@ -67,7 +68,7 @@
       );
 
     } else {
-      $mapAlert.text('Select a blockface by dragging it to the center...').show();
+      $mapAlert.text(selectBlockfaceMsg).show();
     }
   }
 
@@ -156,7 +157,7 @@
         if (featureSelect.layers.length === 1) {
           $mapAlert.text('Tap your starting point...');
         } else {
-          $mapAlert.text('Select a blockface by dragging it to the center...');
+          $mapAlert.text(selectBlockfaceMsg);
         }
       });
     });
@@ -165,7 +166,7 @@
     // $mapAlert.text('Loading map data...').show();
     updateBlockfaces(function() {
       // Prompt the user to use the data now that it's loaded
-      $mapAlert.text('Select a blockface by dragging it to the center...');
+      $mapAlert.text(selectBlockfaceMsg);
     });
   }
 
