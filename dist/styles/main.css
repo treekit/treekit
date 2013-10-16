@@ -1485,14 +1485,14 @@ input,
   margin-right: -100%;
 }
 .street-address input {
-  width: 30%;
+  width: 35%;
   margin-right: 2%;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
 }
 .street-address input:last-child {
-  width: 68%;
+  width: 63%;
   margin-right: 0;
 }
 
