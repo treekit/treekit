@@ -181,7 +181,9 @@
       if (!el.validity.valid) {
         valid = false;
         $(el).focus();
-        el.select();
+        if (el.select) {
+          el.select();
+        }
         return false;
       }
     });
@@ -252,10 +254,11 @@
     });
   }
 
-  function renderTreeForm(index) {
+  function renderTreeForm(index, streetName) {
     var html = formTemplate({
       index: index,
-      genusList: Object.keys(speciesByGenus)
+      genusList: Object.keys(speciesByGenus),
+      streetName: streetName
     });
 
     return html;
@@ -411,13 +414,15 @@
     // Append a new form
     $('body').on('click', '#anothertree', function() {
       // Get a list of forms on this page - could be many
-      var $pageForms = $(this).parents('.page').find('form');
+      var $pageForms = $(this).parents('.page').find('form'),
+          streetName;
 
       // If this form is valid
-      if (checkFormValidity($pageForms.last())) {
+      if (checkFormValidity($pageForms)) {
+        streetName = $pageForms.last().find('[name="street"]').val();
 
         // Append a new form since the previous is valid
-        $formContainer.append(renderTreeForm(++treeIndex));
+        $formContainer.append(renderTreeForm(++treeIndex, streetName));
       }
     });
 
