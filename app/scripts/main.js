@@ -414,7 +414,7 @@
     // Append a new form
     $('body').on('click', '#anothertree', function() {
       // Get a list of forms on this page - could be many
-      var $pageForms = $(this).parents('.page').find('form'),
+      var $pageForms = $(this).parents('.page').find('form.treeform'),
           streetName;
 
       // If this form is valid

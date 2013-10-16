@@ -202,34 +202,21 @@
 
         <div id="treecontrols" class="text-center">
           <p><a id="anothertree" href="#" class="btn">+ Another Tree</a></p>
-          <p><a href="#" data-next="#end" class="btn btn-block btn-primary btn-large btn-next">No More Trees &raquo;</a></p>
+
+          <form>
+            <p class="clearfix">
+              <label class="pull-left">Distance to End</label>
+              <input class="pull-right" name="enddist" type="number" step="any" required="" value="" placeholder="ft">
+            </p>
+          </form>
+
+          <p><a href="#" data-next="#save" class="btn btn-large btn-primary btn-block save-btn">Submit</a></p>
         </div>
 
         <hr>
         <p class="text-center">
           <a href="#cancel" class="slideup btn btn-mini btn-warning">Uh oh! Can't map this block 'cause&hellip;</a>
         </p>
-      </div>
-    </div>
-
-    <div class="page" id="end">
-      <div class="navbar">
-        <div class="navbar-inner">
-          <div class="container">
-            <img src="images/treekit-logo.png" class="logo">
-          </div>
-        </div>
-      </div>
-      <div class="container content">
-        <h4>Almost done!</h4>
-        <form>
-          <p class="clearfix">
-            <label class="pull-left">Distance to End</label>
-            <input class="pull-right" name="enddist" type="number" step="any" required="" value="" placeholder="ft">
-          </p>
-        </form>
-
-        <a href="#" data-next="#save" class="btn btn-large btn-primary btn-block save-btn">Submit</a>
       </div>
     </div>
 
