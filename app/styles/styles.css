@@ -1568,3 +1568,7 @@ a.leaflet-control-zoom-out:hover,
 .leaflet-container .leaflet-control-locate {
   margin-left: 10px !important;
 }
+
+.leaflet-feature-selector {
+  background-image: url(../images/crosshair.png);
+}

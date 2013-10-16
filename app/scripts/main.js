@@ -103,7 +103,13 @@
 
     // Setup the selector tool
     featureSelect = window.featureSelect = L.featureSelect({
-      featureGroup: blockfaceLayer
+      featureGroup: blockfaceLayer,
+      selectSize: [8, 8],
+      icon: L.divIcon({
+        iconSize: [65, 65],
+        iconAnchor: [32, 32],
+        className: 'leaflet-feature-selector'
+      })
     }).addTo(map);
 
     // Handle selection events
