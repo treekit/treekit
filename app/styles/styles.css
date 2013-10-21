@@ -1553,3 +1553,18 @@ a.remove {
 #forms-container form:first-child a.remove {
   display: none !important;
 }
+
+/* Bigger Zoom Buttons */
+a.leaflet-control-zoom-in,
+a.leaflet-control-zoom-in:hover,
+a.leaflet-control-zoom-out,
+a.leaflet-control-zoom-out:hover,
+.leaflet-control-locate a,
+.leaflet-control-locate a:hover {
+  width: 38px !important;
+  height: 38px !important;
+  font: bold 28px 'Lucida Console', Monaco, monospace !important;
+}
+.leaflet-container .leaflet-control-locate {
+  margin-left: 10px !important;
+}
