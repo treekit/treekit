@@ -185,7 +185,7 @@
 
     // For each form element
     $form.find('input, select, textarea').each(function(i, el) {
-      if (!el.validity.valid) {
+      if ($(el).is(':visible') && !el.validity.valid) {
         valid = false;
         $(el).focus();
         if (el.select) {
@@ -221,7 +221,15 @@
     $('form').each(function(i, el) {
       if ($(el).hasClass('treeform')) {
         treeObj = formToObj(el);
+
+        // Special defaults
         treeObj.fastigiate = treeObj.fastigiate || false;
+        treeObj.circ = treeObj.circ || 0;
+        // 2 is "confirmed"
+        treeObj.speciesconfirmed = treeObj.speciesconfirmed || 2;
+        treeObj.species = treeObj.species || 'Unknown';
+        treeObj.genus = treeObj.genus || 'Unknown';
+
         obj.trees.push(treeObj);
       } else {
         $.extend(obj, formToObj(el));
@@ -408,7 +416,7 @@
     }
 
     // Prevent page transition if the current form is invalid
-    $('body').on('tap click', '.page a.btn-next', function(evt, data) {
+    $('body').on('click', '.page a.btn-next', function(evt, data) {
       // Get a list of forms on this page - could be many
       var $pageForms = $(this).parents('.page').find('form');
 
@@ -477,6 +485,22 @@
 
       $siblingSpeciesSelect.html(optionsHtml);
     });
+
+    // Set the btn-primary class when a grouped radio button changes
+    $('body').on('change', '.treeform input[name="status"]', function(evt) {
+      var $treeForm = $(evt.target).parents('.treeform'),
+          $aliveAttributesContainer = $treeForm.find('.alive-tree-attributes');
+
+      if (evt.target.value !== 'alive') {
+        $aliveAttributesContainer.hide();
+        $aliveAttributesContainer.find('input, select, textarea').each(function(i, el) {
+          $(el).val('');
+        });
+      } else {
+        $aliveAttributesContainer.show();
+      }
+    });
+
 
     // Manually reload the page since linking to index.html acts weird on IOS
     // Safari apps running in app mode (loads Safari, not reload the page)

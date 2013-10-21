@@ -26,7 +26,6 @@
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/styles.css">
     <link rel="stylesheet" href="components/leaflet-locatecontrol/src/L.Control.Locate.css" />
-    <link rel="stylesheet" href="styles/feature-select.css">
     <!-- endbuild -->
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
@@ -77,6 +76,8 @@
             <label class="radio btn btn-fourth"><input name="status" type="radio" value="none" />Empty</label>
           </p>
 
+          <div class="alive-tree-attributes">
+
           <p class="clearfix">
             <label class="pull-left">Circumference of Tree</label>
             <input name="circ" type="number" step="any" required class="pull-right" placeholder="in">
@@ -108,6 +109,7 @@
             <label class="radio btn btn-third"><input name="speciesconfirmed" type="radio" value="0" />Uncertain</label>
           </p>
 
+          </div>
         </fieldset>
 
         <fieldset>
@@ -264,6 +266,7 @@
     <script src="scripts/vendor/zepto/ajax.js"></script>
     <script src="scripts/vendor/zepto/form.js"></script>
     <script src="scripts/vendor/zepto/touch.js"></script>
+    <script src="scripts/vendor/zepto/selector.js"></script>
     <!-- endbuild -->
 
     <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
