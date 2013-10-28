@@ -5,7 +5,7 @@
 
   var formTplSource = $('#tree-form-tpl').html(),
       formTemplate = Handlebars.compile(formTplSource),
-      optionTplSource = $('#option-tpl').html(),
+      optionTplSource = $('#species-option-tpl').html(),
       optionTemplate = Handlebars.compile(optionTplSource),
       selectBlockfaceMsg = 'Drag the map to choose your block (it will turn red)',
       $formContainer,
@@ -240,12 +240,13 @@
   }
 
   function getTreeSpecies(callback) {
-    var genusField = 'latin_common_genus',
-        speciesField = 'latin_species',
-        widelyPlantedField = 'widely_planted',
-        sql = 'SELECT DISTINCT ' + widelyPlantedField + ', initcap(' + genusField + ') AS ' + genusField +
-          ', initcap(' + speciesField + ') AS ' + speciesField + ' FROM species_list_live ORDER BY ' +
-          widelyPlantedField + ', ' + genusField + ', ' + speciesField,
+    var sql = 'SELECT DISTINCT ' + NS.Config.cartodb.widelyPlantedField +
+          ', initcap(' + NS.Config.cartodb.genusField + ') AS ' + NS.Config.cartodb.genusField +
+          ', initcap(' + NS.Config.cartodb.speciesField + ') AS ' + NS.Config.cartodb.speciesField +
+          ' FROM ' + NS.Config.cartodb.speciesTable + ' ORDER BY ' +
+            NS.Config.cartodb.widelyPlantedField + ', ' +
+            NS.Config.cartodb.genusField + ', ' +
+            NS.Config.cartodb.speciesField,
         sbg = {};
 
     $.getJSON(NS.Config.cartodb.queryUrl+'?q=' + sql, function(data){
@@ -254,13 +255,17 @@
 
       for (i=0; i<len; i++) {
         row = data.rows[i],
-        genus = row[genusField],
-        species = row[speciesField];
+        genus = row[NS.Config.cartodb.genusField],
+        species = row[NS.Config.cartodb.speciesField];
 
-        if (sbg[genus]) {
-          sbg[genus].push(species);
+        if (!sbg[genus]) {
+          sbg[genus] = {common: [], uncommon: []};
+        }
+
+        if (row[NS.Config.cartodb.widelyPlantedField]) {
+          sbg[genus].common.push(species);
         } else {
-          sbg[genus] = [species];
+          sbg[genus].uncommon.push(species);
         }
       }
 
@@ -270,9 +275,24 @@
   }
 
   function renderTreeForm(index, streetName) {
-    var html = formTemplate({
+    var genusList = {},
+        html;
+
+    genusList.common = $.map(speciesByGenus, function(val, key) {
+      if (val.common.length > 0) {
+        return key;
+      }
+    });
+
+    genusList.uncommon = $.map(speciesByGenus, function(val, key) {
+      if (val.common.length === 0) {
+        return key;
+      }
+    });
+
+    html = formTemplate({
       index: index,
-      genusList: Object.keys(speciesByGenus),
+      genusList: genusList,
       streetName: streetName
     });
 
@@ -480,7 +500,10 @@
       var $parentForm = $(evt.target).parents('.treeform'),
           $siblingSpeciesSelect = $parentForm.find('select[name="species"]'),
           optionsHtml = optionTemplate({
-            options: speciesByGenus[evt.target.value]
+            options: {
+              common: speciesByGenus[evt.target.value].common,
+              uncommon: speciesByGenus[evt.target.value].uncommon
+            }
           });
 
       $siblingSpeciesSelect.html(optionsHtml);

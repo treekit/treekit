@@ -32,12 +32,25 @@
         <link rel="stylesheet" href="components/leaflet-locatecontrol/src/L.Control.Locate.ie.css" />
     <![endif]-->
 
-    <script id="option-tpl" type="text/x-handlebars-template">
+    <script id="species-option-tpl" type="text/x-handlebars-template">
       <option value="">Select Species</option>
       <option value="Unknown">Unknown Species</option>
-      {{#options}}
-      <option>{{.}}</option>
-      {{/options}}
+
+      {{#if options.common.length}}
+      <optgroup label="Common">
+        {{#options.common}}
+        <option>{{ . }}</option>
+        {{/options.common}}
+      </optgroup>
+      {{/if}}
+
+      {{#if options.uncommon.length}}
+      <optgroup label="Uncommon">
+        {{#options.uncommon}}
+        <option>{{ . }}</option>
+        {{/options.uncommon}}
+      </optgroup>
+      {{/if}}
     </script>
 
     <script id="tree-form-tpl" type="text/x-handlebars-template">
@@ -87,9 +100,23 @@
             <select name="genus" class="block" required>
               <option value="">Select Genus</option>
               <option value="Unknown">Unknown Genus</option>
-              {{#genusList}}
-              <option>{{.}}</option>
-              {{/genusList}}
+
+              {{#if genusList.common.length}}
+              <optgroup label="Common">
+                {{#genusList.common}}
+                <option>{{ . }}</option>
+                {{/genusList.common}}
+              </optgroup>
+              {{/if}}
+
+              {{#if genusList.uncommon.length}}
+              <optgroup label="Uncommon">
+                {{#genusList.uncommon}}
+                <option>{{ . }}</option>
+                {{/genusList.uncommon}}
+              </optgroup>
+              {{/if}}
+
             </select>
           </p>
           <p class="clearfix">

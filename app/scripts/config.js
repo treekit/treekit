@@ -18,7 +18,10 @@
     cartodb: {
       queryUrl: 'https://treekit.cartodb.com/api/v2/sql/',
       blockfaceTable: 'blockface_live',
-      speciesTable: 'species'
+      speciesTable: 'species_list_live',
+      genusField: 'latin_common_genus',
+      speciesField: 'latin_species',
+      widelyPlantedField: 'widely_planted'
     }
   };
 
