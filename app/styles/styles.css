@@ -1573,4 +1573,5 @@ a.leaflet-control-zoom-out:hover,
 
 .leaflet-feature-selector {
   background-image: url(../images/crosshair.png);
+  pointer-events: none;
 }
