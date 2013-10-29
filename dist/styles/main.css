@@ -1500,7 +1500,7 @@ input,
 /* =The Map
 -------------------------------------------------------------- */
 
-#map {
+.map {
   position: absolute;
   top: 3em;
   left: 0;
@@ -1535,6 +1535,22 @@ input,
   text-align: center;
   display: none;
 }
+
+.preview-btn {
+  position: absolute;
+  bottom: 1em;
+}
+
+#good-preview-btn {
+  left: 1em;
+  width: 42%;
+}
+
+#bad-preview-btn {
+  width: 42%;
+  right: 1em;
+}
+
 
 .submitted input:invalid,
 .submitted select:invalid {
