@@ -188,7 +188,7 @@
     }
 
     getMostRecentSurveyGeoJson(who, function(data) {
-      var layer = L.geoJson(data).addTo(previewMap);
+      var layer = L.geoJson(data, {style: defaultStyle}).addTo(previewMap);
       previewMap.fitBounds(layer.getBounds());
     });
 
