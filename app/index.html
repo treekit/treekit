@@ -210,7 +210,7 @@
           </div>
         </div>
       </div>
-      <div id="map"></div>
+      <div id="map" class="map"></div>
       <div id="map-alert" class="alert alert-info"></div>
       <form>
         <input id="blockid" name="blockid" type="hidden"></input>
@@ -243,7 +243,7 @@
             </p>
           </form>
 
-          <p><a href="#" data-next="#save" class="btn btn-large btn-primary btn-block save-btn">Submit</a></p>
+          <p><a href="#" data-next="#preview" class="btn btn-large btn-primary btn-block save-btn">Submit</a></p>
         </div>
 
         <hr />
@@ -253,7 +253,22 @@
       </div>
     </div>
 
-    <div class="page" id="save">
+    <div class="page" id="preview">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <img src="images/treekit-logo.png" class="logo">
+          </div>
+        </div>
+      </div>
+      <div class="container content">
+        <div id="previewmap" class="map"></div>
+        <a id="good-preview-btn" href="#thanks" class="btn btn-large btn-primary btn-block preview-btn">Looks great!</a>
+        <a id="bad-preview-btn" href="#" data-next="#thanks" class="btn btn-large btn-block preview-btn">Looks wrong</a>
+      </div>
+    </div>
+
+    <div class="page" id="thanks">
       <div class="navbar">
         <div class="navbar-inner">
           <div class="container">
@@ -279,7 +294,7 @@
           <p><input type="text" name="quitreason" class="input-block-level" placeholder="Offset tree bed, bad sidewalks, etc..." required></p>
         </form>
 
-        <a href="#" data-next="#save" class="btn btn-large btn-primary btn-block quit-btn">Submit</a>
+        <a href="#" data-next="#thanks" class="btn btn-large btn-primary btn-block quit-btn">Submit</a>
 
       </div>
     </div>

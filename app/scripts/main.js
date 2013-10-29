@@ -29,7 +29,7 @@
       $mapNextBtn = $('#map-next-btn'),
       speciesByGenus,
       endPointLayers, blockfaceLayer,
-      i, len, map, featureSelect;
+      i, len, map, featureSelect, previewMap, lastSurveyId;
 
 
   function updateMapState(selectedLayers) {
@@ -176,6 +176,24 @@
     });
   }
 
+  function initPreviewMap() {
+    previewMap = L.map('previewmap', NS.Config.map);
+
+    var who = $('#mapper-name-input').val(),
+        layerConfig, i;
+
+    for (i=0; i<NS.Config.layers.length; i++) {
+      layerConfig = NS.Config.layers[i];
+      L.tileLayer(layerConfig.url, layerConfig).addTo(previewMap);
+    }
+
+    getMostRecentSurveyGeoJson(who, function(data) {
+      var layer = L.geoJson(data).addTo(previewMap);
+      previewMap.fitBounds(layer.getBounds());
+    });
+
+  }
+
   // Helper for checking the validity of a form
   function checkFormValidity($form) {
     var valid = true;
@@ -304,6 +322,69 @@
     return val ? 'TRUE' : 'FALSE';
   }
 
+  // Get SQL for the current user's GeoJSON of the most recent survey
+  function getMostRecentSurveyGeoJson(who, callback) {
+      var url = NS.Config.cartodb.queryUrl + '?q=' +
+          'SELECT survey_id FROM '+ NS.Config.cartodb.blockfaceSurveyTable +
+          ' WHERE who = \''+who+'\' ORDER BY created_at DESC LIMIT 1';
+
+      $.getJSON(url, function(data){
+
+        lastSurveyId = data.rows[0].survey_id;
+
+        // this is the nice looking CTE version of the query
+        var geoJsonSql = 'WITH recent AS ( ' +
+          '  SELECT ' +
+          '    survey_id, ' +
+          '    array_agg(.3048*width::float order by treenum) width, ' +
+          '    array_agg(.3048*length::float order by treenum) length, ' +
+          '    array_agg(.3048*dist::float order by treenum) dist, ' +
+          '    array_agg(treenum order by treenum) treenum ' +
+          '  FROM trees_live ' +
+          '  WHERE survey_id = ' + lastSurveyId +
+          '  GROUP BY survey_id ' +
+          '), ' +
+          'aggs AS ( ' +
+          '  SELECT ' +
+          '    s.blockface_id, ' +
+          '    CASE WHEN s.direction = -1 THEN false ELSE true END left_side, ' +
+          '    s.cartodb_id, s.who, b.the_geom, ' +
+          '    r.survey_id, width, length, dist, treenum ' +
+          '  FROM ' +
+          '    recent r, blockface_survey_live s, blockface_live b ' +
+          '  WHERE ' +
+          '    r.survey_id = s.survey_id AND ' +
+          '    b.blockface_id = s.blockface_id ' +
+          '), ' +
+          'layed AS ( ' +
+          '  SELECT ' +
+          '    survey_id, ' +
+          '      layoutBoxes( ' +
+          '        ST_Transform( ' +
+          '          st_geometryn(the_geom,1), ' +
+          '          _ST_BestSRID(the_geom::geometry) ' +
+          '        ), ' +
+          '        left_side, ' +
+          '        dist, ' +
+          '        length, ' +
+          '        width ' +
+          '      ) ' +
+          '    as tbeds, ' +
+          '    treenum ' +
+          '  FROM aggs ' +
+          ') ' +
+          'SELECT ' +
+          '  survey_id, ' +
+          '  unnest(treenum) as treenum, ' +
+          '  CDB_TransformToWebmercator(unnest(tbeds)) as the_geom_webmercator, ' +
+          '  ST_Transform(unnest(tbeds),4326) as the_geom ' +
+          'FROM layed',
+          geoJsonUrl = NS.Config.cartodb.queryUrl + '?format=GeoJSON&q=' + geoJsonSql;
+
+          $.getJSON(geoJsonUrl, callback);
+      });
+  }
+
   // Get the SQL for saving a survey
   function getSurveySql(s) {
     var tree, i, treeSql, noteSql,
@@ -418,6 +499,13 @@
       }
     });
 
+    $('#preview').on('pageAnimationEnd', function(evt, data) {
+      if (!previewMap && data.direction === 'in') {
+        initPreviewMap();
+      }
+    });
+
+
     // Autofocus on the first input element, if any
     $('.page').on('pageAnimationEnd', function(evt, data) {
       var $input = $(evt.target).find('input').first();
@@ -473,7 +561,7 @@
 
         // Save the survey with no trees
         saveSurvey(obj, function() {
-          jqt.goTo('#save', 'slideleft');
+          jqt.goTo('#thanks', 'slideleft');
         }, function() {
           window.alert('Unable to save. Please try again.');
         });
@@ -547,6 +635,22 @@
           window.alert('Unable to save. Please try again.');
         });
       }
+    });
+
+    $('body').on('click', '#bad-preview-btn', function() {
+      var $this = $(this),
+          sql = 'SELECT OTK_FlagSurvey('+ lastSurveyId +')';
+
+        $.ajax({
+          url: NS.Config.cartodb.queryUrl + '?q=' + sql,
+          type: 'POST',
+          success: function() {
+            jqt.goTo($this.attr('data-next'), 'slideleft');
+          },
+          error: function() {
+            window.alert('Unable to save. Please try again.');
+          }
+        });
     });
 
     $('body').on('click', '.quit-btn', function() {
