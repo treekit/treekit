@@ -15,6 +15,10 @@
 2. Install [Yeoman](http://yeoman.io/)
 
     `npm install -g yo`
+    
+3. Install [Grunt Compass](https://github.com/gruntjs/grunt-contrib-compass)
+
+    `gem update --system && gem install compass`
 
 ### Installation
 
