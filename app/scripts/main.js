@@ -340,7 +340,7 @@
           '    array_agg(.3048*length::float order by treenum) length, ' +
           '    array_agg(.3048*dist::float order by treenum) dist, ' +
           '    array_agg(treenum order by treenum) treenum ' +
-          '  FROM trees_live ' +
+          '  FROM ' + NS.Config.cartodb.treesTable +
           '  WHERE survey_id = ' + lastSurveyId +
           '  GROUP BY survey_id ' +
           '), ' +
@@ -351,7 +351,7 @@
           '    s.cartodb_id, s.who, b.the_geom, ' +
           '    r.survey_id, width, length, dist, treenum ' +
           '  FROM ' +
-          '    recent r, blockface_survey_live s, blockface_live b ' +
+          '    recent r, ' + NS.Config.cartodb.blockfaceSurveyTable +' s, ' + NS.Config.cartodb.blockfaceTable +' b ' +
           '  WHERE ' +
           '    r.survey_id = s.survey_id AND ' +
           '    b.blockface_id = s.blockface_id ' +
