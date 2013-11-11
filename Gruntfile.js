@@ -255,7 +255,8 @@ module.exports = function (grunt) {
                     src: [
                         '*.{ico,txt}',
                         'images/{,*/}*.{webp,gif}',
-                        'styles/fonts/*'
+                        'styles/fonts/*',
+                        'CNAME'
                     ]
                 },{
                     // Copy images for the Leaflet locate control plugin
