@@ -336,10 +336,10 @@
         var geoJsonSql = 'WITH recent AS ( ' +
           '  SELECT ' +
           '    survey_id, ' +
-          '    array_agg(.3048*width::float order by treenum) width, ' +
-          '    array_agg(.3048*length::float order by treenum) length, ' +
-          '    array_agg(.3048*dist::float order by treenum) dist, ' +
-          '    array_agg(treenum order by treenum) treenum ' +
+          '    array_agg(.3048*width::float order by orderonstreet) width, ' +
+          '    array_agg(.3048*length::float order by orderonstreet) length, ' +
+          '    array_agg(.3048*dist::float order by orderonstreet) dist, ' +
+          '    array_agg(orderonstreet order by orderonstreet) orderonstreet ' +
           '  FROM ' + NS.Config.cartodb.treesTable +
           '  WHERE survey_id = ' + lastSurveyId +
           '  GROUP BY survey_id ' +
@@ -349,7 +349,7 @@
           '    s.blockface_id, ' +
           '    CASE WHEN s.direction = -1 THEN false ELSE true END left_side, ' +
           '    s.cartodb_id, s.who, b.the_geom, ' +
-          '    r.survey_id, width, length, dist, treenum ' +
+          '    r.survey_id, width, length, dist, orderonstreet ' +
           '  FROM ' +
           '    recent r, ' + NS.Config.cartodb.blockfaceSurveyTable +' s, ' + NS.Config.cartodb.blockfaceTable +' b ' +
           '  WHERE ' +
@@ -370,12 +370,12 @@
           '        width ' +
           '      ) ' +
           '    as tbeds, ' +
-          '    treenum ' +
+          '    orderonstreet ' +
           '  FROM aggs ' +
           ') ' +
           'SELECT ' +
           '  survey_id, ' +
-          '  unnest(treenum) as treenum, ' +
+          '  unnest(orderonstreet) as orderonstreet, ' +
           '  CDB_TransformToWebmercator(unnest(tbeds)) as the_geom_webmercator, ' +
           '  ST_Transform(unnest(tbeds),4326) as the_geom ' +
           'FROM layed',
