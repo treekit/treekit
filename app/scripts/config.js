@@ -15,6 +15,13 @@
         maxZoom: 19
       }
     ],
+    previewLayers: [
+      {
+        url: 'http://{s}.tiles.mapbox.com/v3/openplans.gcp3ekpl/{z}/{x}/{y}.png',
+        attribution: '<a href="http://mapbox.com/about/maps" target="_blank">Terms &amp; Feedback</a>',
+        maxZoom: 19
+      }
+    ],
     cartodb: {
       queryUrl: 'https://treekit.cartodb.com/api/v2/sql/',
 

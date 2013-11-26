@@ -14,6 +14,13 @@
       $nameLabel,
       $mapAlert,
       jqt,
+      previewStyle = {
+        opacity: 0.9,
+        fillOpacity: 0.5,
+        weight: 2,
+        color: '#ffff33',
+        clickable: false
+      },
       defaultStyle = {
         opacity: 0.7,
         weight: 2,
@@ -182,13 +189,14 @@
     var who = $('#mapper-name-input').val(),
         layerConfig, i;
 
-    for (i=0; i<NS.Config.layers.length; i++) {
-      layerConfig = NS.Config.layers[i];
+    for (i=0; i<NS.Config.previewLayers.length; i++) {
+      layerConfig = NS.Config.previewLayers[i];
       L.tileLayer(layerConfig.url, layerConfig).addTo(previewMap);
     }
 
     getMostRecentSurveyGeoJson(who, function(data) {
-      var layer = L.geoJson(data, {style: defaultStyle}).addTo(previewMap);
+      var layer = L.geoJson(data, {style: previewStyle}).addTo(previewMap);
+
       previewMap.fitBounds(layer.getBounds());
     });
 
