@@ -355,11 +355,14 @@
           'aggs AS ( ' +
           '  SELECT ' +
           '    s.blockface_id, ' +
+          '    s.direction, ' +
           '    CASE WHEN s.direction = -1 THEN false ELSE true END left_side, ' +
           '    s.cartodb_id, s.who, b.the_geom, ' +
           '    r.survey_id, width, length, dist, orderonstreet ' +
           '  FROM ' +
-          '    recent r, ' + NS.Config.cartodb.blockfaceSurveyTable +' s, ' + NS.Config.cartodb.blockfaceTable +' b ' +
+          '    recent r, ' +
+               NS.Config.cartodb.blockfaceSurveyTable + ' s, ' +
+               NS.Config.cartodb.blockfaceTable + ' b ' +
           '  WHERE ' +
           '    r.survey_id = s.survey_id AND ' +
           '    b.blockface_id = s.blockface_id ' +
@@ -369,7 +372,9 @@
           '    survey_id, ' +
           '      layoutBoxes( ' +
           '        ST_Transform( ' +
-          '          st_geometryn(the_geom,1), ' +
+          '          CASE WHEN direction = -1 THEN ST_Reverse(' +
+          '          st_geometryn(the_geom,1)) ELSE ' +
+          '          st_geometryn(the_geom,1) END, ' +
           '          _ST_BestSRID(the_geom::geometry) ' +
           '        ), ' +
           '        left_side, ' +
