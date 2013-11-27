@@ -20,6 +20,10 @@
 
     `gem update --system && gem install compass`
 
+4. Install [Bower](http://bower.io/)
+
+    `npm install -g bower`
+
 ### Installation
 
 From the command line interface, clone the repository from GitHub
