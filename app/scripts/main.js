@@ -40,7 +40,7 @@
 
 
   function updateMapState(selectedLayers) {
-    var latLngs;
+    var depth, latLngs, layer;
 
     // Starting the map session. Can't move forward.
     $mapNextBtn.hide();
@@ -49,11 +49,18 @@
 
     // Can't choose a start point if more than one block is selected
     if (selectedLayers.length === 1) {
-      // Get the lat/lng array for this line
-      latLngs = L.GeoJSON.coordsToLatLngs(selectedLayers[0].feature.geometry.coordinates, 1)[0];
+      layer = selectedLayers[0];
+
+      if (layer.feature.geometry.type.indexOf('Multi') === 0) {
+        depth = 1;
+        latLngs = L.GeoJSON.coordsToLatLngs(layer.feature.geometry.coordinates, depth)[0];
+      } else {
+        depth = 0;
+        latLngs = L.GeoJSON.coordsToLatLngs(layer.feature.geometry.coordinates, depth);
+      }
 
       // Set the ID value on the hidden input field for serialization
-      $('#blockid').val(selectedLayers[0].feature.properties.blockface_id);
+      $('#blockid').val(layer.feature.properties.blockface_id);
 
       // Update the user prompt
       $mapAlert.text('Tap your starting point...').show();
@@ -87,6 +94,16 @@
   }
 
   function initMap() {
+    function toArray(obj) {
+      var a = [], key;
+      for(key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          a.push(obj[key]);
+        }
+      }
+      return a;
+    }
+
     map = L.map('map', NS.Config.map);
 
     var updateBlockfaces,
@@ -122,12 +139,12 @@
     // Handle selection events
     featureSelect.on('select', function(evt) {
       setStyle(evt.layers, selectStyle);
-      updateMapState(featureSelect.layers);
+      updateMapState(toArray(featureSelect.layers));
     });
 
     featureSelect.on('unselect', function(evt) {
       setStyle(evt.layers, defaultStyle);
-      updateMapState(featureSelect.layers);
+      updateMapState(toArray(featureSelect.layers));
     });
 
     // Add empty layerGroup for our endpoints
@@ -167,7 +184,7 @@
       // $mapAlert.text('Loading map data...').show();
       updateBlockfaces(function() {
         // Prompt the user to use the data now that it's loaded
-        if (featureSelect.layers.length === 1) {
+        if (toArray(featureSelect.layers).length === 1) {
           $mapAlert.text('Tap your starting point...');
         } else {
           $mapAlert.text(selectBlockfaceMsg);
