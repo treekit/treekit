@@ -36,11 +36,12 @@
       $mapNextBtn = $('#map-next-btn'),
       speciesByGenus,
       endPointLayers, blockfaceLayer,
+      selectedBlockface,
       i, len, map, featureSelect, previewMap, lastSurveyId;
 
 
   function updateMapState(selectedLayers) {
-    var depth, latLngs, layer;
+    var depth, latLngs;
 
     // Starting the map session. Can't move forward.
     $mapNextBtn.hide();
@@ -49,18 +50,18 @@
 
     // Can't choose a start point if more than one block is selected
     if (selectedLayers.length === 1) {
-      layer = selectedLayers[0];
+      selectedBlockface = selectedLayers[0];
 
-      if (layer.feature.geometry.type.indexOf('Multi') === 0) {
+      if (selectedBlockface.feature.geometry.type.indexOf('Multi') === 0) {
         depth = 1;
-        latLngs = L.GeoJSON.coordsToLatLngs(layer.feature.geometry.coordinates, depth)[0];
+        latLngs = L.GeoJSON.coordsToLatLngs(selectedBlockface.feature.geometry.coordinates, depth)[0];
       } else {
         depth = 0;
-        latLngs = L.GeoJSON.coordsToLatLngs(layer.feature.geometry.coordinates, depth);
+        latLngs = L.GeoJSON.coordsToLatLngs(selectedBlockface.feature.geometry.coordinates, depth);
       }
 
       // Set the ID value on the hidden input field for serialization
-      $('#blockid').val(layer.feature.properties.blockface_id);
+      $('#blockid').val(selectedBlockface.feature.properties.blockface_id);
 
       // Update the user prompt
       $mapAlert.text('Tap your starting point...').show();
@@ -209,6 +210,7 @@
     for (i=0; i<NS.Config.previewLayers.length; i++) {
       layerConfig = NS.Config.previewLayers[i];
       L.tileLayer(layerConfig.url, layerConfig).addTo(previewMap);
+      L.geoJson(selectedBlockface.feature, {style: selectStyle}).addTo(previewMap);
     }
 
     getMostRecentSurveyGeoJson(who, function(data) {
