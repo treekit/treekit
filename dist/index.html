@@ -210,8 +210,14 @@
       <div id="map" class="map"></div>
       <div id="map-alert" class="alert alert-info"></div>
       <form>
+        <div id="side-radio-group" class="btn-group">
+          <label class="radio btn btn-second"><input name="side" type="radio" value="left">Left</label>
+          <label class="radio btn btn-second"><input name="side" type="radio" value="right">Right</label>
+        </div>
+
+
         <input id="blockid" name="blockid" type="hidden">
-        <input id="startid" name="startid" type="hidden">
+        <input id="direction" name="direction" type="hidden">
       </form>
       <a href="#treedetails" id="map-next-btn" class="map-btn btn btn-large btn-primary">Next &raquo;</a>
     </div>
@@ -228,6 +234,7 @@
         <p class="text-center">
           <a href="#" id="no-trees-btn" class="btn btn-mini btn-warning pull-right">No trees?</a>
         </p>
+
         <div id="forms-container"></div>
 
         <div id="treecontrols" class="text-center">

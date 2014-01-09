@@ -1436,6 +1436,7 @@ input[type="number"] {
   border-right-width: 0;
   border-radius: 0;
 }
+.btn-second { width: 50%; }
 .btn-third { width: 33.333333333%; }
 .btn-fourth { width: 25%; }
 
@@ -1531,8 +1532,17 @@ input,
   position: absolute;
   top: 4em;
   right: 1em;
-  left: 60px;
+  left: 70px;
   text-align: center;
+  display: none;
+}
+
+#side-radio-group {
+  position: absolute;
+  top: 7em;
+  right: 1em;
+  left: 60px;
+  margin: 0 20%;
   display: none;
 }
 

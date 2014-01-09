@@ -13,6 +13,7 @@
       $nameInput,
       $nameLabel,
       $mapAlert,
+      $sideRadioGroup,
       jqt,
       previewStyle = {
         opacity: 0.9,
@@ -44,6 +45,9 @@
     var depth, latLngs;
 
     // Starting the map session. Can't move forward.
+    $sideRadioGroup.hide();
+    $sideRadioGroup.find('label').removeClass('btn-primary');
+    $sideRadioGroup.find('input').each(function(){ this.checked = false; });
     $mapNextBtn.hide();
     // Hide any visible end points
     endPointLayers.clearLayers();
@@ -155,12 +159,16 @@
     map.addLayer(blockfaceLayer);
 
     endPointLayers.on('click', function(evt) {
-      $('#startid').val(evt.layer.options.direction);
+      $('#direction').val(evt.layer.options.direction);
 
       endPointLayers.setStyle(defaultStyle);
       evt.layer.setStyle(selectStyle);
 
-      $mapAlert.text('Click Next to continue...');
+      $mapAlert.text('What side of the street are you on?');
+      $sideRadioGroup.show();
+    });
+
+    $sideRadioGroup.on('change', 'input', function(evt) {
       $mapNextBtn.show();
     });
 
@@ -182,7 +190,6 @@
 
     // Update the blockfaces for those in the current extent on moveend
     map.on('moveend', function(evt) {
-      // $mapAlert.text('Loading map data...').show();
       updateBlockfaces(function() {
         // Prompt the user to use the data now that it's loaded
         if (toArray(featureSelect.layers).length === 1) {
@@ -427,7 +434,8 @@
                 s.blockid+"," +
                 "'"+s.who+"'," +
                 hasTrees+","+
-                s.startid+"," +
+                s.direction+"," +
+                "'"+s.side+"'," +
                 "'"+s.datetime+"'::timestamp) as sid ";
 
     if (s.trees.length > 0 || s.quitreason) {
@@ -492,8 +500,10 @@
   // Init the app
   NS.init = function() {
     $mapAlert = $('#map-alert');
-    $nameInput = $('#mapper-name-input'),
-    $nameLabel = $('.mapper-name-label'),
+    $sideRadioGroup = $('#side-radio-group');
+    $nameInput = $('#mapper-name-input');
+    $nameLabel = $('.mapper-name-label');
+
     $formContainer = $('#treedetails #forms-container');
 
     // Save the mapper name
