@@ -382,7 +382,7 @@
           '  SELECT ' +
           '    s.blockface_id, ' +
           '    s.direction, ' +
-          '    CASE WHEN s.direction = -1 THEN false ELSE true END left_side, ' +
+          '    CASE WHEN lower(s.side) = \'right\' THEN false ELSE true END as left_side, ' +
           '    s.cartodb_id, s.who, b.the_geom, ' +
           '    r.survey_id, width, length, dist, orderonstreet ' +
           '  FROM ' +
