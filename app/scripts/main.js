@@ -629,14 +629,26 @@
     $('body').on('change', 'select[name="genus"]', function(evt) {
       var $parentForm = $(evt.target).parents('.treeform'),
           $siblingSpeciesSelect = $parentForm.find('select[name="species"]'),
-          optionsHtml = optionTemplate({
-            options: {
-              common: speciesByGenus[evt.target.value].common,
-              uncommon: speciesByGenus[evt.target.value].uncommon
-            }
-          });
+          sbg = speciesByGenus[evt.target.value],
+          optionsHtml;
+
+
+      optionsHtml = optionTemplate({
+        options: {
+          common: sbg ? sbg.common : null,
+          uncommon: sbg ? sbg.uncommon : null,
+        }
+      });
 
       $siblingSpeciesSelect.html(optionsHtml);
+
+      // Hide species if unknown
+      if (evt.target.value === '' || evt.target.value.toUpperCase() === 'UNKNOWN') {
+        $siblingSpeciesSelect.hide();
+        $siblingSpeciesSelect.val('');
+      } else {
+        $siblingSpeciesSelect.show();
+      }
     });
 
     // Set the btn-primary class when a grouped radio button changes
@@ -653,7 +665,6 @@
         $aliveAttributesContainer.show();
       }
     });
-
 
     // Manually reload the page since linking to index.html acts weird on IOS
     // Safari apps running in app mode (loads Safari, not reload the page)

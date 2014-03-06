@@ -1497,6 +1497,9 @@ input,
   margin-right: 0;
 }
 
+.treeform select[name="species"] {
+  display: none;
+}
 
 /* =The Map
 -------------------------------------------------------------- */
