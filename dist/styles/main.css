@@ -1313,8 +1313,13 @@ hr{ margin: 2em 0; border:0; border-top: 1px solid rgba(0,0,0,0.1); border-botto
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0,0,0,0.25);
 }
+.logo-hk {
+  height: 2.3em;
+  width: auto;
+  margin: 0.3em 0;
+}
 .logo {
-  height: 2em;
+  height: 1.7em;
   width: auto;
   margin: 0.5em 0;
 }
