@@ -291,6 +291,26 @@
     return obj;
   }
 
+  function getAreaLevelData(callback){
+    var sql, locate = {};
+    var urlarea = window.location.host + window.location.search;
+
+    sql = 'SELECT ST_X(the_geom) lng, ST_Y(the_geom) lat, zoom, area_prefix ' +
+      ' FROM ' + NS.Config.cartodb.areasTable +
+      ' WHERE urlparam=\'' + urlarea + '\'';
+
+    $.getJSON(NS.Config.cartodb.queryUrl+'?q=' + sql, function(data){
+      if (data.rows.length > 0){
+        locate.lat = data.rows[0].lat,
+        locate.lng = data.rows[0].lng,
+        locate.zoom = data.rows[0].zoom,
+        locate.area_prefix = data.rows[0].area_prefix;
+      }
+      callback(locate);
+    });
+
+  }
+
   function getTreeSpecies(callback) {
     var sql = 'SELECT DISTINCT ' + NS.Config.cartodb.widelyPlantedField +
           ', initcap(' + NS.Config.cartodb.genusField + ') AS ' + NS.Config.cartodb.genusField +
@@ -506,6 +526,23 @@
 
     $formContainer = $('#treedetails #forms-container');
 
+    // Fetch area-level data: lat, lng, zoom and species list
+    getAreaLevelData(function(area){
+
+      NS.Config.map.center[0] = area.lat || NS.Config.map.center[0];
+      NS.Config.map.center[1] = area.lng || NS.Config.map.center[1];
+      NS.Config.map.zoom = area.zoom || NS.Config.map.zoom;
+      if (area.area_prefix){
+        NS.Config.cartodb.speciesTable = area.area_prefix + '_' + NS.Config.cartodb.speciesTable;
+      }
+
+      getTreeSpecies(function(sbg) {
+        speciesByGenus = sbg;
+        $formContainer.append(renderTreeForm(treeIndex));
+      });
+
+    });
+
     // Save the mapper name
     $nameInput.on('change', function() {
       var val = $(this).val();
@@ -526,12 +563,6 @@
       startupScreen: null,
       statusBar: 'default', // other options: black-translucent, black
       useTouchScroll: false
-    });
-
-    // Fetch and init the tree species list
-    getTreeSpecies(function(sbg) {
-      speciesByGenus = sbg;
-      $formContainer.append(renderTreeForm(treeIndex));
     });
 
     // Init the map when we animate to that page
