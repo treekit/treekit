@@ -29,6 +29,7 @@
       blockfaceSurveyTable: 'blockface_survey_live',
       speciesTable: 'species_list_live',
       treesTable: 'trees_live',
+      areasTable: 'survey_areas',
 
       genusField: 'latin_common_genus',
       speciesField: 'latin_species',
