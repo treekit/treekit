@@ -37,7 +37,7 @@ Install the build tools
 
 ### Configuration
 
-All configuration items are located in `app/scrips/config.js`. This is where you can change map and CartoDB settings.
+All configuration items are located in `app/scripts/config.js`. This is where you can change map and CartoDB settings.
 
 ### Development and Testing
 
