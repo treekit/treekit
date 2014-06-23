@@ -510,7 +510,10 @@
     var sql = getSurveySql(obj);
 
     $.ajax({
-      url: NS.Config.cartodb.queryUrl + '?q=' + sql,
+      url: NS.Config.cartodb.queryUrl,
+      data: {
+        q: sql
+      },
       type: 'POST',
       success: success,
       error: error
@@ -726,7 +729,10 @@
           sql = 'SELECT OTK_FlagSurvey('+ lastSurveyId +')';
 
         $.ajax({
-          url: NS.Config.cartodb.queryUrl + '?q=' + sql,
+          url: NS.Config.cartodb.queryUrl,
+          data: {
+            q: sql
+          },
           type: 'POST',
           success: function() {
             jqt.goTo($this.attr('data-next'), 'slideleft');
