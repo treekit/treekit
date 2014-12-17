@@ -50,14 +50,23 @@ BEGIN
     distfrac := curdst/roadrec.len;
     distfrac := greatest(least(distfrac,1),0); -- warn if clamped ?
     p0 := ST_Line_Interpolate_Point(roadrec.geom, distfrac);
-    curdst := curdst + tree.len;
-    distfrac := curdst/roadrec.len;
-    distfrac := greatest(least(distfrac,1),0); -- warn if clamped ?
+    IF tree.len = 0 THEN
+      -- This is an arbitrarily small number used
+      -- to obtain another point but on the same segment
+      distfrac := distfrac + 0.0000001;
+    ELSE
+      curdst := curdst + tree.len;
+      distfrac := curdst/roadrec.len;
+      distfrac := greatest(least(distfrac,1),0); -- warn if clamped ?
+    END IF;
     p1 := ST_Line_Interpolate_Point(roadrec.geom, distfrac);
     l0 := ST_MakeLine(p0, p1);
     BEGIN
       IF tree.off IS NOT NULL THEN
         l0 := ST_OffsetCurve(l0, tree.off*roadrec.side);
+        IF tree.off*roadrec.side < 0 THEN
+          l0 := ST_Reverse(l0);
+        END IF;
       END IF;
       l1 := ST_OffsetCurve(l0, tree.width*roadrec.side);
     EXCEPTION
@@ -65,13 +74,18 @@ BEGIN
         RAISE WARNING 'Running OffsetCurve on line % returned %', ret, SQLERRM;
         CONTINUE;
     END;
+
     IF roadrec.side = 1 THEN
-      ret := ST_MakeLine(l0, ST_Reverse(l1));
+      l1 := ST_Reverse(l1);
+    END IF;
+
+    IF tree.len = 0 THEN
+      ret := ST_PointN(l1, 2);
     ELSE
       ret := ST_MakeLine(l0, l1);
+      ret := ST_MakeLine(ret, ST_StartPoint(l0)); -- add closing point
+      ret := ST_MakePolygon(ret); -- turn into a polygon
     END IF;
-    ret := ST_MakeLine(ret, ST_StartPoint(l0)); -- add closing point
-    ret := ST_MakePolygon(ret); -- turn into a polygon
 
     --RAISE DEBUG 'Box %: %', i, ST_AsEWKT(ret);
 
