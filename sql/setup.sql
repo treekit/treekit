@@ -1,3 +1,10 @@
+-- You can load this script into your cartodb account with the `cdbsql`
+-- tool from "CartoDB-SQL-API" application, with a call like this:
+--
+-- cdbsql --user <cartodb_username> \
+--        --domain cartodb.com --port 80 --batch < setup.sql
+--
+
 -- TODO: tables (see https://github.com/treekit/treekit/wiki/DB-Schema)
 
 -- Functions, from https://github.com/treekit/treekit/wiki/Named-functions
@@ -14,7 +21,7 @@ CREATE OR REPLACE FUNCTION OTK_NewBlockfaceSurvey(blockface_id INTEGER, who TEXT
     EXECUTE sql USING blockface_id, who, hastrees, direction, side, date_collected INTO ret;
     RETURN ret;
 END;
-$$ LANGUAGE 'plpgsql';
+$$ LANGUAGE 'plpgsql' SECURITY DEFINER;
 
 CREATE OR REPLACE FUNCTION OTK_NewTree(survey_id INT, circ NUMERIC, dist NUMERIC, fastigiate BOOLEAN, genus TEXT, housenum TEXT, length NUMERIC, orderonstreet INTEGER, tposition TEXT, species TEXT, speciesconfirmed INTEGER, status TEXT, street TEXT, treenum INTEGER, width NUMERIC)
     RETURNS INTEGER
@@ -28,7 +35,7 @@ CREATE OR REPLACE FUNCTION OTK_NewTree(survey_id INT, circ NUMERIC, dist NUMERIC
     EXECUTE sql USING survey_id, circ, dist, fastigiate, genus, housenum, length, orderonstreet, tposition, species, speciesconfirmed, status, street, treenum, width INTO ret;
     RETURN ret;
 END;
-$$ LANGUAGE 'plpgsql';
+$$ LANGUAGE 'plpgsql' SECURITY DEFINER;
 
 CREATE OR REPLACE FUNCTION OTK_NewTree(survey_id INT, circ NUMERIC, dist NUMERIC, fastigiate BOOLEAN, genus TEXT, housenum TEXT, length NUMERIC, orderonstreet INTEGER, tposition TEXT, species TEXT, speciesconfirmed INTEGER, status TEXT, street TEXT, treenum INTEGER, width NUMERIC, end_d NUMERIC)
     RETURNS INTEGER
@@ -42,7 +49,7 @@ CREATE OR REPLACE FUNCTION OTK_NewTree(survey_id INT, circ NUMERIC, dist NUMERIC
     EXECUTE sql USING survey_id, circ, dist, fastigiate, genus, housenum, length, orderonstreet, tposition, species, speciesconfirmed, status, street, treenum, width, end_d INTO ret;
     RETURN ret;
 END;
-$$ LANGUAGE 'plpgsql';
+$$ LANGUAGE 'plpgsql' SECURITY DEFINER;
 
 CREATE OR REPLACE FUNCTION OTK_NewNotes(survey_id INT, notes TEXT, quitreason TEXT)
     RETURNS INTEGER
@@ -56,7 +63,7 @@ CREATE OR REPLACE FUNCTION OTK_NewNotes(survey_id INT, notes TEXT, quitreason TE
     EXECUTE sql USING survey_id, notes, quitreason INTO ret;
     RETURN ret;
 END;
-$$ LANGUAGE 'plpgsql';
+$$ LANGUAGE 'plpgsql' SECURITY DEFINER;
 
 CREATE OR REPLACE FUNCTION OTK_FlagSurvey(survey_id INT)
     RETURNS INTEGER
@@ -70,4 +77,4 @@ CREATE OR REPLACE FUNCTION OTK_FlagSurvey(survey_id INT)
     EXECUTE sql USING survey_id INTO ret;
     RETURN ret;
 END;
-$$ LANGUAGE 'plpgsql';
+$$ LANGUAGE 'plpgsql' SECURITY DEFINER;
