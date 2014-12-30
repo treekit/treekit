@@ -1,12 +1,3 @@
--- You can load this script into your cartodb account with the `cdbsql`
--- tool from "CartoDB-SQL-API" application, with a call like this:
---
--- cdbsql --user <cartodb_username> \
---        --domain cartodb.com --port 80 --batch < setup.sql
---
-
--- TODO: tables (see https://github.com/treekit/treekit/wiki/DB-Schema)
-
 -- Functions, from https://github.com/treekit/treekit/wiki/Named-functions
 
 CREATE OR REPLACE FUNCTION OTK_NewBlockfaceSurvey(blockface_id INTEGER, who TEXT, hastrees BOOLEAN, direction INT, side TEXT, date_collected TIMESTAMP)

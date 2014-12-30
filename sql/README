@@ -1,12 +1,18 @@
 Utility SQL functions for mapping city trees.
 See http://treekit.org/
 
+You can load these scripts into your cartodb account with the `cdbsql`
+tool from "CartoDB-SQL-API" application, with a call like this:
+
+ cat layoutBoxes.sql namedFunctions.sql |
+ cdbsql --user $CDBSQL_USER --key $CDBSQL_APIKEY \
+        --domain cartodb.com --port 80 --batch
+
 # layoutBoxes.sql
 
 generic layoutBoxes function
 
-# recentSurveys.sql
+# namedFunctions.sql
 
-example query returning tree boxes for 
-recent surveys
+management functions used to fill surveys
 
