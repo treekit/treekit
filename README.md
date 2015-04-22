@@ -2,6 +2,8 @@
 
 [TreeKIT](http://treekit.org/) builds tools to help city dwellers measure, map, and collaboratively manage urban ecosystems. This is a mobile webapp for us to collect data about trees and treebeds one block at a time. We'll refer the app as `Treekit` in the docs below.
 
+`Treekit` is distributed under the terms of the GNU Affero General Public
+License version 3 or (at your own option) later. See `COPYING` for details.
 
 ## Local Setup
 
