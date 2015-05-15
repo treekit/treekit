@@ -21,7 +21,6 @@ DECLARE
   roadrec RECORD;
   tree RECORD;
   curdst FLOAT8; -- current distance from road's start point, in meters
-  f2m FLOAT8; -- foot 2 meter factor
   p0 GEOMETRY;
   p1 GEOMETRY;
   distfrac FLOAT8; -- fraction of distance along the line
