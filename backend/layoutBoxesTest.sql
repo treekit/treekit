@@ -46,7 +46,7 @@ SELECT 'left_point_width', unnest(layoutBoxes(
   true, -- left side, so internal to the angle
   ARRAY[20,100,45], -- distances
   ARRAY[0,0,0], -- lengths
-  ARRAY[15,13,11] -- widths
+  ARRAY[5,3,1] -- widths
 ))
 ;
 
@@ -69,7 +69,7 @@ SELECT 'right_point_width', unnest(layoutBoxes(
   false, -- right side, so external to the angle
   ARRAY[20,100,45], -- distances
   ARRAY[0,0,0], -- lengths
-  ARRAY[15,13,11] -- widths
+  ARRAY[5,3,1] -- widths
 ))
 ;
 
