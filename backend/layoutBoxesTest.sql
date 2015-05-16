@@ -29,7 +29,7 @@ SELECT 'right_box', unnest(layoutBoxes(
 
 -- Points on the left, offsetted
 INSERT INTO layoutboxestest1
-SELECT 'left_point', unnest(layoutBoxes(
+SELECT 'left_point_offset', unnest(layoutBoxes(
   'LINESTRING(0 0, 100 0, 100 100)'::geometry,
   true, -- left side, so internal to the angle
   ARRAY[20,100,45], -- distances
@@ -39,11 +39,22 @@ SELECT 'left_point', unnest(layoutBoxes(
 ))
 ;
 
+-- Points on the left, using width for offset
+INSERT INTO layoutboxestest1
+SELECT 'left_point_width', unnest(layoutBoxes(
+  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  true, -- left side, so internal to the angle
+  ARRAY[20,100,45], -- distances
+  ARRAY[0,0,0], -- lengths
+  ARRAY[15,13,11] -- widths
+))
+;
+
 -- Points on the right, offsetted
 INSERT INTO layoutboxestest1
-SELECT 'right_point', unnest(layoutBoxes(
+SELECT 'right_point_offset', unnest(layoutBoxes(
   'LINESTRING(0 0, 100 0, 100 100)'::geometry,
-  false, -- left side, so internal to the angle
+  false, -- right side, so external to the angle
   ARRAY[20,100,45], -- distances
   ARRAY[0,0,0], -- lengths
   ARRAY[0,0,0], -- widths
@@ -53,9 +64,9 @@ SELECT 'right_point', unnest(layoutBoxes(
 
 -- Points on the right, using width for offset
 INSERT INTO layoutboxestest1
-SELECT 'right_point', unnest(layoutBoxes(
+SELECT 'right_point_width', unnest(layoutBoxes(
   'LINESTRING(0 0, 100 0, 100 100)'::geometry,
-  false, -- left side, so internal to the angle
+  false, -- right side, so external to the angle
   ARRAY[20,100,45], -- distances
   ARRAY[0,0,0], -- lengths
   ARRAY[15,13,11] -- widths
