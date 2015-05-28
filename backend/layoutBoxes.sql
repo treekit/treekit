@@ -140,11 +140,6 @@ BEGIN
     l1 := _tk_OffsetSegment(ST_PointN(l0,1), ST_PointN(l0,2), tree.width*roadrec.side);
 
     IF tree.len = 0 THEN
-      IF ST_Equals(p0, ST_EndPoint(roadrec.geom)) AND roadrec.side = 1 THEN
-        ret := ST_PointN(l1, 1);
-      ELSE
-        ret := ST_PointN(l1, 2);
-      END IF;
       ret := ST_PointN(l1, 1);
     ELSE
       ret := ST_MakeLine(l0, ST_Reverse(l1));
