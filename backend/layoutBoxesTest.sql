@@ -121,6 +121,30 @@ SELECT 'left_point_beyond', unnest(layoutBoxes(
 ))
 ;
 
+-- Point on the left, very close to the end
+INSERT INTO layoutboxestest1
+SELECT 'left_point_close_to_end', unnest(layoutBoxes(
+  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  true, -- left side
+  ARRAY[199.999999], -- distances
+  ARRAY[0], -- lengths
+  ARRAY[0], -- widths
+  ARRAY[5] -- offsets
+))
+;
+
+-- Point on the right, very close to the end
+INSERT INTO layoutboxestest1
+SELECT 'right_point_close_to_end', unnest(layoutBoxes(
+  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  false, -- right side
+  ARRAY[199.999999], -- distances
+  ARRAY[0], -- lengths
+  ARRAY[0], -- widths
+  ARRAY[5] -- offsets
+))
+;
+
 -- Short block layout
 -- See https://github.com/azavea/nyc-trees/issues/1728
 INSERT INTO layoutboxestest1

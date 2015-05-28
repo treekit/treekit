@@ -112,11 +112,12 @@ BEGIN
     p0 := ST_Line_Interpolate_Point(roadrec.geom, distfrac);
     IF tree.len = 0 THEN
       -- This is an arbitrarily small number used
-      -- to obtain another point but on the same segment
-      IF curdst >= roadrec.len THEN
-        distfrac := distfrac - 0.0000001;
+      -- to obtain another point possibly on the same segment
+      IF distfrac >= 1 - 1e-7 THEN
+        distfrac := distfrac - 1e-7;
+        roadrec.side := -roadrec.side;
       ELSE
-        distfrac := distfrac + 0.0000001;
+        distfrac := distfrac + 1e-7;
       END IF;
     ELSE
       IF curdst >= roadrec.len THEN
@@ -129,9 +130,6 @@ BEGIN
     END IF;
     p1 := ST_Line_Interpolate_Point(roadrec.geom, distfrac);
     l0 := ST_MakeLine(p0, p1);
-    --IF tree.len = 0 AND ST_Equals(p0, ST_EndPoint(roadrec.geom)) THEN
-    --  l0 := ST_Reverse(l0);
-    --END IF;
 
     IF tree.off IS NOT NULL THEN
       l0 := _tk_OffsetSegment(ST_PointN(l0,1), ST_PointN(l0,2), tree.off*roadrec.side);
