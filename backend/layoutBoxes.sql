@@ -104,7 +104,7 @@ BEGIN
            off[i] as off
     INTO tree;
 
-    --RAISE DEBUG 'Box % dist:% len:% width:%', i, tree.dist, tree.len, tree.width;
+    --RAISE DEBUG 'Box % dist:% len:% width:% offset:%', i, tree.dist, tree.len, tree.width, tree.off;
 
     curdst := curdst + tree.dist;
     distfrac := curdst/roadrec.len;
@@ -115,7 +115,7 @@ BEGIN
       -- to obtain another point possibly on the same segment
       IF distfrac >= 1 - 1e-7 THEN
         distfrac := distfrac - 1e-7;
-        roadrec.side := -roadrec.side;
+        tree.off := -tree.off;
       ELSE
         distfrac := distfrac + 1e-7;
       END IF;
