@@ -87,7 +87,7 @@ SELECT 'right_box_beyond', unnest(layoutBoxes(
 
 -- Boxes on the left, offsetted
 INSERT INTO layoutboxestest1
-SELECT 'right_box_beyond', unnest(layoutBoxes(
+SELECT 'left_box_beyond', unnest(layoutBoxes(
   'LINESTRING(0 0, 100 0, 100 100)'::geometry,
   true, -- left side, so internal to the angle
   ARRAY[195,200], -- distances
@@ -120,3 +120,17 @@ SELECT 'left_point_beyond', unnest(layoutBoxes(
   ARRAY[1,3] -- offsets
 ))
 ;
+
+-- Short block layout
+-- See https://github.com/azavea/nyc-trees/issues/1728
+INSERT INTO layoutboxestest1
+SELECT 'right_point_on_short_line', unnest(layoutBoxes(
+  'LINESTRING(0 0,31 0)',
+  false, -- right side
+  ARRAY[30], -- dist
+  ARRAY[0], -- length
+  ARRAY[5] -- width (2 works, 3 fails)
+))
+;
+
+SELECT * from layoutboxestest1;
