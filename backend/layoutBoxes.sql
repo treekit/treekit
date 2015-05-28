@@ -54,7 +54,7 @@ BEGIN
     ST_MakePoint(x1, y1)
   );
 
-  return g;
+  return ST_SetSRID(g, ST_SRID(p0));
 END;
 $$
 LANGUAGE 'plpgsql' IMMUTABLE STRICT;
