@@ -6,7 +6,7 @@ CREATE TABLE layoutboxestest1 ( lbl text, g geometry );
 -- Boxes on the left, offsetted
 INSERT INTO layoutboxestest1
 SELECT 'left_box', unnest(layoutBoxes(
-  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
   true, -- left side, so internal to the angle
   ARRAY[20,90,40], -- distances
   ARRAY[10,5,10], -- lengths
@@ -18,7 +18,7 @@ SELECT 'left_box', unnest(layoutBoxes(
 -- Boxes on the right, offsetted
 INSERT INTO layoutboxestest1
 SELECT 'right_box', unnest(layoutBoxes(
-  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
   false, -- right side, so external to the angle
   ARRAY[20,90,40], -- distances
   ARRAY[10,5,10], -- lengths
@@ -30,7 +30,7 @@ SELECT 'right_box', unnest(layoutBoxes(
 -- Points on the left, offsetted
 INSERT INTO layoutboxestest1
 SELECT 'left_point_offset', unnest(layoutBoxes(
-  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
   true, -- left side, so internal to the angle
   ARRAY[20,100,45], -- distances
   ARRAY[0,0,0], -- lengths
@@ -42,7 +42,7 @@ SELECT 'left_point_offset', unnest(layoutBoxes(
 -- Points on the left, using width for offset
 INSERT INTO layoutboxestest1
 SELECT 'left_point_width', unnest(layoutBoxes(
-  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
   true, -- left side, so internal to the angle
   ARRAY[20,100,45], -- distances
   ARRAY[0,0,0], -- lengths
@@ -53,7 +53,7 @@ SELECT 'left_point_width', unnest(layoutBoxes(
 -- Points on the right, offsetted
 INSERT INTO layoutboxestest1
 SELECT 'right_point_offset', unnest(layoutBoxes(
-  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
   false, -- right side, so external to the angle
   ARRAY[20,100,45], -- distances
   ARRAY[0,0,0], -- lengths
@@ -65,7 +65,7 @@ SELECT 'right_point_offset', unnest(layoutBoxes(
 -- Points on the right, using width for offset
 INSERT INTO layoutboxestest1
 SELECT 'right_point_width', unnest(layoutBoxes(
-  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
   false, -- right side, so external to the angle
   ARRAY[20,100,45], -- distances
   ARRAY[0,0,0], -- lengths
@@ -76,7 +76,7 @@ SELECT 'right_point_width', unnest(layoutBoxes(
 -- Boxes on the right, offsetted
 INSERT INTO layoutboxestest1
 SELECT 'right_box_beyond', unnest(layoutBoxes(
-  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
   false, -- right side, so external to the angle
   ARRAY[195,200], -- distances
   ARRAY[10,10], -- lengths
@@ -88,7 +88,7 @@ SELECT 'right_box_beyond', unnest(layoutBoxes(
 -- Boxes on the left, offsetted
 INSERT INTO layoutboxestest1
 SELECT 'left_box_beyond', unnest(layoutBoxes(
-  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
   true, -- left side, so internal to the angle
   ARRAY[195,200], -- distances
   ARRAY[10,10], -- lengths
@@ -100,7 +100,7 @@ SELECT 'left_box_beyond', unnest(layoutBoxes(
 -- Points on the right, offsetted
 INSERT INTO layoutboxestest1
 SELECT 'right_point_beyond', unnest(layoutBoxes(
-  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
   false, -- right side, so external to the angle
   ARRAY[200,210], -- distances
   ARRAY[0,0], -- lengths
@@ -112,7 +112,7 @@ SELECT 'right_point_beyond', unnest(layoutBoxes(
 -- Points on the left, offsetted
 INSERT INTO layoutboxestest1
 SELECT 'left_point_beyond', unnest(layoutBoxes(
-  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
   true, -- left side, so internal to the angle
   ARRAY[200,210], -- distances
   ARRAY[0,0], -- lengths
@@ -124,7 +124,7 @@ SELECT 'left_point_beyond', unnest(layoutBoxes(
 -- Point on the left, very close to the end
 INSERT INTO layoutboxestest1
 SELECT 'left_point_close_to_end', unnest(layoutBoxes(
-  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
   true, -- left side
   ARRAY[199.999999], -- distances
   ARRAY[0], -- lengths
@@ -136,7 +136,7 @@ SELECT 'left_point_close_to_end', unnest(layoutBoxes(
 -- Point on the right, very close to the end
 INSERT INTO layoutboxestest1
 SELECT 'right_point_close_to_end', unnest(layoutBoxes(
-  'LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
   false, -- right side
   ARRAY[199.999999], -- distances
   ARRAY[0], -- lengths
@@ -149,12 +149,10 @@ SELECT 'right_point_close_to_end', unnest(layoutBoxes(
 -- See https://github.com/azavea/nyc-trees/issues/1728
 INSERT INTO layoutboxestest1
 SELECT 'right_point_on_short_line', unnest(layoutBoxes(
-  'LINESTRING(0 0,31 0)',
+  'SRID=4326;LINESTRING(0 0,31 0)',
   false, -- right side
   ARRAY[30], -- dist
   ARRAY[0], -- length
   ARRAY[5] -- width (2 works, 3 fails)
 ))
 ;
-
-SELECT * from layoutboxestest1;
