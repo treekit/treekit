@@ -133,6 +133,18 @@ SELECT 'left_point_close_to_end', unnest(layoutBoxes(
 ))
 ;
 
+-- Point on the left, very close to the end, using width for offset
+INSERT INTO layoutboxestest1
+SELECT 'left_point_close_to_end', unnest(layoutBoxes(
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  true, -- left side
+  ARRAY[199.999999], -- distances
+  ARRAY[0], -- lengths
+  ARRAY[7], -- widths
+  ARRAY[0] -- offsets
+))
+;
+
 -- Point on the right, very close to the end
 INSERT INTO layoutboxestest1
 SELECT 'right_point_close_to_end', unnest(layoutBoxes(
@@ -142,6 +154,18 @@ SELECT 'right_point_close_to_end', unnest(layoutBoxes(
   ARRAY[0], -- lengths
   ARRAY[0], -- widths
   ARRAY[5] -- offsets
+))
+;
+
+-- Point on the right, very close to the end, using width for offset
+INSERT INTO layoutboxestest1
+SELECT 'right_point_close_to_end_width', unnest(layoutBoxes(
+  'SRID=4326;LINESTRING(0 0, 100 0, 100 100)'::geometry,
+  false, -- right side
+  ARRAY[199.999999], -- distances
+  ARRAY[0], -- lengths
+  ARRAY[7], -- widths
+  ARRAY[0] -- offsets
 ))
 ;
 
